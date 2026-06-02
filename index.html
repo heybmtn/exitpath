@@ -2,260 +2,234 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Exit Path</title>
 
 <style>
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-:root{
---bg:#fff;
---text:#000;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 html{
-scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-background:#fff;
-color:#000;
-font-family:Georgia,serif;
-overflow-x:hidden;
+    background:#fff;
+    color:#000;
+    font-family:Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
 }
 
 .container{
-width:min(1200px,92vw);
-margin:auto;
-position:relative;
+    width:min(900px,90vw);
+    margin:auto;
 }
 
-header{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
+/* ------------------
+   HEADER
+------------------- */
+
+.hero{
+    padding:40px 0 60px;
 }
 
 .logo{
-font-size:.8rem;
-letter-spacing:.35em;
-text-transform:uppercase;
-margin-bottom:80px;
+    font-size:.75rem;
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    margin-bottom:48px;
 }
 
 h1{
-font-size:clamp(4rem,12vw,10rem);
-line-height:.88;
-font-weight:400;
-letter-spacing:-.06em;
-max-width:8ch;
+    font-size:clamp(3.5rem,11vw,8rem);
+    line-height:.88;
+    font-weight:400;
+    letter-spacing:-0.05em;
+    max-width:8ch;
 }
 
-/* PATH */
+/* ------------------
+   PATH
+------------------- */
 
-.path-area{
-position:relative;
-padding-bottom:300px;
+.path{
+    position:relative;
+    padding-left:80px;
 }
 
-.route{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:0;
+.path::before{
+    content:"";
+    position:absolute;
+    left:26px;
+    top:0;
+    bottom:0;
+    width:2px;
+
+    background:
+    repeating-linear-gradient(
+        to bottom,
+        #000 0px,
+        #000 8px,
+        transparent 8px,
+        transparent 20px
+    );
+
+    animation:pathMove 14s linear infinite;
 }
 
-.route path{
-fill:none;
-stroke:#000;
-stroke-width:2;
-stroke-linecap:round;
-stroke-dasharray:3 12;
-animation:dash 30s linear infinite;
+@keyframes pathMove{
+    from{
+        background-position:0 0;
+    }
+    to{
+        background-position:0 220px;
+    }
 }
 
-@keyframes dash{
-to{
-stroke-dashoffset:-300;
-}
-}
-
-/* WAYPOINTS */
-
-.waypoint{
-position:relative;
-z-index:2;
-display:grid;
-grid-template-columns:1fr 1fr;
-align-items:center;
-min-height:500px;
-}
-
-.waypoint.left .content{
-grid-column:1;
-}
-
-.waypoint.right .content{
-grid-column:2;
-}
-
-.content{
-display:block;
-text-decoration:none;
-color:#000;
-transition:.3s;
-}
-
-.content:hover{
-transform:translateX(15px);
-}
-
-.num{
-font-size:.75rem;
-letter-spacing:.15em;
-text-transform:uppercase;
-margin-bottom:14px;
-}
-
-.content h2{
-font-size:clamp(2rem,5vw,5rem);
-line-height:.92;
-font-weight:400;
-max-width:10ch;
-}
-
-.content p{
-margin-top:18px;
-font-size:1.1rem;
-line-height:1.5;
-max-width:30ch;
-}
-
-.arrow{
-margin-top:20px;
-font-size:2rem;
-}
-
-/* FOOTPRINTS */
+/* ------------------
+   FOOTPRINTS
+------------------- */
 
 .foot{
-position:absolute;
-width:42px;
-height:42px;
+    position:absolute;
+    left:-66px;
+    top:0;
+    width:44px;
+    height:44px;
+    animation:step 3s ease-in-out infinite;
 }
 
 .foot::before,
 .foot::after{
-content:"";
-position:absolute;
-width:12px;
-height:24px;
-background:#000;
-border-radius:999px;
+    content:"";
+    position:absolute;
+    width:12px;
+    height:24px;
+    background:#000;
+    border-radius:999px;
 }
 
 .foot::before{
-left:8px;
-transform:rotate(-20deg);
+    left:8px;
+    transform:rotate(-18deg);
 }
 
 .foot::after{
-right:8px;
-top:12px;
-transform:rotate(20deg);
+    right:8px;
+    top:12px;
+    transform:rotate(18deg);
 }
 
-/* footprint positions */
+@keyframes step{
+    0%,100%{
+        transform:translateY(0);
+    }
 
-.f1{
-left:48%;
-top:200px;
-transform:rotate(-20deg);
+    50%{
+        transform:translateY(-4px);
+    }
 }
 
-.f2{
-left:57%;
-top:900px;
-transform:rotate(15deg);
+/* ------------------
+   WAYPOINTS
+------------------- */
+
+.waypoint{
+    position:relative;
+    padding:110px 0;
 }
 
-.f3{
-left:43%;
-top:1600px;
-transform:rotate(-15deg);
+.waypoint a{
+    color:#000;
+    text-decoration:none;
+    display:block;
+    transition:.25s ease;
 }
 
-.f4{
-left:60%;
-top:2300px;
-transform:rotate(15deg);
+.waypoint a:hover{
+    transform:translateX(12px);
 }
 
-/* destination */
+.num{
+    font-size:.75rem;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+}
+
+.waypoint h2{
+    font-size:clamp(2.6rem,8vw,5rem);
+    line-height:.92;
+    font-weight:400;
+    letter-spacing:-0.04em;
+    max-width:10ch;
+}
+
+.arrow{
+    margin-top:20px;
+    font-size:2rem;
+}
+
+/* ------------------
+   DESTINATION
+------------------- */
 
 .destination{
-position:relative;
-z-index:2;
-height:300px;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-gap:20px;
+    position:relative;
+    padding:140px 0 100px;
+}
+
+.destination .foot{
+    animation:none;
 }
 
 .door{
-font-size:5rem;
-line-height:1;
+    font-size:4rem;
+    line-height:1;
 }
 
 .end{
-font-size:.85rem;
-letter-spacing:.25em;
-text-transform:uppercase;
+    margin-top:20px;
+    font-size:.75rem;
+    letter-spacing:.25em;
+    text-transform:uppercase;
 }
 
-footer{
-padding:80px 0 40px;
-font-size:.8rem;
-letter-spacing:.15em;
-text-transform:uppercase;
-}
+/* ------------------
+   DESKTOP
+------------------- */
 
-@media(max-width:900px){
+@media(min-width:900px){
 
-.waypoint{
-grid-template-columns:1fr;
-min-height:380px;
-}
+    .container{
+        width:min(1100px,88vw);
+    }
 
-.waypoint.left .content,
-.waypoint.right .content{
-grid-column:auto;
-}
+    .path{
+        padding-left:180px;
+    }
 
-.content h2{
-max-width:100%;
-}
+    .path::before{
+        left:80px;
+    }
 
-.route{
-display:none;
-}
+    .foot{
+        left:-120px;
+    }
 
-.foot{
-display:none;
-}
+    .waypoint{
+        padding:140px 0;
+    }
 
+    .waypoint h2{
+        font-size:clamp(4rem,6vw,6rem);
+    }
 }
 
 </style>
@@ -264,114 +238,130 @@ display:none;
 
 <div class="container">
 
-<header>
+<section class="hero">
 
-<div class="logo">
-EXIT PATH
-</div>
+    <div class="logo">
+        EXIT PATH
+    </div>
 
-<h1>
-THERE HAS TO BE
-ANOTHER WAY.
-</h1>
-
-</header>
-
-<div class="path-area">
-
-<svg class="route" viewBox="0 0 1200 3200" preserveAspectRatio="none">
-
-<path d="
-M 550 0
-
-C 850 250,
-850 500,
-650 700
-
-S 350 1100,
-650 1400
-
-S 850 1800,
-500 2200
-
-S 250 2700,
-700 3050
-"/>
-
-</svg>
-
-<div class="foot f1"></div>
-<div class="foot f2"></div>
-<div class="foot f3"></div>
-<div class="foot f4"></div>
-
-<section class="waypoint left">
-
-<a href="/freedom-number" class="content">
-<div class="num">01</div>
-<h2>What's Your Freedom Number?</h2>
-<p>
-Find the monthly income required to replace your job.
-</p>
-<div class="arrow">→</div>
-</a>
+    <h1>
+        THERE HAS TO BE
+        ANOTHER WAY.
+    </h1>
 
 </section>
 
-<section class="waypoint right">
+<section class="path">
 
-<a href="/idea-finder" class="content">
-<div class="num">02</div>
-<h2>Everyone Has Saleable Knowledge.</h2>
-<p>
-Discover your unique idea.
-</p>
-<div class="arrow">→</div>
-</a>
+    <div class="waypoint">
+
+        <div class="foot"></div>
+
+        <a href="/freedom-number">
+
+            <div class="num">
+                01
+            </div>
+
+            <h2>
+                WHAT'S YOUR
+                FREEDOM NUMBER?
+            </h2>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="waypoint">
+
+        <div class="foot"></div>
+
+        <a href="/idea-finder">
+
+            <div class="num">
+                02
+            </div>
+
+            <h2>
+                EVERYONE HAS
+                SALEABLE
+                KNOWLEDGE.
+            </h2>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="waypoint">
+
+        <div class="foot"></div>
+
+        <a href="/exit-path">
+
+            <div class="num">
+                03
+            </div>
+
+            <h2>
+                BUILD YOUR
+                EXIT PATH.
+            </h2>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="waypoint">
+
+        <div class="foot"></div>
+
+        <a href="/stories">
+
+            <div class="num">
+                04
+            </div>
+
+            <h2>
+                STORIES FROM
+                PEOPLE
+                WALKING IT.
+            </h2>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="destination">
+
+        <div class="foot"></div>
+
+        <div class="door">
+            ▯
+        </div>
+
+        <div class="end">
+            FIND YOUR EXIT
+        </div>
+
+    </div>
 
 </section>
-
-<section class="waypoint left">
-
-<a href="/exit-path" class="content">
-<div class="num">03</div>
-<h2>Build Your Exit Path.</h2>
-<p>
-Small steps. Real freedom.
-</p>
-<div class="arrow">→</div>
-</a>
-
-</section>
-
-<section class="waypoint right">
-
-<a href="/stories" class="content">
-<div class="num">04</div>
-<h2>Stories From People Walking It.</h2>
-<p>
-Learn from people already on the trail.
-</p>
-<div class="arrow">→</div>
-</a>
-
-</section>
-
-<div class="destination">
-
-<div class="door">▯</div>
-
-<div class="end">
-FIND YOUR EXIT
-</div>
-
-</div>
-
-</div>
-
-<footer>
-EXIT PATH
-</footer>
 
 </div>
 
