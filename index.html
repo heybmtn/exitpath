@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exit Path — There has to be another way.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F7F3;
+    --surface:#FFFFFF;
+    --ink:#0F1714;
+    --ink-2:#36433D;
+    --ink-soft:#5C6862;
+    --line:#E2EAE3;
+    --green:#0FA06E;
+    --green-2:#0B7C53;
+    --green-deep:#0A3D2C;
+    --result:#0C201A;
+    --amber:#E79A5C;
+    --amber-2:#C0552B;
+    --display:'Ubuntu',-apple-system,sans-serif;
+    --sans:'Ubuntu',-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")}
+
+  .container{max-width:1200px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+  @media(max-width:600px){.container{padding:0 18px}}
+  a{color:inherit;text-decoration:none}
+  .kicker{font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--green-2);display:inline-flex;align-items:center;gap:10px}
+  .kicker::before{content:"";width:22px;height:1.5px;background:var(--amber-2)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--sans);font-weight:500;font-size:16px;padding:15px 28px;border-radius:100px;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s,box-shadow .25s,color .25s,border-color .25s;border:1.5px solid transparent;white-space:nowrap}
+  .btn .arr{transition:transform .3s}
+  .btn:hover .arr{transform:translateX(4px)}
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 12px 28px -12px rgba(15,160,110,.7)}
+  .btn-primary:hover{background:var(--green-2);transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(15,160,110,.8)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:60;background:rgba(244,247,243,.8);backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .3s}
+  nav.scrolled{border-color:var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
+  .logo svg{width:30px;height:30px;flex:none}
+  .nav-cta{padding:11px 22px;font-size:14.5px}
+
+  /* HERO */
+  .hero{padding:clamp(40px,7vw,84px) 0 clamp(48px,7vw,84px)}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center}
+  @media(min-width:940px){.hero-grid{grid-template-columns:1.1fr .9fr;gap:54px}}
+  .hero .kicker{margin-bottom:24px}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,8.5vw,92px);line-height:.98;letter-spacing:-.02em}
+  .hero h1 .alt{color:var(--green)}
+  .hero-sub{margin-top:24px;max-width:34ch;font-size:clamp(17px,2.2vw,21px);color:var(--ink-soft)}
+  .hero-sub b{color:var(--ink);font-weight:500}
+  .hero-cta{margin-top:32px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .hero-trust{font-size:14px;color:var(--ink-soft)}
+  .hero-trust b{color:var(--green-2);font-weight:500}
+
+  .hero-panel{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:1/1;min-height:280px;background:linear-gradient(150deg,#12B57E,#0A3D2C 78%);box-shadow:0 40px 80px -36px rgba(10,61,44,.6)}
+  .hero-panel .glow{position:absolute;inset:-30%;background:radial-gradient(closest-side,rgba(231,154,92,.55),transparent 70%);filter:blur(10px);animation:drift 14s ease-in-out infinite}
+  .hero-panel .glow.g2{background:radial-gradient(closest-side,rgba(255,255,255,.4),transparent 70%);animation-duration:18s;animation-direction:reverse}
+  @keyframes drift{0%,100%{transform:translate(8%,4%) scale(1)}50%{transform:translate(-10%,-8%) scale(1.2)}}
+  .hero-panel svg.path{position:absolute;inset:0;width:100%;height:100%}
+  .hero-panel .tag{position:absolute;left:24px;bottom:22px;right:24px;color:#fff;font-family:var(--display);font-weight:500;font-size:clamp(18px,2.4vw,24px);line-height:1.15;letter-spacing:-.01em}
+  .dashpath{stroke-dasharray:3 12;animation:dash 30s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-300}}
+
+  /* CALCULATOR SECTION */
+  .calc-section{padding:0 0 clamp(64px,9vw,110px)}
+  .head{max-width:680px;margin-bottom:clamp(28px,4vw,44px)}
+  .head .kicker{margin-bottom:16px}
+  .head h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,52px);line-height:1.02;letter-spacing:-.02em}
+  .head h2 .g{color:var(--green)}
+
+  .calc-wrap{position:relative;border-radius:26px}
+  .calc-wrap.locked{max-height:min(660px,84vh);overflow:hidden}
+  .calc-app{transition:filter .5s ease}
+  .calc-wrap.locked .calc-app{filter:blur(7px);pointer-events:none;user-select:none}
+
+  /* GATE */
+  .gate{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:linear-gradient(180deg,rgba(244,247,243,.35),rgba(244,247,243,.72));transition:opacity .45s ease}
+  .gate.hidden{opacity:0;pointer-events:none}
+  .gate-card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:clamp(28px,5vw,40px) clamp(24px,4vw,36px);box-shadow:0 40px 90px -34px rgba(10,61,44,.4);text-align:center}
+  .gate-card .lock{width:48px;height:48px;border-radius:50%;background:var(--green);display:grid;place-items:center;margin:0 auto 20px;box-shadow:0 10px 24px -10px rgba(15,160,110,.8)}
+  .gate-card .lock svg{width:21px;height:21px;stroke:#fff}
+  .gate-card h3{font-family:var(--display);font-weight:700;font-size:clamp(24px,4vw,30px);letter-spacing:-.02em;line-height:1.05}
+  .gate-card p{color:var(--ink-soft);font-size:15.5px;margin-top:10px}
+  .gate-form{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+  .gate-form input{font-family:var(--sans);font-size:16px;padding:15px 18px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);transition:.18s;width:100%}
+  .gate-form input:focus{outline:none;border-color:var(--green);background:#fff}
+  .gate-form button{width:100%}
+  .gate-err{color:var(--amber-2);font-size:13px;min-height:16px;text-align:left;margin-top:-2px}
+  .gate-micro{margin-top:14px;font-size:12.5px;color:var(--ink-soft)}
+
+  /* calc internals */
+  .calc-topbar{display:flex;justify-content:flex-end;margin-bottom:18px}
+  .calc-app .cur{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:4px}
+  .calc-app .cur button{font-family:var(--sans);font-size:15px;font-weight:500;color:var(--ink-soft);background:none;border:none;cursor:pointer;width:42px;height:36px;border-radius:100px;transition:.2s}
+  .calc-app .cur button.on{background:var(--green);color:#fff}
+  .calc-app .grid{display:grid;grid-template-columns:1fr;gap:22px}
+  @media(min-width:900px){.calc-app .grid{grid-template-columns:1.05fr .95fr;gap:30px;align-items:start}}
+  .calc-app .panel{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:clamp(24px,3vw,30px);box-shadow:0 14px 36px -26px rgba(15,23,20,.4)}
+  .calc-app .panel + .panel{margin-top:20px}
+  .calc-app .step{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .calc-app .step .num{font-family:var(--display);font-size:14px;font-weight:700;color:#fff;background:var(--green);width:27px;height:27px;border-radius:50%;display:grid;place-items:center;flex:none;line-height:1}
+  .calc-app .step h3{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:-.01em}
+  .calc-app .field{margin-bottom:18px}
+  .calc-app .field:last-child{margin-bottom:0}
+  .calc-app .field label{display:block;font-size:14.5px;font-weight:500;margin-bottom:5px}
+  .calc-app .field .hint{font-size:12.5px;color:var(--ink-soft);margin-bottom:9px}
+  .calc-app .money{position:relative;display:flex;align-items:center}
+  .calc-app .money .affix{position:absolute;left:16px;font-weight:500;color:var(--green);font-size:16px;pointer-events:none}
+  .calc-app .money input{width:100%;font-family:var(--display);font-size:18px;font-weight:500;color:var(--ink);padding:14px 16px 14px 34px;background:var(--bg);border:1.5px solid transparent;border-radius:14px;transition:.18s;-moz-appearance:textfield}
+  .calc-app .money input::-webkit-outer-spin-button,.calc-app .money input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .calc-app .money input:focus{outline:none;border-color:var(--green);background:#fff}
+  .calc-app .slider-head{display:flex;justify-content:space-between;align-items:baseline}
+  .calc-app .slider-val{font-family:var(--display);font-weight:700;font-size:20px;color:var(--green-2)}
+  .calc-app input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:99px;background:var(--bg);margin-top:12px;cursor:pointer}
+  .calc-app input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--green);border:3px solid var(--surface);box-shadow:0 2px 9px rgba(15,160,110,.55);cursor:pointer;transition:.15s}
+  .calc-app input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+  .calc-app input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--green);border:3px solid var(--surface);cursor:pointer}
+
+  /* RESULT — static, does NOT float */
+  .calc-app .result{position:static;background:var(--result);color:#EAF1EC;border-radius:24px;padding:clamp(28px,3.4vw,34px);overflow:hidden}
+  .calc-app .result::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 70% at 100% 0%,rgba(15,160,110,.55),transparent 55%),radial-gradient(60% 60% at 0% 100%,rgba(231,154,92,.18),transparent 60%);pointer-events:none}
+  .calc-app .result>*{position:relative}
+  .calc-app .r-label{font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+  .calc-app .big{font-family:var(--display);font-weight:700;font-size:clamp(44px,8.5vw,58px);line-height:.95;letter-spacing:-.02em}
+  .calc-app .big .per{font-size:17px;font-weight:400;color:rgba(234,241,236,.55);letter-spacing:0}
+  .calc-app .r-note{font-size:13.5px;color:rgba(234,241,236,.68);margin-top:14px;max-width:34ch}
+  .calc-app .r-note em{font-style:normal;color:var(--amber);font-weight:500}
+  .calc-app .breakdown{margin-top:26px;padding-top:22px;border-top:1px solid rgba(234,241,236,.16)}
+  .calc-app .brow{display:flex;justify-content:space-between;font-size:14.5px;padding:7px 0;color:rgba(234,241,236,.8)}
+  .calc-app .brow.total{font-weight:700;color:#fff;font-size:15.5px;border-top:1px solid rgba(234,241,236,.16);margin-top:6px;padding-top:13px}
+  .calc-app .brow .v{font-variant-numeric:tabular-nums;font-weight:500;font-family:var(--display)}
+  .calc-app .real{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+  .calc-app .chip{background:rgba(234,241,236,.07);border:1px solid rgba(234,241,236,.14);border-radius:16px;padding:15px 16px}
+  .calc-app .chip .c-num{font-family:var(--display);font-weight:700;font-size:24px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .calc-app .chip .c-cap{font-size:11.5px;color:rgba(234,241,236,.55);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+  .calc-app .sale-row{grid-column:1/-1;display:flex;align-items:center;gap:10px;background:rgba(234,241,236,.07);border:1px solid rgba(234,241,236,.14);border-radius:16px;padding:13px 16px;flex-wrap:wrap}
+  .calc-app .sale-row span{font-size:14px;color:rgba(234,241,236,.78)}
+  .calc-app .sale-row strong{color:var(--amber);font-family:var(--display);font-size:19px}
+  .calc-app .sale-row .mini{position:relative;width:88px}
+  .calc-app .sale-row .mini .affix{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:rgba(234,241,236,.5);font-size:14px;font-weight:500}
+  .calc-app .sale-row .mini input{width:100%;background:rgba(0,0,0,.24);border:1px solid rgba(234,241,236,.2);border-radius:10px;color:#fff;font-family:var(--display);font-weight:500;font-size:16px;padding:8px 6px 8px 24px;-moz-appearance:textfield}
+  .calc-app .sale-row .mini input::-webkit-outer-spin-button,.calc-app .sale-row .mini input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .calc-app .sale-row .mini input:focus{outline:none;border-color:var(--amber)}
+
+  .calc-app .path-panel{margin-top:20px}
+  .calc-app .path-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:4px}
+  .calc-app .path-head h3{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:-.01em}
+  .calc-app .progress-pct{font-family:var(--display);font-weight:700;font-size:22px;color:var(--amber-2)}
+  .calc-app .path-sub{color:var(--ink-soft);font-size:13.5px;margin-bottom:24px}
+  .calc-app .ladder{position:relative;margin-left:6px}
+  .calc-app .ladder::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .calc-app .ladder .fill{position:absolute;left:11px;top:8px;width:2px;background:linear-gradient(var(--green),var(--amber));border-radius:2px;transition:height .5s cubic-bezier(.4,0,.2,1)}
+  .calc-app .rung{position:relative;display:flex;align-items:flex-start;gap:17px;padding:0 0 24px 0}
+  .calc-app .rung:last-child{padding-bottom:0}
+  .calc-app .dot{position:relative;z-index:2;width:24px;height:24px;border-radius:50%;background:var(--surface);border:2px solid var(--line);flex:none;display:grid;place-items:center;transition:.3s;margin-top:1px}
+  .calc-app .dot svg{width:12px;height:12px;opacity:0;transition:.3s}
+  .calc-app .rung.hit .dot{background:var(--green);border-color:var(--green)}
+  .calc-app .rung.hit .dot svg{opacity:1}
+  .calc-app .rung .r-body{flex:1}
+  .calc-app .rung .r-title{font-weight:500;font-size:15.5px;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .calc-app .rung .r-title .amt{font-family:var(--display);font-weight:700;color:var(--green-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .calc-app .rung.hit .r-title .amt{color:var(--ink-soft)}
+  .calc-app .rung .r-desc{font-size:13.5px;color:var(--ink-soft);margin-top:1px}
+  .calc-app .rung.target .r-title .amt{color:var(--amber-2)}
+  .calc-app .rung.target .dot{border-color:var(--amber-2)}
+  .calc-app .rung.target.hit .dot{background:var(--amber-2);border-color:var(--amber-2)}
+  .calc-app .now-field{margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}
+  .calc-foot{margin-top:28px;text-align:center;color:var(--ink-soft);font-size:12.5px;max-width:50ch;margin-left:auto;margin-right:auto}
+
+  /* FOOTER */
+  footer.site{border-top:1px solid var(--line);padding:32px 0}
+  .foot-in{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink-soft)}
+  .foot-in .logo{font-size:17px}
+  .foot-in a:hover{color:var(--green-2)}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-in">
+      <a href="#top" class="logo">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 6 H10 a4 4 0 0 0 -4 4 V22 a4 4 0 0 0 4 4 H22 a4 4 0 0 0 4 -4 V12" fill="none" stroke="#0F1714" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M14.5 17.5 L26 6 M26 6 H20 M26 6 V12" fill="none" stroke="#0FA06E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Exit Path
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <h1 class="reveal">There has to be<br><span class="alt">another way.</span></h1>
+          <p class="hero-sub reveal">Find the exact monthly income your side business needs to <b>replace your job</b>. Free.</p>
+          <div class="hero-cta reveal">
+            <a href="#calculator" class="btn btn-primary">Get the calculator <span class="arr">→</span></a>
+            <span class="hero-trust"><b>Free</b> · takes 60 seconds</span>
+          </div>
+        </div>
+        <div class="hero-panel reveal">
+          <div class="glow"></div><div class="glow g2"></div>
+          <svg class="path" viewBox="0 0 400 400" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <path class="dashpath" d="M30 380 C150 350 110 250 200 220 S320 150 300 90 S360 30 380 20" stroke="#FFE2C7" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="380" r="6" fill="#fff" opacity=".8"/>
+            <circle cx="200" cy="220" r="5" fill="#fff" opacity=".6"/>
+            <circle cx="300" cy="90" r="5" fill="#fff" opacity=".6"/>
+            <circle cx="380" cy="20" r="10" fill="#E79A5C"/>
+          </svg>
+          <div class="tag">Small steps. Real freedom.</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="calc-section" id="calculator">
+    <div class="container">
+      <div class="head reveal">
+        <div class="kicker">The calculator</div>
+        <h2>Your number, in <span class="g">60 seconds.</span></h2>
+      </div>
+
+      <div class="calc-wrap locked reveal" id="calcWrap">
+        <!-- GATE -->
+        <div class="gate" id="gate">
+          <div class="gate-card">
+            <div class="lock">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>Unlock the calculator</h3>
+            <p>Enter your email and it's yours — free.</p>
+            <div class="gate-form">
+              <input id="email" type="email" inputmode="email" placeholder="you@email.com" autocomplete="email">
+              <div class="gate-err" id="emailErr"></div>
+              <button class="btn btn-primary" id="unlock" type="button">Unlock my number <span class="arr">→</span></button>
+            </div>
+            <div class="gate-micro">No spam. Leave anytime.</div>
+          </div>
+        </div>
+
+        <!-- CALCULATOR -->
+        <div class="calc-app" id="calcApp">
+          <div class="calc-topbar">
+            <div class="cur" role="group" aria-label="Currency">
+              <button data-cur="GBP" class="on">£</button>
+              <button data-cur="USD">$</button>
+              <button data-cur="EUR">€</button>
+            </div>
+          </div>
+          <div class="grid">
+            <div>
+              <section class="panel">
+                <div class="step"><span class="num">1</span><h3>What your life costs</h3></div>
+                <div class="field">
+                  <label for="essentials">Essentials</label>
+                  <p class="hint">Housing, bills, food, transport.</p>
+                  <div class="money"><span class="affix">£</span><input id="essentials" type="number" inputmode="decimal" min="0" value="2200"></div>
+                </div>
+                <div class="field">
+                  <label for="lifestyle">Lifestyle you'll keep</label>
+                  <p class="hint">Hobbies, eating out, treats.</p>
+                  <div class="money"><span class="affix">£</span><input id="lifestyle" type="number" inputmode="decimal" min="0" value="650"></div>
+                </div>
+                <div class="field">
+                  <label for="savings">Savings &amp; pension</label>
+                  <p class="hint">Now funded by you.</p>
+                  <div class="money"><span class="affix">£</span><input id="savings" type="number" inputmode="decimal" min="0" value="300"></div>
+                </div>
+              </section>
+              <section class="panel">
+                <div class="step"><span class="num">2</span><h3>What a payslip hid</h3></div>
+                <div class="field">
+                  <div class="slider-head"><label for="buffer">Buffer for lumpy months</label><span class="slider-val" id="bufferVal">15%</span></div>
+                  <input id="buffer" type="range" min="0" max="40" step="1" value="15">
+                </div>
+                <div class="field">
+                  <div class="slider-head"><label for="tax">Tax &amp; NI</label><span class="slider-val" id="taxVal">20%</span></div>
+                  <input id="tax" type="range" min="0" max="45" step="1" value="20">
+                </div>
+                <div class="field">
+                  <label for="costs">Business running costs</label>
+                  <p class="hint">Tools, fees, subscriptions.</p>
+                  <div class="money"><span class="affix">£</span><input id="costs" type="number" inputmode="decimal" min="0" value="150"></div>
+                </div>
+              </section>
+            </div>
+            <div>
+              <section class="result">
+                <div class="r-label">Target Monthly Income</div>
+                <div class="big" id="tmi">£0<span class="per"> / month</span></div>
+                <p class="r-note">What your business must <em>earn</em> — before tax and costs — to replace your job.</p>
+                <div class="breakdown">
+                  <div class="brow"><span>Life costs</span><span class="v" id="bdNet">£0</span></div>
+                  <div class="brow"><span>+ Buffer</span><span class="v" id="bdBuffer">£0</span></div>
+                  <div class="brow"><span>+ Tax &amp; NI</span><span class="v" id="bdTax">£0</span></div>
+                  <div class="brow"><span>+ Running costs</span><span class="v" id="bdCosts">£0</span></div>
+                  <div class="brow total"><span>Target Monthly Income</span><span class="v" id="bdTotal">£0</span></div>
+                </div>
+                <div class="real">
+                  <div class="chip"><div class="c-num" id="weekly">£0</div><div class="c-cap">per week</div></div>
+                  <div class="chip"><div class="c-num" id="daily">£0</div><div class="c-cap">per working day</div></div>
+                  <div class="sale-row">
+                    <span>Average sale</span>
+                    <span class="mini"><span class="affix">£</span><input id="sale" type="number" inputmode="decimal" min="1" value="50"></span>
+                    <span>= <strong id="units">0</strong> sales / month</span>
+                  </div>
+                </div>
+              </section>
+              <section class="panel path-panel">
+                <div class="path-head"><h3>Your path</h3><span class="progress-pct" id="pct">0%</span></div>
+                <p class="path-sub">One rung at a time. <span id="pathMsg">Add where you are to light it up.</span></p>
+                <div class="ladder" id="ladder"><div class="fill" id="fill" style="height:0"></div></div>
+                <div class="now-field">
+                  <div class="field" style="margin:0">
+                    <label for="current">Where are you now? <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label>
+                    <p class="hint">Side income today, per month.</p>
+                    <div class="money"><span class="affix">£</span><input id="current" type="number" inputmode="decimal" min="0" value="0"></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <p class="calc-foot">Estimates, not promises. Check anything serious with a professional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site">
+    <div class="container foot-in">
+      <a href="#top" class="logo">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 6 H10 a4 4 0 0 0 -4 4 V22 a4 4 0 0 0 4 4 H22 a4 4 0 0 0 4 -4 V12" fill="none" stroke="#0F1714" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M14.5 17.5 L26 6 M26 6 H20 M26 6 V12" fill="none" stroke="#0FA06E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Exit Path
+      </a>
+      <span>© 2026 Exit Path &nbsp;·&nbsp; <a href="#">Privacy</a></span>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+
+  /* ---- GATE (Formspree) ----
+     1. Create a form at https://formspree.io  →  copy its endpoint.
+     2. Paste it below, replacing YOUR_FORM_ID. That's it. */
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdbnzpe';
+
+  const btn = $('unlock');
+  const btnHTML = btn.innerHTML;
+
+  function reveal(){
+    $('gate').classList.add('hidden');
+    $('calcWrap').classList.remove('locked');
+    setTimeout(()=>{ $('gate').style.display='none'; }, 500);
+  }
+
+  async function unlock(){
+    const email = $('email').value.trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!ok){ $('emailErr').textContent = 'Enter a valid email.'; $('email').focus(); return; }
+    $('emailErr').textContent = '';
+
+    btn.disabled = true;
+    btn.style.opacity = '.7';
+    btn.innerHTML = 'Sending\u2026';
+
+    try{
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'Exit Path TMI calculator' })
+      });
+      if(!res.ok){
+        const data = await res.json().catch(()=>({}));
+        throw new Error((data.errors && data.errors[0] && data.errors[0].message) || 'Submission failed');
+      }
+      reveal();
+    }catch(err){
+      $('emailErr').textContent = 'Something went wrong — please try again.';
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.innerHTML = btnHTML;
+    }
+  }
+  btn.addEventListener('click', unlock);
+  $('email').addEventListener('keydown', e=>{ if(e.key==='Enter') unlock(); });
+
+  /* ---- CALCULATOR ---- */
+  const symbols={GBP:'£',USD:'$',EUR:'€'}, locales={GBP:'en-GB',USD:'en-US',EUR:'de-DE'}, defaultTax={GBP:20,USD:25,EUR:30};
+  let cur='GBP', taxTouched=false; const anim={};
+  const fmt=v=>symbols[cur]+Math.round(v).toLocaleString(locales[cur]);
+  const num=id=>{const n=parseFloat($(id).value);return isNaN(n)||n<0?0:n;};
+  function setMoney(id,target,suffix){
+    suffix=suffix||''; if(anim[id]===undefined)anim[id]=0;
+    const from=anim[id],start=performance.now(),dur=480;
+    (function tick(now){const t=Math.min((now-start)/dur,1),e=1-Math.pow(1-t,3),val=from+(target-from)*e;
+      anim[id]=val; $(id).innerHTML=suffix?fmt(val)+suffix:fmt(val);
+      if(t<1)requestAnimationFrame(tick);else anim[id]=target;})(start);
+  }
+  const milestones=[
+    {label:'Proof it works',desc:'Your first earnings outside a payslip.',amount:()=>100},
+    {label:'It pays for itself',desc:'Covers its own running costs.',amount:d=>d.costs},
+    {label:'The floor',desc:'Essentials covered. You could survive.',amount:d=>d.floor},
+    {label:'Full freedom',desc:'Your whole life replaced.',amount:d=>d.tmi,target:true},
+  ];
+  const checkSvg='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  function compute(){
+    const essentials=num('essentials'),lifestyle=num('lifestyle'),savings=num('savings');
+    const buffer=num('buffer')/100,tax=Math.min(num('tax'),99)/100,costs=num('costs');
+    const current=num('current'),sale=Math.max(num('sale'),1);
+    const net=essentials+lifestyle+savings,bufferAmt=net*buffer,buffered=net+bufferAmt;
+    const grossProfit=buffered/(1-tax),taxAmt=grossProfit-buffered,tmi=grossProfit+costs;
+    const floor=(essentials*(1+buffer))/(1-tax)+costs;
+    setMoney('tmi',tmi,'<span class="per"> / month</span>');
+    setMoney('bdNet',net);setMoney('bdBuffer',bufferAmt);setMoney('bdTax',taxAmt);setMoney('bdCosts',costs);setMoney('bdTotal',tmi);
+    setMoney('weekly',tmi/4.345);setMoney('daily',tmi/21);
+    $('units').textContent=Math.ceil(tmi/sale).toLocaleString(locales[cur]);
+    const data={costs,floor,tmi};
+    const rungs=milestones.map(m=>({...m,value:m.amount(data)})).sort((a,b)=>a.value-b.value);
+    const ladder=$('ladder');[...ladder.querySelectorAll('.rung')].forEach(n=>n.remove());
+    let hit=0;
+    rungs.forEach(r=>{const h=current>=r.value&&current>0;if(h)hit++;
+      const d=document.createElement('div');d.className='rung'+(h?' hit':'')+(r.target?' target':'');
+      d.innerHTML='<div class="dot">'+checkSvg+'</div><div class="r-body"><div class="r-title"><span>'+r.label+'</span><span class="amt">'+fmt(r.value)+'</span></div><div class="r-desc">'+r.desc+'</div></div>';
+      ladder.appendChild(d);});
+    const pct=tmi>0?Math.min(current/tmi,1):0;$('fill').style.height=(pct*100)+'%';
+    const p=Math.round(pct*100);$('pct').textContent=p+'%';
+    let msg;
+    if(current<=0)msg='Add where you are to light it up.';
+    else if(p===0)msg='Every business starts at zero.';
+    else if(p>=100)msg='You\u2019re there — your job is replaceable.';
+    else if(hit>=3)msg='Essentials covered. The rest is breathing room.';
+    else if(hit>=1)msg='You\u2019re on the path. Keep climbing.';
+    else msg='You\u2019ve started — the hardest rung.';
+    $('pathMsg').textContent=msg;
+  }
+  document.querySelectorAll('.cur button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.cur button').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');cur=btn.dataset.cur;
+      document.querySelectorAll('.calc-app .affix').forEach(a=>a.textContent=symbols[cur]);
+      if(!taxTouched){$('tax').value=defaultTax[cur];$('taxVal').textContent=defaultTax[cur]+'%';}
+      compute();
+    });
+  });
+  $('buffer').addEventListener('input',e=>{$('bufferVal').textContent=e.target.value+'%';compute();});
+  $('tax').addEventListener('input',e=>{taxTouched=true;$('taxVal').textContent=e.target.value+'%';compute();});
+  ['essentials','lifestyle','savings','costs','current','sale'].forEach(id=>$(id).addEventListener('input',compute));
+  compute();
+
+  const nav=$('nav');addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>10);},{passive:true});
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>
