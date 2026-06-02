@@ -2,330 +2,375 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Exit Path</title>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 :root{
-    --bg:#ffffff;
-    --text:#000000;
-    --line:#000000;
+--bg:#fff;
+--text:#000;
 }
 
 html{
-    scroll-behavior:smooth;
+scroll-behavior:smooth;
 }
 
 body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:Georgia, serif;
-    -webkit-font-smoothing:antialiased;
+background:#fff;
+color:#000;
+font-family:Georgia,serif;
+overflow-x:hidden;
 }
 
 .container{
-    width:min(1100px,90vw);
-    margin:0 auto;
+width:min(1200px,92vw);
+margin:auto;
+position:relative;
 }
 
-nav{
-    padding:32px 0;
+header{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
 }
 
 .logo{
-    font-size:.85rem;
-    letter-spacing:.35em;
-    text-transform:uppercase;
-}
-
-.hero{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+font-size:.8rem;
+letter-spacing:.35em;
+text-transform:uppercase;
+margin-bottom:80px;
 }
 
 h1{
-    font-size:clamp(4rem,12vw,9rem);
-    line-height:.9;
-    font-weight:400;
-    max-width:7ch;
-    letter-spacing:-0.04em;
+font-size:clamp(4rem,12vw,10rem);
+line-height:.88;
+font-weight:400;
+letter-spacing:-.06em;
+max-width:8ch;
 }
 
-.path-wrap{
-    margin:80px 0;
-    height:420px;
+/* PATH */
+
+.path-area{
+position:relative;
+padding-bottom:300px;
 }
 
-.path-svg{
-    width:100%;
-    height:100%;
+.route{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
 }
 
-.dashpath{
-    fill:none;
-    stroke:#000;
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-dasharray:3 12;
-    animation:dash 30s linear infinite;
-}
-
-.destination{
-    fill:#000;
+.route path{
+fill:none;
+stroke:#000;
+stroke-width:2;
+stroke-linecap:round;
+stroke-dasharray:3 12;
+animation:dash 30s linear infinite;
 }
 
 @keyframes dash{
-    to{
-        stroke-dashoffset:-300;
-    }
+to{
+stroke-dashoffset:-300;
+}
 }
 
-.links{
-    padding-bottom:120px;
+/* WAYPOINTS */
+
+.waypoint{
+position:relative;
+z-index:2;
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:center;
+min-height:500px;
 }
 
-.link{
-    display:block;
-    text-decoration:none;
-    color:#000;
-    padding:40px 0;
-    border-top:1px solid #000;
-    transition:.25s;
+.waypoint.left .content{
+grid-column:1;
 }
 
-.link:last-child{
-    border-bottom:1px solid #000;
+.waypoint.right .content{
+grid-column:2;
 }
 
-.link:hover{
-    padding-left:20px;
+.content{
+display:block;
+text-decoration:none;
+color:#000;
+transition:.3s;
 }
 
-.link-number{
-    font-size:.8rem;
-    margin-bottom:12px;
-    letter-spacing:.15em;
-    text-transform:uppercase;
+.content:hover{
+transform:translateX(15px);
 }
 
-.link h2{
-    font-size:clamp(2rem,5vw,4rem);
-    line-height:.95;
-    font-weight:400;
-    max-width:12ch;
+.num{
+font-size:.75rem;
+letter-spacing:.15em;
+text-transform:uppercase;
+margin-bottom:14px;
 }
 
-.link p{
-    margin-top:16px;
-    font-size:1.1rem;
-    max-width:32ch;
+.content h2{
+font-size:clamp(2rem,5vw,5rem);
+line-height:.92;
+font-weight:400;
+max-width:10ch;
+}
+
+.content p{
+margin-top:18px;
+font-size:1.1rem;
+line-height:1.5;
+max-width:30ch;
 }
 
 .arrow{
-    margin-top:18px;
-    font-size:2rem;
+margin-top:20px;
+font-size:2rem;
+}
+
+/* FOOTPRINTS */
+
+.foot{
+position:absolute;
+width:42px;
+height:42px;
+}
+
+.foot::before,
+.foot::after{
+content:"";
+position:absolute;
+width:12px;
+height:24px;
+background:#000;
+border-radius:999px;
+}
+
+.foot::before{
+left:8px;
+transform:rotate(-20deg);
+}
+
+.foot::after{
+right:8px;
+top:12px;
+transform:rotate(20deg);
+}
+
+/* footprint positions */
+
+.f1{
+left:48%;
+top:200px;
+transform:rotate(-20deg);
+}
+
+.f2{
+left:57%;
+top:900px;
+transform:rotate(15deg);
+}
+
+.f3{
+left:43%;
+top:1600px;
+transform:rotate(-15deg);
+}
+
+.f4{
+left:60%;
+top:2300px;
+transform:rotate(15deg);
+}
+
+/* destination */
+
+.destination{
+position:relative;
+z-index:2;
+height:300px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+gap:20px;
+}
+
+.door{
+font-size:5rem;
+line-height:1;
+}
+
+.end{
+font-size:.85rem;
+letter-spacing:.25em;
+text-transform:uppercase;
 }
 
 footer{
-    padding:60px 0;
-    font-size:.85rem;
+padding:80px 0 40px;
+font-size:.8rem;
+letter-spacing:.15em;
+text-transform:uppercase;
+}
+
+@media(max-width:900px){
+
+.waypoint{
+grid-template-columns:1fr;
+min-height:380px;
+}
+
+.waypoint.left .content,
+.waypoint.right .content{
+grid-column:auto;
+}
+
+.content h2{
+max-width:100%;
+}
+
+.route{
+display:none;
 }
 
 .foot{
-    opacity:.85;
+display:none;
 }
 
-@media(max-width:768px){
-
-    h1{
-        max-width:100%;
-    }
-
-    .path-wrap{
-        height:260px;
-        margin:60px 0;
-    }
-
-    .link{
-        padding:28px 0;
-    }
 }
+
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<nav>
-    <div class="logo">EXIT PATH</div>
-</nav>
+<header>
 
-<section class="hero">
+<div class="logo">
+EXIT PATH
+</div>
 
-    <h1>
-        THERE HAS TO BE ANOTHER WAY.
-    </h1>
+<h1>
+THERE HAS TO BE
+ANOTHER WAY.
+</h1>
 
-    <div class="path-wrap">
+</header>
 
-        <svg
-            class="path-svg"
-            viewBox="0 0 400 400"
-            xmlns="http://www.w3.org/2000/svg">
+<div class="path-area">
 
-            <!-- original animated path -->
+<svg class="route" viewBox="0 0 1200 3200" preserveAspectRatio="none">
 
-            <path
-                id="journey"
-                class="dashpath"
-                d="M30 380
-                   C150 350 110 250 200 220
-                   S320 150 300 90
-                   S360 30 380 20" />
+<path d="
+M 550 0
 
-            <!-- moving footprints -->
+C 850 250,
+850 500,
+650 700
 
-            <g class="foot">
-                <animateMotion
-                    dur="14s"
-                    repeatCount="indefinite"
-                    rotate="auto">
+S 350 1100,
+650 1400
 
-                    <mpath href="#journey"/>
-                </animateMotion>
+S 850 1800,
+500 2200
 
-                <ellipse
-                    cx="-10"
-                    cy="-4"
-                    rx="4"
-                    ry="8"
-                    fill="black"/>
+S 250 2700,
+700 3050
+"/>
 
-                <ellipse
-                    cx="10"
-                    cy="4"
-                    rx="4"
-                    ry="8"
-                    fill="black"/>
-            </g>
+</svg>
 
-            <g class="foot">
-                <animateMotion
-                    dur="14s"
-                    begin="-7s"
-                    repeatCount="indefinite"
-                    rotate="auto">
+<div class="foot f1"></div>
+<div class="foot f2"></div>
+<div class="foot f3"></div>
+<div class="foot f4"></div>
 
-                    <mpath href="#journey"/>
-                </animateMotion>
+<section class="waypoint left">
 
-                <ellipse
-                    cx="-10"
-                    cy="-4"
-                    rx="4"
-                    ry="8"
-                    fill="black"/>
-
-                <ellipse
-                    cx="10"
-                    cy="4"
-                    rx="4"
-                    ry="8"
-                    fill="black"/>
-            </g>
-
-            <!-- destination -->
-
-            <circle
-                class="destination"
-                cx="380"
-                cy="20"
-                r="8"/>
-        </svg>
-
-    </div>
+<a href="/freedom-number" class="content">
+<div class="num">01</div>
+<h2>What's Your Freedom Number?</h2>
+<p>
+Find the monthly income required to replace your job.
+</p>
+<div class="arrow">→</div>
+</a>
 
 </section>
 
-<section class="links">
+<section class="waypoint right">
 
-    <a href="/freedom-number" class="link">
-
-        <div class="link-number">01</div>
-
-        <h2>
-            What's Your Freedom Number?
-        </h2>
-
-        <p>
-            Find the monthly income required to replace your job.
-        </p>
-
-        <div class="arrow">→</div>
-
-    </a>
-
-    <a href="/idea-finder" class="link">
-
-        <div class="link-number">02</div>
-
-        <h2>
-            Everyone Has Saleable Knowledge.
-        </h2>
-
-        <p>
-            Discover your unique idea.
-        </p>
-
-        <div class="arrow">→</div>
-
-    </a>
-
-    <a href="/exit-path" class="link">
-
-        <div class="link-number">03</div>
-
-        <h2>
-            Build Your Exit Path.
-        </h2>
-
-        <p>
-            One step at a time.
-        </p>
-
-        <div class="arrow">→</div>
-
-    </a>
-
-    <a href="/stories" class="link">
-
-        <div class="link-number">04</div>
-
-        <h2>
-            Stories From People Walking It.
-        </h2>
-
-        <p>
-            Learn from people already on the trail.
-        </p>
-
-        <div class="arrow">→</div>
-
-    </a>
+<a href="/idea-finder" class="content">
+<div class="num">02</div>
+<h2>Everyone Has Saleable Knowledge.</h2>
+<p>
+Discover your unique idea.
+</p>
+<div class="arrow">→</div>
+</a>
 
 </section>
+
+<section class="waypoint left">
+
+<a href="/exit-path" class="content">
+<div class="num">03</div>
+<h2>Build Your Exit Path.</h2>
+<p>
+Small steps. Real freedom.
+</p>
+<div class="arrow">→</div>
+</a>
+
+</section>
+
+<section class="waypoint right">
+
+<a href="/stories" class="content">
+<div class="num">04</div>
+<h2>Stories From People Walking It.</h2>
+<p>
+Learn from people already on the trail.
+</p>
+<div class="arrow">→</div>
+</a>
+
+</section>
+
+<div class="destination">
+
+<div class="door">▯</div>
+
+<div class="end">
+FIND YOUR EXIT
+</div>
+
+</div>
+
+</div>
 
 <footer>
-    EXIT PATH · 2026
+EXIT PATH
 </footer>
 
 </div>
