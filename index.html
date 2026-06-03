@@ -189,7 +189,9 @@ button{ cursor:pointer; }
     white-space:nowrap;
     transition:transform .25s ease;
 }
-.btn:hover{ transform:translateX(8px); }
+@media (hover:hover) and (pointer:fine){
+    .btn:hover{ transform:translateX(8px); }
+}
 
 .note{
     margin-top:26px;
@@ -201,6 +203,30 @@ button{ cursor:pointer; }
 
 /* Spam honeypot — hidden from people, catches bots */
 .honey{ position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden; }
+
+/* =========================================================
+   MOBILE  (narrow the trail lane, stack a full-width button,
+   give the heading more presence)
+   ========================================================= */
+@media (max-width:600px){
+    :root{ --gutter:32px; --dest-h:46px; }
+
+    .logo{ padding-top:clamp(24px, 8vw, 40px); }
+
+    .hero{ padding:clamp(36px, 9vw, 56px) 0 clamp(56px, 12vw, 88px); }
+
+    .offer{ font-size:1.55rem; }
+
+    .mark{ width:13px; height:13px; }
+    .dest{ width:28px; }
+
+    .signup .row{ gap:16px; }
+    .signup .btn{
+        width:100%;
+        justify-content:center;
+        padding:20px 30px;
+    }
+}
 
 @media (prefers-reduced-motion:reduce){
     *{ animation:none!important; transition:none!important; }
