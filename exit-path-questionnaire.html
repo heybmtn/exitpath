@@ -188,6 +188,11 @@ svg{display:block;}
                 <div class="help">In or outside paid work.</div>
                 <textarea id="built" name="What I have taught built or improved" rows="4"></textarea>
             </div>
+            <div class="field">
+                <label for="reach">Who could you already reach if you needed to?</label>
+                <div class="help">A network, a community, a group, an old client list, former colleagues, an audience &mdash; people who&rsquo;d take your call or read your message. Even a small, specific group counts.</div>
+                <textarea id="reach" name="Who I could already reach" rows="4"></textarea>
+            </div>
         </section>
 
         <section class="section">
@@ -271,8 +276,20 @@ svg{display:block;}
                 <input id="timeline" type="text" name="Ideal timeline" placeholder="e.g. replace my income within 12 months">
             </div>
             <div class="field">
+                <label for="capital">What could you put in to get started?</label>
+                <div class="help">Money you could comfortably spend getting going &mdash; not money you can&rsquo;t afford to lose. A rough range is fine.</div>
+                <select id="capital" name="What I could put in to start">
+                    <option value="" disabled selected>Choose one&hellip;</option>
+                    <option>Nothing right now &mdash; time only</option>
+                    <option>Under &pound;100</option>
+                    <option>&pound;100&ndash;&pound;500</option>
+                    <option>&pound;500&ndash;&pound;2,000</option>
+                    <option>More than &pound;2,000</option>
+                </select>
+            </div>
+            <div class="field">
                 <label for="else">Anything else I should know?</label>
-                <div class="help">Money you could invest, hard constraints, skills you want to learn or avoid &mdash; anything.</div>
+                <div class="help">Hard constraints, skills you want to learn or avoid &mdash; anything.</div>
                 <textarea id="else" name="Anything else" rows="3"></textarea>
             </div>
         </section>
