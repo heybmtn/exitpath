@@ -228,6 +228,17 @@ h1{
 }
 .unlock span{ font-size:1.4em; line-height:1; vertical-align:-2px; }
 
+/* Linkless waypoint (temporarily disabled) */
+.waypoint-static{ display:block; width:fit-content; }
+.soon{
+    display:block;
+    margin-top:20px;
+    font-size:.75rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#9a9a9a;
+}
+
 /* =========================================================
    DESTINATION
    ========================================================= */
@@ -315,11 +326,11 @@ h1{
                 <span class="foot foot--right" aria-hidden="true">
                     <svg viewBox="0 0 60 96"><use href="#footprint"/></svg>
                 </span>
-                <a href="https://www.skool.com/your-community" target="_blank" rel="noopener">
+                <a href="exit-path-questionnaire.html">
                     <span class="num">02</span>
                     <h2>Find your exit.</h2>
                     <span class="label">Exit Path Discover</span>
-                    <span class="unlock">Join the community to unlock <span aria-hidden="true">&rarr;</span></span>
+                    <span class="unlock">Start the questionnaire <span aria-hidden="true">&rarr;</span></span>
                 </a>
             </li>
 
@@ -327,12 +338,12 @@ h1{
                 <span class="foot foot--left" aria-hidden="true">
                     <svg viewBox="0 0 60 96"><use href="#footprint"/></svg>
                 </span>
-                <a href="https://www.skool.com/your-community" target="_blank" rel="noopener">
+                <div class="waypoint-static">
                     <span class="num">03</span>
                     <h2>Build your exit path.</h2>
                     <span class="label">Exit Path Build</span>
-                    <span class="unlock">Join the community to unlock <span aria-hidden="true">&rarr;</span></span>
-                </a>
+                    <span class="soon">Coming soon</span>
+                </div>
             </li>
 
             <li class="waypoint">
