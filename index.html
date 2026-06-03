@@ -63,7 +63,7 @@ button{ cursor:pointer; }
     position:absolute;
     top:0; bottom:0;
     left:calc(var(--gutter) / 2);
-    width:2px;
+    width:3px;
     z-index:-1;
     pointer-events:none;
 }
@@ -74,19 +74,9 @@ button{ cursor:pointer; }
     bottom:calc(var(--dest-gap) + var(--dest-h) + 8px);
     background:repeating-linear-gradient(
         to bottom,
-        var(--trail) 0, var(--trail) 2px,
-        transparent 2px, transparent 11px
+        var(--trail) 0, var(--trail) 16px,
+        transparent 16px, transparent 30px
     );
-}
-
-.mark{
-    position:absolute;
-    left:50%;
-    width:15px; height:15px;
-    transform:translate(-50%, -50%);
-    border:2px solid var(--trail-mark);
-    border-radius:50%;
-    background:var(--paper);
 }
 
 .dest{
@@ -193,14 +183,6 @@ button{ cursor:pointer; }
     .btn:hover{ transform:translateX(8px); }
 }
 
-.note{
-    margin-top:26px;
-    font-size:.9rem;
-    color:var(--soft);
-    max-width:44ch;
-    line-height:1.55;
-}
-
 /* Spam honeypot — hidden from people, catches bots */
 .honey{ position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden; }
 
@@ -217,7 +199,6 @@ button{ cursor:pointer; }
 
     .offer{ font-size:1.55rem; }
 
-    .mark{ width:13px; height:13px; }
     .dest{ width:28px; }
 
     .signup .row{ gap:16px; }
@@ -239,9 +220,6 @@ button{ cursor:pointer; }
 
     <div class="trail" aria-hidden="true">
         <span class="trail-line"></span>
-        <span class="mark" style="top:20%"></span>
-        <span class="mark" style="top:46%"></span>
-        <span class="mark" style="top:72%"></span>
         <svg class="dest" viewBox="0 0 40 64">
             <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
             <circle class="handle" cx="30" cy="33" r="2.6"/>
@@ -284,8 +262,6 @@ button{ cursor:pointer; }
                 <input id="email" type="email" name="email" placeholder="you@email.com" required>
                 <button class="btn" type="submit">Sign up <span aria-hidden="true">&rarr;</span></button>
             </div>
-
-            <p class="note">Leave your email and I&rsquo;ll be in touch when the way out opens.</p>
 
         </form>
 
