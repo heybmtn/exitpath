@@ -14,6 +14,7 @@
 :root{
     --ink:#000;
     --paper:#fff;
+    --accent:#6366f1;
 
     /* Page rhythm */
     --content:min(1100px, 88vw);
@@ -176,9 +177,10 @@ h1{
 }
 
 .waypoint a:hover{ transform:translateX(12px); }
+.waypoint a:hover h2{ color:var(--accent); }
 
 .waypoint a:focus-visible{
-    outline:2px solid var(--ink);
+    outline:2px solid var(--accent);
     outline-offset:10px;
 }
 
@@ -187,6 +189,7 @@ h1{
     letter-spacing:.15em;
     text-transform:uppercase;
     margin-bottom:14px;
+    color:var(--accent);
 }
 
 .waypoint h2{
@@ -202,6 +205,7 @@ h1{
     margin-top:20px;
     font-size:2rem;
     line-height:1;
+    color:var(--accent);
 }
 
 .label{
@@ -212,32 +216,15 @@ h1{
     text-transform:uppercase;
 }
 
-/* Members-only treatment */
-.gate{
-    display:inline-flex;
-    align-items:center;
-    gap:.6em;
-    margin-bottom:18px;
-    padding:7px 12px;
-    background:var(--ink);
-    color:var(--paper);
-    font-size:.62rem;
-    letter-spacing:.24em;
-    text-transform:uppercase;
-}
-.gate svg{
-    width:.95em;
-    height:.95em;
-    fill:none;
-    stroke:var(--paper);
-    stroke-width:2;
-}
+/* Members-only join cue */
 .unlock{
     display:block;
     margin-top:20px;
     font-size:.75rem;
     letter-spacing:.18em;
     text-transform:uppercase;
+    font-weight:700;
+    color:var(--accent);
 }
 .unlock span{ font-size:1.4em; line-height:1; vertical-align:-2px; }
 
@@ -330,10 +317,6 @@ h1{
                 </span>
                 <a href="https://www.skool.com/your-community" target="_blank" rel="noopener">
                     <span class="num">02</span>
-                    <span class="gate">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
-                        Members only
-                    </span>
                     <h2>Find your exit.</h2>
                     <span class="label">Exit Path Discover</span>
                     <span class="unlock">Join the community to unlock <span aria-hidden="true">&rarr;</span></span>
@@ -346,10 +329,6 @@ h1{
                 </span>
                 <a href="https://www.skool.com/your-community" target="_blank" rel="noopener">
                     <span class="num">03</span>
-                    <span class="gate">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
-                        Members only
-                    </span>
                     <h2>Build your exit path.</h2>
                     <span class="label">Exit Path Build</span>
                     <span class="unlock">Join the community to unlock <span aria-hidden="true">&rarr;</span></span>
@@ -377,7 +356,7 @@ h1{
             <!-- Doorway -->
             <svg class="door" viewBox="0 0 40 64" aria-hidden="true">
                 <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
-                <circle cx="30" cy="33" r="2.4" fill="var(--ink)" stroke="none"/>
+                <circle cx="30" cy="33" r="2.4" fill="var(--accent)" stroke="none"/>
             </svg>
         </div>
     </nav>
