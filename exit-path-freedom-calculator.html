@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="The Exit Path Freedom Number calculator — find your breathing-room number, the income that replaces your salary, and your true freedom number, then see how few clients it takes to get there.">
+<meta name="description" content="The Exit Path Freedom Number calculator — find your breathing-room number, the income that replaces your salary, and your true freedom number, then see how few buyers it takes to get there.">
 <title>Your Freedom Number — Exit Path</title>
 
 <style>
@@ -59,17 +59,18 @@ button{ cursor:pointer; background:none; border:none; }
    PATH WATERMARK  (decorative trail down the left margin)
    ========================================================= */
 .trail{
-    position:absolute;
+    position:fixed;
     top:0; bottom:0;
-    left:calc(var(--gutter) / 2);
+    left:max(0px, calc((100vw - var(--content)) / 2));
+    margin-left:calc(var(--gutter) / 2);
     width:3px;
     z-index:-1;
     pointer-events:none;
 }
 .trail-line{
     position:absolute;
-    top:0; left:0; right:0;
-    bottom:calc(var(--dest-gap) + var(--dest-h) + 8px);
+    top:clamp(76px, 15vh, 150px); left:0; right:0;
+    bottom:calc(var(--dest-gap) + var(--dest-h) + 10px);
     background:repeating-linear-gradient(
         to bottom,
         var(--trail) 0, var(--trail) 16px,
@@ -222,8 +223,9 @@ input[type=range]:focus-visible{
 .footnote{ font-size:.8rem; color:var(--soft); margin-top:30px; max-width:54ch; line-height:1.5; }
 
 @media (max-width:600px){
-    :root{ --gutter:34px; --dest-gap:40px; --dest-h:46px; }
-    .dest{ width:28px; }
+    :root{ --gutter:30px; --content:93vw; --dest-gap:40px; --dest-h:46px; }
+    .container{ padding-right:max(16px, env(safe-area-inset-right, 0px)); }
+    .dest{ width:26px; }
     .actions .btn{ flex:1 1 100%; justify-content:center; }
 }
 @media (prefers-reduced-motion:reduce){
@@ -252,7 +254,7 @@ input[type=range]:focus-visible{
             Most people wildly overestimate it — and scare themselves out of ever starting.
             So before the big number, work out the small one:
             <span class="em">the monthly take-home that would let you hand in your notice without the knot in your stomach.</span>
-            Then see how few clients really stand between you and it.
+            Then see how few buyers really stand between you and it.
         </p>
     </section>
 
@@ -289,16 +291,16 @@ input[type=range]:focus-visible{
         </div>
 
         <div class="slider-row">
-            <div class="top"><span class="name" id="priceName">Per client, per month</span><span class="val" id="priceVal">£500</span></div>
-            <input type="range" id="price" min="100" max="3000" step="50" value="500" aria-label="Price per client">
-            <div class="ends"><span>£100</span><span>£3,000</span></div>
+            <div class="top"><span class="name" id="priceName">Per buyer, per month</span><span class="val" id="priceVal">£0</span></div>
+            <input type="range" id="price" min="0" max="3000" step="25" value="0" aria-label="What you'd charge">
+            <div class="ends"><span>£0</span><span>£3,000</span></div>
         </div>
     </section>
 
     <!-- ============ RESULTS ============ -->
     <section class="results">
         <div id="resultArea">
-            <p class="empty">Pop your numbers in above and your three targets appear here — breathing room, salary matched, and freedom — along with how few clients each one takes.</p>
+            <p class="empty">Pop your numbers in above and your three targets appear here — breathing room, salary matched, and freedom — along with how few buyers each one takes.</p>
         </div>
     </section>
 
@@ -306,9 +308,9 @@ input[type=range]:focus-visible{
     <section class="cta">
         <h2>Knowing the number is the easy bit.</h2>
         <p>
-            The hard part is the route to it. Your full Exit Path maps the business model that fits how
-            you're built, and the step-by-step way to breathing room first, then beyond — read and written
-            by me personally, not spat out by a machine.
+            The hard part is the route to it. Your full Exit Path finds the offer hiding in what you already
+            know, and maps the step-by-step way to breathing room first, then beyond — read and written
+            by me personally, not spat out by a machine. With your name on it, and a first move for this week.
         </p>
         <div class="actions">
             <a class="btn" href="exit-path-offer.html">Build my Exit Path <span aria-hidden="true">&rarr;</span></a>
@@ -360,7 +362,7 @@ el("modes").querySelectorAll(".mode").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     mode = btn.dataset.mode;
     el("modes").querySelectorAll(".mode").forEach(b=> b.classList.toggle("sel", b===btn));
-    priceNameEl.textContent = mode==="retainer" ? "Per client, per month" : "Per project / sale";
+    priceNameEl.textContent = mode==="retainer" ? "Per buyer, per month" : "Per project / sale";
     recompute();
   });
 });
@@ -372,7 +374,7 @@ function recompute(){
   const price      = +priceEl.value;
 
   if(essentials <= 0 && income <= 0){
-    resultArea.innerHTML = `<p class="empty">Pop your numbers in above and your three targets appear here — breathing room, salary matched, and freedom — along with how few clients each one takes.</p>`;
+    resultArea.innerHTML = `<p class="empty">Pop your numbers in above and your three targets appear here — breathing room, salary matched, and freedom — along with how few buyers each one takes.</p>`;
     return;
   }
 
@@ -384,30 +386,38 @@ function recompute(){
   const base = Math.max(breathing, replace);
   const freedom = dreamRaw > 0 ? dreamRaw : Math.round((base * 2) / 500) * 500;
 
-  const unit = mode === "retainer" ? "clients" : "sales this month";
-  const unitName = mode === "retainer" ? "client" : "sale";
-  const need = amt => Math.max(1, Math.ceil(amt / price));
+  const unit = mode === "retainer" ? "buyers" : "sales this month";
+  const unitName = mode === "retainer" ? "buyer" : "sale";
+  const hasPrice = price > 0;
+  const need = amt => hasPrice ? Math.max(1, Math.ceil(amt / price)) : 0;
 
   const breathingN = need(breathing);
   const replaceN = need(replace);
   const freedomN = need(freedom);
+  // small N (high-ticket: consulting, coaching) lands as "just a few away";
+  // large N (low-ticket: courses, books, newsletters) needs honest framing instead.
+  const small = breathingN <= 12;
 
   // only show the "salary matched" card if it's meaningfully different from breathing room
-  const showReplace = Math.abs(replace - breathing) > price * 0.5 && income > 0 && essentials > 0;
+  const showReplace = Math.abs(replace - breathing) > 25 && income > 0 && essentials > 0;
 
   const card = (cls, tier, amount, per, n) => `
     <div class="num ${cls}">
       <div class="tier">${tier}</div>
       <div class="amount">${fmt(amount)}</div>
       <div class="per">${per}</div>
-      <div class="clients"><b>${n}</b> ${n===1 ? unitName : unit} <span style="color:var(--soft)">at ${fmt(price)}${mode==="retainer"?"/mo":""}</span></div>
+      <div class="clients">${hasPrice ? `<b>${n}</b> ${n===1 ? unitName : unit} <span style="color:var(--soft)">at ${fmt(price)}${mode==="retainer"?"/mo":""}</span>` : `<span style="color:var(--soft)">set what you\u2019d charge above</span>`}</div>
     </div>`;
 
   let cards = card("breathe", "Breathing room", breathing, "covers the essentials — you could step back without the panic", breathingN);
   if(showReplace) cards += card("", "Salary matched", replace, "replaces the job, pound for pound", replaceN);
   cards += card("", "Freedom", freedom, dreamRaw>0 ? "the life you described" : "a first rough estimate", freedomN);
 
-  const aha = `Your <b>breathing-room number is just ${breathingN} ${breathingN===1?unitName:unit}</b> away${mode==="retainer"?` at ${fmt(price)} a month`:""}. Freedom is ${freedomN}. All of a sudden it's a target, not a someday.`;
+  const aha = !hasPrice
+    ? `Set what you\u2019d charge above, and watch how few ${unit} each of these numbers actually takes.`
+    : small
+      ? `Your <b>breathing-room number is just ${breathingN} ${breathingN===1?unitName:unit}</b> away${mode==="retainer"?` at ${fmt(price)} a month`:""}. Freedom is ${freedomN}. All of a sudden it's a target, not a someday.`
+      : `Breathing room is about <b>${breathingN} ${unit}</b>${mode==="retainer"?` at ${fmt(price)} a month`:""}. That sounds like a lot — until you nudge what you charge upward and watch it fall. Charge more, need fewer. Freedom is ${freedomN}.`;
 
   resultArea.innerHTML = `
     <div class="numbers">${cards}</div>
@@ -415,7 +425,11 @@ function recompute(){
     <p class="principle">Breathing room first, freedom after. Hit the number that takes the fear out of it — fast — and the big number stops being a fantasy and becomes your next stage.</p>`;
 
   // store for sharing
-  resultArea.dataset.share = `My Exit Path breathing-room number is ${fmt(breathing)} a month — just ${breathingN} ${breathingN===1?unitName:unit} away. Freedom is ${fmt(freedom)}.`;
+  resultArea.dataset.share = !hasPrice
+    ? `My Exit Path breathing-room number is ${fmt(breathing)} a month. Freedom is ${fmt(freedom)}.`
+    : small
+      ? `My Exit Path breathing-room number is ${fmt(breathing)} a month \u2014 just ${breathingN} ${breathingN===1?unitName:unit} away. Freedom is ${fmt(freedom)}.`
+      : `My Exit Path breathing-room number is ${fmt(breathing)} a month \u2014 about ${breathingN} ${unit} at ${fmt(price)}${mode==="retainer"?"/mo":""}. Freedom is ${fmt(freedom)}.`;
 }
 
 el("share").addEventListener("click", async ()=>{

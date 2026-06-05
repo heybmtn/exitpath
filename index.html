@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="Exit Path — there has to be another way. Find your freedom archetype and your freedom number, both free, then build the path from a pay cheque to owning your time.">
+<meta name="description" content="Exit Path helps you find the product already in you — your expertise, the systems you've built, what people already come to you for — and package it into an offer you sell to an audience, from anywhere. Find your archetype and your number, free.">
 <title>Exit Path</title>
 
 <style>
@@ -61,9 +61,10 @@ button{ cursor:pointer; }
    Decorative only — sits behind the content, ignores clicks.
    ========================================================= */
 .trail{
-    position:absolute;
+    position:fixed;
     top:0; bottom:0;
-    left:calc(var(--gutter) / 2);
+    left:max(0px, calc((100vw - var(--content)) / 2));
+    margin-left:calc(var(--gutter) / 2);
     width:3px;
     z-index:-1;
     pointer-events:none;
@@ -71,8 +72,8 @@ button{ cursor:pointer; }
 
 .trail-line{
     position:absolute;
-    top:0; left:0; right:0;
-    bottom:calc(var(--dest-gap) + var(--dest-h) + 8px);
+    top:clamp(76px, 15vh, 150px); left:0; right:0;
+    bottom:calc(var(--dest-gap) + var(--dest-h) + 10px);
     background:repeating-linear-gradient(
         to bottom,
         var(--trail) 0, var(--trail) 16px,
@@ -260,13 +261,14 @@ button{ cursor:pointer; }
    give the heading more presence)
    ========================================================= */
 @media (max-width:600px){
-    :root{ --gutter:34px; --dest-gap:40px; --dest-h:46px; }
+    :root{ --gutter:30px; --content:93vw; --dest-gap:40px; --dest-h:46px; }
+    .container{ padding-right:max(16px, env(safe-area-inset-right, 0px)); }
 
-    .hero{ padding:clamp(36px, 9vw, 56px) 0 clamp(116px, 30vw, 136px); }
+    .hero{ padding:clamp(40px, 10vw, 60px) 0 clamp(80px, 18vw, 110px); }
 
     .offer{ font-size:1.55rem; }
 
-    .dest{ width:28px; }
+    .dest{ width:26px; }
 
     .cta-primary{ gap:14px; }
     .cta-primary .btn{
@@ -305,15 +307,14 @@ button{ cursor:pointer; }
     <header class="hero">
 
         <p class="lead">
-            Exit Path is for anyone who&rsquo;s sat in a Monday-morning meeting and thought:
+            You&rsquo;re in another Monday-morning meeting, and the thought arrives again:
             <span class="thought">there has to be another way.</span>
-            Your job isn&rsquo;t the problem. It&rsquo;s that your time, your income and your future
-            all sit in someone else&rsquo;s hands &mdash; and you&rsquo;d quietly like them back. You know
-            you want something of your own. You just can&rsquo;t yet see what it is, or how you&rsquo;d
-            get there from here.
+            There is &mdash; and it isn&rsquo;t an idea you have to dream up. It&rsquo;s already in you:
+            the expertise you&rsquo;ve earned, the systems you&rsquo;ve built, the thing people already come
+            to you for. Exit Path helps you find it, package it, and sell it to an audience &mdash; from anywhere.
         </p>
 
-        <h1 class="offer">Discover your exit and build the path.</h1>
+        <h1 class="offer">Find the product in you. Then build the path out.</h1>
 
         <!-- PRIMARY: the two free tools. Each shows an instant result and funnels
              on to the offer page. Neither captures email — that's deliberate;

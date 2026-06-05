@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="The full Exit Path — the complete Exit Path Quiz plus your personalised, written plan: the business model that fits how you're built, and the shortest honest route from a pay cheque to owning your time.">
+<meta name="description" content="The full Exit Path — the complete quiz plus your personalised written plan: the offer hiding in your own expertise (consulting, a course, a book or coaching) and the route to packaging it and selling it to an audience, from anywhere.">
 <title>Get your Exit Path</title>
 
 <style>
@@ -59,17 +59,18 @@ button{ cursor:pointer; background:none; border:none; }
    PATH WATERMARK  (decorative trail down the left margin)
    ========================================================= */
 .trail{
-    position:absolute;
+    position:fixed;
     top:0; bottom:0;
-    left:calc(var(--gutter) / 2);
+    left:max(0px, calc((100vw - var(--content)) / 2));
+    margin-left:calc(var(--gutter) / 2);
     width:3px;
     z-index:-1;
     pointer-events:none;
 }
 .trail-line{
     position:absolute;
-    top:0; left:0; right:0;
-    bottom:calc(var(--dest-gap) + var(--dest-h) + 8px);
+    top:clamp(76px, 15vh, 150px); left:0; right:0;
+    bottom:calc(var(--dest-gap) + var(--dest-h) + 10px);
     background:repeating-linear-gradient(
         to bottom,
         var(--trail) 0, var(--trail) 16px,
@@ -152,6 +153,14 @@ button{ cursor:pointer; background:none; border:none; }
 .secure svg{ width:14px; height:14px; flex:none; }
 .reassure{ margin-top:20px; font-size:1rem; color:var(--soft); max-width:46ch; line-height:1.55; }
 
+/* satisfaction guarantee — removes the last barrier before buying */
+.guarantee{ margin-top:26px; padding:22px 24px; border-left:3px solid var(--accent); background:rgba(99,102,241,.045); max-width:52ch; }
+.guarantee h3{ font-size:1.14rem; font-weight:400; letter-spacing:-0.01em; margin-bottom:8px; }
+.guarantee p{ color:var(--soft); font-size:1rem; line-height:1.58; }
+
+/* quiet seed line under the steps, to carry momentum onward */
+.steps-note{ margin-top:26px; font-size:1rem; color:var(--soft); font-style:italic; max-width:46ch; line-height:1.55; }
+
 /* =========================================================
    HOW IT WORKS
    ========================================================= */
@@ -179,8 +188,9 @@ button{ cursor:pointer; background:none; border:none; }
 .footnote{ font-size:.8rem; color:var(--soft); margin-top:26px; max-width:56ch; line-height:1.55; }
 
 @media (max-width:600px){
-    :root{ --gutter:34px; --dest-gap:40px; --dest-h:46px; }
-    .dest{ width:28px; }
+    :root{ --gutter:30px; --content:93vw; --dest-gap:40px; --dest-h:46px; }
+    .container{ padding-right:max(16px, env(safe-area-inset-right, 0px)); }
+    .dest{ width:26px; }
     .btn{ width:100%; justify-content:center; }
 }
 @media (prefers-reduced-motion:reduce){
@@ -206,11 +216,12 @@ button{ cursor:pointer; background:none; border:none; }
         <p class="kicker">The full Exit Path</p>
         <h1 class="headline">Your way out, mapped step by step.</h1>
         <p class="lead">
-            You've found your archetype and your number. This is everything that comes after: the full
-            quiz, read by me personally, turned into a written plan made for you and no one else —
-            <span class="em">the business model that fits how you're built, and the route to breathing room
-            first, then real freedom.</span>
-            No template. No course to wade through. A plan with your name at the top and a first move you can make this week.
+            You already know things people would pay to learn. You've built systems, solved problems,
+            earned expertise — it just sits inside a job, working for someone else. This is where you get it out:
+            the full quiz, read by me personally, turned into a written plan made for you and no one else —
+            <span class="em">the offer hiding in what you already know, whether that's consulting, a course, a book
+            or coaching, and the route to selling it to an audience from anywhere.</span>
+            No template. No course to wade through. A plan with your name at the top, and a first move you can make this week.
         </p>
     </section>
 
@@ -229,7 +240,7 @@ button{ cursor:pointer; background:none; border:none; }
                 <span class="mark" aria-hidden="true">&#9679;</span>
                 <div>
                     <h3>Your personalised Exit Path</h3>
-                    <p>A written plan made only for you: the work you're built for, the model that fits, and a route laid out stage by stage — today, 90 days, then 12, 24 and 36 months — built around your own numbers and how soon you need the money.</p>
+                    <p>A written plan made only for you: the offer hiding in your own expertise, the form it should take, and a route laid out stage by stage — today, 90 days, then 12, 24 and 36 months — built around your own numbers and how soon you need the money.</p>
                 </div>
             </div>
             <!-- EDIT OR REMOVE: only keep this if you actually offer a session. -->
@@ -237,7 +248,7 @@ button{ cursor:pointer; background:none; border:none; }
                 <span class="mark" aria-hidden="true">&#9679;</span>
                 <div>
                     <h3>A working session to pressure-test it</h3>
-                    <p>We talk it through together, pin down your first real move, and make sure the plan holds up against your actual life — the mortgage, the kids, the hours you've really got.</p>
+                    <p>A call to pressure-test it together — we pin down your first real move and make sure the plan survives your actual life: the mortgage, the kids, the hours you've really got.</p>
                 </div>
             </div>
         </div>
@@ -250,7 +261,7 @@ button{ cursor:pointer; background:none; border:none; }
             <span class="amount">£49</span>
             <span class="terms">one payment · no subscription</span>
         </div>
-        <p class="price-note">Read and written by me, personally. Not generated, not outsourced.</p>
+        <p class="price-note">Set against another year of Monday mornings wondering, £49 once is barely a decision. Read and written by me, personally — not generated, not outsourced.</p>
 
         <!--
           ============================================================
@@ -277,6 +288,17 @@ button{ cursor:pointer; background:none; border:none; }
             <span>Secure checkout handled by Stripe</span>
         </div>
         <p class="reassure">Not sure it's for you? Email me first. I'd rather talk you out of it than sell you the wrong thing.</p>
+
+        <!-- ============================================================
+             SATISFACTION GUARANTEE
+             Only keep this if you will actually honour it. A refund promise
+             you don't mean does more harm than no promise at all. Adjust the
+             window (14 days) and wording to whatever you can genuinely stand behind.
+             ============================================================ -->
+        <div class="guarantee">
+            <h3>If it doesn't earn its place, you don't pay.</h3>
+            <p>Read your Exit Path. If it doesn't show you a real offer hiding in what you already know — and a first move worth making this week — email me within 14 days and I'll refund you in full. I'd rather lose £49 than have you feel sold to.</p>
+        </div>
     </section>
 
     <!-- ============ HOW IT WORKS ============ -->
@@ -287,6 +309,7 @@ button{ cursor:pointer; background:none; border:none; }
             <div class="step"><p>I email you your <b>private link to the full quiz</b>, personally — usually within a day.</p></div>
             <div class="step"><p>You fill it in whenever suits you. I read every answer myself and send back your <b>written Exit Path</b>.</p></div>
         </div>
+        <p class="steps-note">Most people read it twice — once for the relief, once with a pen.</p>
     </section>
 
     <!-- ============ FOOT ============ -->

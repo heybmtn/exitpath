@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="The Exit Path Archetype Quiz — six questions to find your freedom archetype: the way you naturally create value, and the kind of business that fits it.">
+<meta name="description" content="The Exit Path Archetype Quiz — six questions to find your freedom archetype: the way you naturally create value, and the kind of offer you could package and sell from it.">
 <title>What's your freedom archetype? — Exit Path</title>
 
 <style>
@@ -267,7 +267,9 @@ button{ cursor:pointer; background:none; border:none; }
 .copied.show{ opacity:1; }
 
 @media (max-width:600px){
-    :root{ --gutter:34px; }
+    :root{ --gutter:30px; --content:93vw; }
+    .container{ padding-right:max(16px, env(safe-area-inset-right, 0px)); }
+    .dest{ width:26px; }
     .opt{ padding:16px 16px 16px 48px; }
     .opt::before{ left:13px; width:22px; height:22px; }
     .actions .btn{ flex:1 1 100%; justify-content:center; padding:18px 30px; }
@@ -322,12 +324,12 @@ const ARCH_BLURB = {
   connector:"You collect people and make introductions that pay off. Your network is your moat — the businesses that fit you are built on relationships and trust.",
   analyst:"You go deep, find the signal, and trust the evidence. You're the one who actually reads the docs. Your edge is judgement that other people will gladly pay for.",
 };
-/* the business each archetype most naturally leans toward — used for the bridge line */
+/* the offer each archetype could most naturally package and sell — used for the bridge line */
 const ARCH_BIZ = {
-  builder:"a productised service or software", teacher:"coaching or a paid newsletter",
-  creator:"a content business or newsletter", operator:"an agency or productised service",
-  seller:"consulting or an agency", connector:"consulting or an agency",
-  analyst:"consulting or a focused newsletter",
+  builder:"a productised service or a course", teacher:"coaching, a course, or a paid newsletter",
+  creator:"a newsletter, a course, or a book", operator:"consulting or a course on the systems you've built",
+  seller:"consulting or coaching", connector:"consulting or a paid community",
+  analyst:"consulting, a book, or a focused newsletter",
 };
 
 /* 6 questions, each option weights one or more archetypes */
@@ -336,7 +338,7 @@ const QUESTIONS = [
     options:[
       { label:"I love making things — products, tools, code.", w:{builder:2,creator:1} },
       { label:"I love helping people finally get it.",          w:{teacher:2,connector:1} },
-      { label:"I love cracking hard problems.",                 w:{analyst:2,builder:1} },
+      { label:"I love solving hard problems.",                 w:{analyst:2,builder:1} },
       { label:"I love winning people over to an idea.",         w:{seller:2,connector:1} },
       { label:"I love bringing order to chaos.",                w:{operator:2} },
       { label:"I love putting the right people together.",      w:{connector:2} },
@@ -422,9 +424,9 @@ function renderIntro(){
   stage.innerHTML = `
     <p class="lead">
       Most people pick a business, then try to force themselves to fit it. That's backwards.
-      <span class="thought">Start with what you're already good at.</span>
+      <span class="thought">Start with what you already know.</span>
       Six quick questions name your archetype — the way you naturally create value, and the
-      thing every move from here should be built on.
+      kind of offer you could package from it.
     </p>
     <h1 class="headline">What's your freedom archetype?</h1>
     <div class="facts">
@@ -511,8 +513,9 @@ function renderResult(){
 
     <p class="bridge">
       That's <span class="em">how</span> you create value. The real question is <span class="em">what</span>
-      to build with it — and that's what your full Exit Path answers: the business model that actually
-      fits you (most likely ${esc(ARCH_BIZ[r.primary])}), and the step-by-step route from a monthly pay cheque to owning your own time.
+      to package and sell with it — and that's what your full Exit Path answers: the offer already hiding in
+      your expertise (most likely ${esc(ARCH_BIZ[r.primary])}), and the step-by-step route to selling it to an
+      audience from anywhere — with your name on it, and a first move for this week.
     </p>
 
     <div class="actions">
