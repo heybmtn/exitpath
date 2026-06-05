@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The full Exit Path — the complete Exit Path Quiz plus your personalised, written plan: the business model that fits how you're built, and the shortest honest route from a pay cheque to owning your time.">
+<title>Get your Exit Path</title>
+
+<style>
+/* =========================================================
+   DESIGN TOKENS  (shared with the Exit Path site)
+   ========================================================= */
+:root{
+    --ink:#000;
+    --paper:#fff;
+    --accent:#6366f1;
+    --accent-ink:#4338ca;
+    --soft:#666;
+    --hair:#e6e6e6;
+    --hair-strong:#d0d0d0;
+    --trail:#bdbdbd;
+    --trail-mark:#8a8a8a;
+    --dest-gap:clamp(34px, 7vh, 80px);
+    --dest-h:52px;
+
+    --gutter:clamp(40px, 9vw, 96px);
+    --content:min(880px, 90vw);
+    --type-display:Georgia, "Times New Roman", serif;
+}
+
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--type-display);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    line-height:1.5;
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+button,input{ font-family:inherit; color:inherit; }
+button{ cursor:pointer; background:none; border:none; }
+
+.container{
+    position:relative;
+    z-index:1;
+    min-height:100vh; min-height:100svh;
+    width:var(--content);
+    margin-inline:auto;
+    padding-left:calc(var(--gutter) + env(safe-area-inset-left, 0px));
+    padding-right:max(0px, env(safe-area-inset-right, 0px));
+}
+
+/* =========================================================
+   PATH WATERMARK  (decorative trail down the left margin)
+   ========================================================= */
+.trail{
+    position:absolute;
+    top:0; bottom:0;
+    left:calc(var(--gutter) / 2);
+    width:3px;
+    z-index:-1;
+    pointer-events:none;
+}
+.trail-line{
+    position:absolute;
+    top:0; left:0; right:0;
+    bottom:calc(var(--dest-gap) + var(--dest-h) + 8px);
+    background:repeating-linear-gradient(
+        to bottom,
+        var(--trail) 0, var(--trail) 16px,
+        transparent 16px, transparent 30px);
+}
+.dest{
+    position:absolute;
+    left:50%; bottom:var(--dest-gap);
+    transform:translateX(-50%);
+    width:32px; height:auto;
+    fill:none; stroke:var(--trail-mark); stroke-width:4;
+}
+.dest .handle{ fill:var(--accent); stroke:none; }
+
+/* =========================================================
+   CHROME
+   ========================================================= */
+.logo{
+    font-size:clamp(1rem, 2.6vw, 1.25rem);
+    letter-spacing:.3em; text-transform:uppercase;
+    padding-top:clamp(24px, 6vw, 40px);
+}
+.intro{ padding:clamp(40px,8vw,76px) 0 clamp(28px,5vw,44px); }
+.kicker{ font-size:.76rem; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:16px; }
+.headline{
+    font-size:clamp(1.9rem, 5.2vw, 3rem);
+    line-height:1.12; font-weight:400; letter-spacing:-0.02em;
+    max-width:18ch; text-wrap:balance; margin-bottom:clamp(22px,4vw,32px);
+}
+.lead{
+    font-size:clamp(1.08rem, 2.3vw, 1.32rem);
+    color:var(--soft); max-width:52ch; line-height:1.62;
+}
+.lead .em{ color:var(--ink); font-style:italic; }
+
+/* =========================================================
+   WHAT YOU GET
+   ========================================================= */
+.panel{ border-top:1px solid var(--hair); padding:clamp(32px,6vw,52px) 0; }
+.panel-h{ display:flex; align-items:baseline; gap:14px; margin-bottom:30px; }
+.panel-h .n{ font-size:.78rem; letter-spacing:.2em; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
+.panel-h h2{ font-size:clamp(1.2rem,2.8vw,1.6rem); font-weight:400; letter-spacing:-0.01em; }
+
+.gets{ display:flex; flex-direction:column; gap:0; max-width:620px; }
+.get{ display:grid; grid-template-columns:30px 1fr; gap:18px; padding:22px 0; border-bottom:1px solid var(--hair); }
+.get:last-child{ border-bottom:none; }
+.get .mark{ color:var(--accent); font-size:1.1rem; line-height:1.5; }
+.get h3{ font-size:1.18rem; font-weight:400; margin-bottom:5px; letter-spacing:-0.01em; }
+.get p{ color:var(--soft); font-size:1rem; line-height:1.55; max-width:48ch; }
+
+/* =========================================================
+   PRICE + BUY
+   ========================================================= */
+.buy{ border-top:2px solid var(--ink); padding:clamp(36px,7vw,60px) 0; }
+.price{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; flex-wrap:wrap; }
+.price .amount{ font-size:clamp(2.6rem,8vw,4rem); line-height:1; letter-spacing:-0.03em; }
+.price .terms{ font-size:.92rem; letter-spacing:.14em; text-transform:uppercase; color:var(--soft); }
+.price-note{ color:var(--soft); font-size:1rem; margin-bottom:clamp(28px,5vw,40px); max-width:42ch; }
+
+.btn{
+    display:inline-flex; align-items:center; gap:.7em;
+    background:var(--accent); color:var(--paper);
+    border:2px solid var(--accent);
+    font-size:.9rem; letter-spacing:.2em; text-transform:uppercase;
+    padding:20px 38px; white-space:nowrap; text-decoration:none;
+    transition:transform .25s ease, background .2s ease, color .2s ease;
+}
+@media (hover:hover) and (pointer:fine){ .btn:hover{ transform:translateX(8px); } }
+.btn.ghost{ background:transparent; color:var(--ink); border-color:var(--ink); padding:17px 30px; font-size:.85rem; }
+@media (hover:hover) and (pointer:fine){ .btn.ghost:hover{ background:var(--ink); color:var(--paper); transform:translateX(8px);} }
+
+/* visible keyboard focus */
+.btn:focus-visible,
+.foot .back:focus-visible{
+    outline:2px solid var(--accent-ink);
+    outline-offset:3px;
+}
+
+.secure{ display:flex; align-items:center; gap:8px; margin-top:18px; font-size:.82rem; letter-spacing:.06em; color:var(--soft); }
+.secure svg{ width:14px; height:14px; flex:none; }
+.reassure{ margin-top:20px; font-size:1rem; color:var(--soft); max-width:46ch; line-height:1.55; }
+
+/* =========================================================
+   HOW IT WORKS
+   ========================================================= */
+.steps{ display:flex; flex-direction:column; gap:0; max-width:620px; counter-reset:step; }
+.step{ display:grid; grid-template-columns:40px 1fr; gap:20px; padding:20px 0; position:relative; }
+.step::before{
+    counter-increment:step; content:counter(step);
+    width:32px; height:32px; border:1.5px solid var(--accent); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.9rem; color:var(--accent-ink); font-variant-numeric:tabular-nums;
+}
+.step p{ align-self:center; font-size:1.06rem; line-height:1.5; }
+.step p b{ font-weight:400; color:var(--accent-ink); }
+
+/* =========================================================
+   FOOT
+   ========================================================= */
+.foot{ border-top:1px solid var(--hair); padding:clamp(34px,6vw,52px) 0 clamp(56px,12vw,88px); }
+.foot .back{
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--soft);
+    border-bottom:1px solid transparent; padding-bottom:2px; text-decoration:none;
+    transition:color .18s, border-color .18s;
+}
+@media (hover:hover) and (pointer:fine){ .foot .back:hover{ color:var(--ink); border-color:var(--ink);} }
+.footnote{ font-size:.8rem; color:var(--soft); margin-top:26px; max-width:56ch; line-height:1.55; }
+
+@media (max-width:600px){
+    :root{ --gutter:34px; --dest-gap:40px; --dest-h:46px; }
+    .dest{ width:28px; }
+    .btn{ width:100%; justify-content:center; }
+}
+@media (prefers-reduced-motion:reduce){
+    *{ animation:none!important; transition:none!important; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="trail" aria-hidden="true">
+        <span class="trail-line"></span>
+        <svg class="dest" viewBox="0 0 40 64">
+            <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+            <circle class="handle" cx="30" cy="33" r="2.6"/>
+        </svg>
+    </div>
+
+    <p class="logo">Exit Path</p>
+
+    <section class="intro">
+        <p class="kicker">The full Exit Path</p>
+        <h1 class="headline">Your way out, mapped step by step.</h1>
+        <p class="lead">
+            You've found your archetype and your number. This is everything that comes after: the full
+            quiz, read by me personally, turned into a written plan made for you and no one else —
+            <span class="em">the business model that fits how you're built, and the route to breathing room
+            first, then real freedom.</span>
+            No template. No course to wade through. A plan with your name at the top and a first move you can make this week.
+        </p>
+    </section>
+
+    <!-- ============ WHAT YOU GET ============ -->
+    <section class="panel">
+        <div class="panel-h"><span class="n">01</span><h2>What you get</h2></div>
+        <div class="gets">
+            <div class="get">
+                <span class="mark" aria-hidden="true">&#9679;</span>
+                <div>
+                    <h3>The full Exit Path Quiz</h3>
+                    <p>All 34 questions — your strengths, your skills, the openings around you, what you actually want, and what's been holding you back — weighed up properly, not a quick five-question guess.</p>
+                </div>
+            </div>
+            <div class="get">
+                <span class="mark" aria-hidden="true">&#9679;</span>
+                <div>
+                    <h3>Your personalised Exit Path</h3>
+                    <p>A written plan made only for you: the work you're built for, the model that fits, and a route laid out stage by stage — today, 90 days, then 12, 24 and 36 months — built around your own numbers and how soon you need the money.</p>
+                </div>
+            </div>
+            <!-- EDIT OR REMOVE: only keep this if you actually offer a session. -->
+            <div class="get">
+                <span class="mark" aria-hidden="true">&#9679;</span>
+                <div>
+                    <h3>A working session to pressure-test it</h3>
+                    <p>We talk it through together, pin down your first real move, and make sure the plan holds up against your actual life — the mortgage, the kids, the hours you've really got.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PRICE + BUY ============ -->
+    <section class="buy">
+        <!-- SET YOUR PRICE: edit the amount and terms below to match your Stripe price. -->
+        <div class="price">
+            <span class="amount">£49</span>
+            <span class="terms">one payment · no subscription</span>
+        </div>
+        <p class="price-note">Read and written by me, personally. Not generated, not outsourced.</p>
+
+        <!--
+          ============================================================
+          STRIPE PAYMENT LINK
+          1. In your Stripe dashboard, create a Payment Link for this
+             product (Products → Payment links). Keep "collect customer
+             email" on — that's how you'll know who to send the link to.
+          2. Optionally set its confirmation page / redirect URL.
+          3. Paste the link (looks like https://buy.stripe.com/XXXXXXXX)
+             into the href below, replacing the placeholder.
+          ------------------------------------------------------------
+          ALTERNATIVE — embedded Stripe Buy Button (in-page checkout):
+          remove the <a> below and use instead:
+            <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+            <stripe-buy-button buy-button-id="buy_btn_XXXX" publishable-key="pk_live_XXXX"></stripe-buy-button>
+          ============================================================
+        -->
+        <a class="btn" id="buy" href="https://buy.stripe.com/REPLACE_WITH_YOUR_PAYMENT_LINK">
+            Get my Exit Path <span aria-hidden="true">&rarr;</span>
+        </a>
+
+        <div class="secure" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <span>Secure checkout handled by Stripe</span>
+        </div>
+        <p class="reassure">Not sure it's for you? Email me first. I'd rather talk you out of it than sell you the wrong thing.</p>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="panel">
+        <div class="panel-h"><span class="n">02</span><h2>How it works</h2></div>
+        <div class="steps">
+            <div class="step"><p>You pay once, securely, through Stripe. One payment — nothing to cancel, no surprise renewals.</p></div>
+            <div class="step"><p>I email you your <b>private link to the full quiz</b>, personally — usually within a day.</p></div>
+            <div class="step"><p>You fill it in whenever suits you. I read every answer myself and send back your <b>written Exit Path</b>.</p></div>
+        </div>
+    </section>
+
+    <!-- ============ FOOT ============ -->
+    <section class="foot">
+        <a class="back" href="index.html">&larr; Back to Exit Path</a>
+        <p class="footnote">
+            This is practical guidance built from your answers — not financial, tax, legal or investment advice,
+            and no income is promised or guaranteed. Questions before you buy? Email me and I'll answer honestly.
+        </p>
+    </section>
+
+</div>
+
+<!-- tiny guard: warn during setup if the Stripe link hasn't been pasted in yet. Safe to delete. -->
+<script>
+"use strict";
+document.getElementById("buy").addEventListener("click", function(e){
+  if(this.getAttribute("href").indexOf("REPLACE_WITH_YOUR_PAYMENT_LINK") !== -1){
+    e.preventDefault();
+    alert("Set your Stripe payment link first: paste it into the href of the Buy button in this page's source.");
+  }
+});
+</script>
+</body>
+</html>

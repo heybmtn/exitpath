@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The Exit Path Archetype Quiz — six questions to find your freedom archetype: the way you naturally create value, and the kind of business that fits it.">
+<title>What's your freedom archetype? — Exit Path</title>
+
+<style>
+/* =========================================================
+   DESIGN TOKENS  (shared with the Exit Path site)
+   ========================================================= */
+:root{
+    --ink:#000;
+    --paper:#fff;
+    --accent:#6366f1;
+    --accent-ink:#4338ca;
+    --soft:#666;
+    --hair:#e6e6e6;
+    --hair-strong:#d0d0d0;
+    --trail:#bdbdbd;
+    --trail-mark:#8a8a8a;
+
+    --gutter:clamp(40px, 9vw, 96px);
+    --content:min(880px, 90vw);
+    --type-display:Georgia, "Times New Roman", serif;
+}
+
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--type-display);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    line-height:1.5;
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+button,input{ font-family:inherit; color:inherit; }
+button{ cursor:pointer; background:none; border:none; }
+
+.container{
+    position:relative;
+    z-index:1;
+    min-height:100vh; min-height:100svh;
+    width:var(--content);
+    margin-inline:auto;
+    padding-left:calc(var(--gutter) + env(safe-area-inset-left, 0px));
+    padding-right:max(0px, env(safe-area-inset-right, 0px));
+    display:flex;
+    flex-direction:column;
+}
+
+/* =========================================================
+   PATH PROGRESS  (the trail down the left margin)
+   ========================================================= */
+.trail{
+    position:fixed;
+    top:0; bottom:0;
+    left:max(0px, calc((100vw - var(--content)) / 2));
+    margin-left:calc(var(--gutter) / 2);
+    width:3px;
+    z-index:0;
+    pointer-events:none;
+}
+.trail-line{
+    position:absolute;
+    top:clamp(70px,12vh,120px); left:0; right:0;
+    bottom:clamp(86px,14vh,128px);
+    background:repeating-linear-gradient(
+        to bottom,
+        var(--trail) 0, var(--trail) 16px,
+        transparent 16px, transparent 30px);
+}
+.trail-fill{
+    position:absolute;
+    top:clamp(70px,12vh,120px); left:-0.5px; right:-0.5px;
+    height:0;
+    background:var(--accent);
+    transition:height .55s cubic-bezier(.22,1,.36,1);
+}
+.walker{
+    position:absolute;
+    left:50%; top:clamp(70px,12vh,120px);
+    width:12px; height:12px; margin-left:-6px; margin-top:-6px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 5px rgba(99,102,241,.16);
+    transition:top .55s cubic-bezier(.22,1,.36,1);
+}
+.dest{
+    position:absolute;
+    left:50%; bottom:clamp(34px,7vh,80px);
+    transform:translateX(-50%);
+    width:32px; height:auto;
+    fill:none; stroke:var(--trail-mark); stroke-width:4;
+    transition:stroke .5s ease;
+}
+.dest .handle{ fill:var(--accent); stroke:none; }
+.trail.arrived .dest{ stroke:var(--accent); }
+.trail.arrived .walker{
+    box-shadow:0 0 0 7px rgba(99,102,241,.22), 0 0 22px 4px rgba(99,102,241,.4);
+}
+
+/* =========================================================
+   CHROME
+   ========================================================= */
+.logo{
+    font-size:clamp(1rem, 2.6vw, 1.25rem);
+    letter-spacing:.3em; text-transform:uppercase;
+    padding-top:clamp(24px, 6vw, 40px);
+    padding-bottom:6px;
+}
+.meta{
+    display:flex; align-items:baseline; gap:14px;
+    font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--soft);
+    min-height:1.2em;
+    margin-top:2px;
+}
+.meta .sec{ color:var(--accent-ink); }
+.meta .count{ margin-left:auto; font-variant-numeric:tabular-nums; }
+
+.stage{
+    flex:1 1 auto;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:clamp(26px,5vw,46px) 0 clamp(30px,7vw,64px);
+}
+.fade{ animation:fade .42s cubic-bezier(.22,1,.36,1) both; }
+@keyframes fade{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:none;} }
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+.lead{
+    font-size:clamp(1.1rem, 2.4vw, 1.4rem);
+    color:var(--soft); max-width:48ch; line-height:1.6;
+    margin-bottom:clamp(28px,5vw,40px);
+}
+.lead .thought{ display:block; color:var(--ink); font-style:italic; margin:.55em 0; }
+.headline{
+    font-size:clamp(1.7rem, 5vw, 3rem);
+    line-height:1.12; font-weight:400; letter-spacing:-0.02em;
+    max-width:16ch; text-wrap:balance; margin-bottom:clamp(30px,6vw,48px);
+}
+.facts{
+    display:flex; flex-wrap:wrap; gap:8px 30px;
+    font-size:.78rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--soft); margin-bottom:clamp(32px,6vw,48px);
+}
+.facts span{ display:inline-flex; align-items:center; gap:.6em; }
+.facts span::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--accent); }
+
+/* =========================================================
+   QUESTION
+   ========================================================= */
+.q-num{
+    font-size:.74rem; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--accent-ink); margin-bottom:16px;
+}
+.q-text{
+    font-size:clamp(1.4rem, 3.6vw, 2.15rem);
+    line-height:1.18; font-weight:400; letter-spacing:-0.015em;
+    max-width:22ch; text-wrap:balance; margin-bottom:clamp(26px,5vw,40px);
+}
+.opts{ display:flex; flex-direction:column; gap:10px; max-width:560px; }
+.opt{
+    position:relative; text-align:left; width:100%;
+    border:1.5px solid var(--hair-strong);
+    padding:17px 18px 17px 52px;
+    font-size:clamp(1.02rem,2.1vw,1.12rem); line-height:1.35;
+    transition:border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.opt::before{
+    content:attr(data-key);
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:24px; height:24px; border:1.5px solid var(--hair-strong); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.72rem; letter-spacing:0; color:var(--soft);
+    transition:all .18s ease;
+}
+@media (hover:hover) and (pointer:fine){
+    .opt:hover{ border-color:var(--ink); transform:translateX(4px); }
+    .opt:hover::before{ border-color:var(--ink); color:var(--ink); }
+}
+.opt.sel{ border-color:var(--accent); background:rgba(99,102,241,.05); }
+.opt.sel::before{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+/* =========================================================
+   BUTTONS / NAV
+   ========================================================= */
+.actions{ display:flex; align-items:center; gap:18px 26px; flex-wrap:wrap; margin-top:clamp(30px,6vw,46px); }
+.btn{
+    display:inline-flex; align-items:center; gap:.7em;
+    background:var(--accent); color:var(--paper);
+    border:2px solid var(--accent);
+    font-size:.85rem; letter-spacing:.2em; text-transform:uppercase;
+    padding:17px 30px; white-space:nowrap; text-decoration:none;
+    transition:transform .25s ease, background .2s ease, color .2s ease, opacity .2s ease;
+}
+@media (hover:hover) and (pointer:fine){ .btn:hover{ transform:translateX(8px); } }
+.btn.ghost{ background:transparent; color:var(--ink); border-color:var(--ink); }
+@media (hover:hover) and (pointer:fine){ .btn.ghost:hover{ background:var(--ink); color:var(--paper); transform:translateX(8px);} }
+.link{
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--soft);
+    border-bottom:1px solid transparent; padding-bottom:2px; transition:color .18s, border-color .18s;
+    background:none;
+}
+@media (hover:hover) and (pointer:fine){ .link:hover{ color:var(--ink); border-color:var(--ink);} }
+.spacer{ flex:1 1 auto; }
+
+/* visible keyboard focus */
+.opt:focus-visible,
+.btn:focus-visible,
+.link:focus-visible{
+    outline:2px solid var(--accent-ink);
+    outline-offset:3px;
+}
+
+/* =========================================================
+   RESULT
+   ========================================================= */
+.result-kicker{ font-size:.76rem; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:14px; }
+
+/* the screenshot-friendly card */
+.card-result{
+    border:1.5px solid var(--ink);
+    padding:clamp(28px,6vw,48px) clamp(26px,5vw,46px);
+    max-width:600px;
+    position:relative;
+    background:
+        radial-gradient(120% 90% at 88% -10%, rgba(99,102,241,.07), transparent 60%),
+        var(--paper);
+}
+.card-result .brand{
+    font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--soft);
+    margin-bottom:clamp(20px,4vw,30px);
+    display:flex; justify-content:space-between; gap:14px;
+}
+.card-result .brand .you{ color:var(--accent-ink); }
+.archetype{
+    font-size:clamp(2.4rem,8vw,4rem); line-height:1; font-weight:400;
+    letter-spacing:-0.03em; margin-bottom:18px; text-wrap:balance;
+}
+.archetype .the{ display:block; font-size:.26em; letter-spacing:.24em; text-transform:uppercase; color:var(--soft); margin-bottom:.5em; }
+.archetype-blurb{ font-size:clamp(1.05rem,2.3vw,1.22rem); color:var(--ink); max-width:46ch; line-height:1.55; }
+.secondary-note{
+    margin-top:22px; padding-top:20px; border-top:1px solid var(--hair);
+    font-size:.98rem; color:var(--soft); line-height:1.5;
+}
+.secondary-note b{ font-weight:400; color:var(--accent-ink); }
+
+.bridge{
+    font-size:clamp(1.1rem,2.4vw,1.3rem); line-height:1.55;
+    max-width:50ch; margin:clamp(34px,6vw,48px) 0 clamp(8px,2vw,16px);
+}
+.bridge .em{ color:var(--accent-ink); font-style:italic; }
+
+.copied{
+    font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent-ink); opacity:0; transition:opacity .2s ease;
+}
+.copied.show{ opacity:1; }
+
+@media (max-width:600px){
+    :root{ --gutter:34px; }
+    .opt{ padding:16px 16px 16px 48px; }
+    .opt::before{ left:13px; width:22px; height:22px; }
+    .actions .btn{ flex:1 1 100%; justify-content:center; padding:18px 30px; }
+    .actions .spacer{ display:none; }
+}
+@media (prefers-reduced-motion:reduce){
+    *{ animation:none!important; transition:none!important; }
+}
+</style>
+</head>
+<body>
+
+<div class="trail" id="trail" aria-hidden="true">
+    <span class="trail-line"></span>
+    <span class="trail-fill" id="trailFill"></span>
+    <span class="walker" id="walker"></span>
+    <svg class="dest" viewBox="0 0 40 64">
+        <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+        <circle class="handle" cx="30" cy="33" r="2.6"/>
+    </svg>
+</div>
+
+<div class="container">
+    <p class="logo">Exit Path</p>
+    <div class="meta" id="meta"></div>
+    <main class="stage" id="stage"></main>
+</div>
+
+<!-- ============================================================
+     This is a TOP-OF-FUNNEL teaser. It shows the person their
+     freedom archetype, then sends them to the paid offer page.
+     If you host the offer page under a different filename,
+     update OFFER_URL below.
+     ============================================================ -->
+<script>
+"use strict";
+
+const OFFER_URL = "exit-path-offer.html";
+
+const ARCH = ["builder","teacher","creator","operator","seller","connector","analyst"];
+
+const ARCH_NAMES = {
+  builder:"The Builder", teacher:"The Teacher", creator:"The Creator",
+  operator:"The Operator", seller:"The Closer", connector:"The Connector", analyst:"The Analyst"
+};
+const ARCH_BLURB = {
+  builder:"You'd rather make the thing than talk about it. Give you a problem and tools and you'll quietly assemble something that works — your freedom comes from owning what you build.",
+  teacher:"You turn what you know into clarity for other people, and you get a real charge from someone going \u201coh, now I get it.\u201d Your knowledge is the asset; packaging it is the unlock.",
+  creator:"You think by making — words, designs, videos, ideas. You're at your best generating, and your leverage is an audience that compounds while you sleep.",
+  operator:"You see the messy system and you fix it. Process, delegation, throughput — you make things run, which means you can build something that runs without you in every seat.",
+  seller:"You're comfortable in the part most people avoid: the ask. You can create demand and close it, which is the rarest and most directly monetisable skill there is.",
+  connector:"You collect people and make introductions that pay off. Your network is your moat — the businesses that fit you are built on relationships and trust.",
+  analyst:"You go deep, find the signal, and trust the evidence. You're the one who actually reads the docs. Your edge is judgement that other people will gladly pay for.",
+};
+/* the business each archetype most naturally leans toward — used for the bridge line */
+const ARCH_BIZ = {
+  builder:"a productised service or software", teacher:"coaching or a paid newsletter",
+  creator:"a content business or newsletter", operator:"an agency or productised service",
+  seller:"consulting or an agency", connector:"consulting or an agency",
+  analyst:"consulting or a focused newsletter",
+};
+
+/* 6 questions, each option weights one or more archetypes */
+const QUESTIONS = [
+  { text:"Which sounds most like you?",
+    options:[
+      { label:"I love making things — products, tools, code.", w:{builder:2,creator:1} },
+      { label:"I love helping people finally get it.",          w:{teacher:2,connector:1} },
+      { label:"I love cracking hard problems.",                 w:{analyst:2,builder:1} },
+      { label:"I love winning people over to an idea.",         w:{seller:2,connector:1} },
+      { label:"I love bringing order to chaos.",                w:{operator:2} },
+      { label:"I love putting the right people together.",      w:{connector:2} },
+    ] },
+  { text:"You'd rather spend your week…",
+    options:[
+      { label:"Building something",            w:{builder:3} },
+      { label:"Selling something",             w:{seller:3} },
+      { label:"Teaching something",            w:{teacher:3} },
+      { label:"Organising something",          w:{operator:3} },
+      { label:"Creating something to share",   w:{creator:3} },
+      { label:"Connecting people",             w:{connector:3} },
+    ] },
+  { text:"What sounds most satisfying?",
+    options:[
+      { label:"Building a system that just works",        w:{builder:2,operator:1} },
+      { label:"The moment someone finally gets it",       w:{teacher:3} },
+      { label:"Making something people pass around",      w:{creator:3} },
+      { label:"Hearing \u201cyes, let's do it\u201d",      w:{seller:3} },
+      { label:"Untangling a problem no one else could",   w:{analyst:3} },
+      { label:"A room full of people you brought together", w:{connector:2,operator:1} },
+    ] },
+  { text:"A free afternoon lands in your lap. You'd happily spend it…",
+    options:[
+      { label:"Making or fixing something",                w:{builder:2} },
+      { label:"Helping a friend figure their thing out",   w:{teacher:2} },
+      { label:"Writing, designing, or filming",            w:{creator:2} },
+      { label:"Streamlining something messy",              w:{operator:2} },
+      { label:"Talking someone into a great idea",         w:{seller:2} },
+      { label:"Introducing two people who should meet",    w:{connector:2} },
+      { label:"Down a research rabbit hole",               w:{analyst:2} },
+    ] },
+  { text:"Honestly, your real edge is…",
+    options:[
+      { label:"Deep expertise people already trust",  w:{teacher:2,analyst:1} },
+      { label:"An audience that actually listens",    w:{creator:2,connector:1} },
+      { label:"A network that opens doors",           w:{connector:3} },
+      { label:"I can build the thing myself",         w:{builder:3} },
+      { label:"I can get people to the yes",          w:{seller:3} },
+      { label:"I make things run without drama",      w:{operator:3} },
+    ] },
+  { text:"What do people come to you for?",
+    options:[
+      { label:"\u201cCan you make this?\u201d",            w:{builder:2} },
+      { label:"\u201cCan you explain this to me?\u201d",   w:{teacher:2} },
+      { label:"\u201cWhat do you think of this?\u201d",    w:{analyst:2,creator:1} },
+      { label:"\u201cCan you introduce me to someone?\u201d", w:{connector:2} },
+      { label:"\u201cCan you sort this mess out?\u201d",   w:{operator:2} },
+      { label:"\u201cCan you get them to say yes?\u201d",  w:{seller:2} },
+    ] },
+];
+
+const state = { idx:-1, answers:{} };
+const stage = document.getElementById("stage");
+const meta  = document.getElementById("meta");
+const trail = document.getElementById("trail");
+const trailFill = document.getElementById("trailFill");
+const walker = document.getElementById("walker");
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+function setProgress(frac, arrived){
+  const lineEl = document.querySelector(".trail-line");
+  const lineTop = parseFloat(getComputedStyle(lineEl).top);
+  const lineBottom = trail.clientHeight - parseFloat(getComputedStyle(lineEl).bottom);
+  const travel = (lineBottom - lineTop) * frac;
+  trailFill.style.height = travel + "px";
+  walker.style.top = (lineTop + travel) + "px";
+  trail.classList.toggle("arrived", !!arrived);
+}
+
+function render(){
+  if(state.idx < 0){ renderIntro(); return; }
+  if(state.idx >= QUESTIONS.length){ renderResult(); return; }
+  renderQuestion(QUESTIONS[state.idx]);
+}
+
+function renderIntro(){
+  meta.innerHTML = "";
+  setProgress(0, false);
+  stage.className = "stage fade";
+  stage.style.justifyContent = "center";
+  stage.innerHTML = `
+    <p class="lead">
+      Most people pick a business, then try to force themselves to fit it. That's backwards.
+      <span class="thought">Start with what you're already good at.</span>
+      Six quick questions name your archetype — the way you naturally create value, and the
+      thing every move from here should be built on.
+    </p>
+    <h1 class="headline">What's your freedom archetype?</h1>
+    <div class="facts">
+      <span>6 questions</span><span>under a minute</span><span>your result on the spot</span>
+    </div>
+    <div class="actions">
+      <button class="btn" id="begin">Find out <span aria-hidden="true">&rarr;</span></button>
+    </div>`;
+  document.getElementById("begin").addEventListener("click", ()=>{ state.idx = 0; render(); });
+}
+
+function renderQuestion(q){
+  const total = QUESTIONS.length;
+  const n = state.idx + 1;
+  meta.innerHTML = `<span class="sec">Archetype</span><span class="count">${String(n).padStart(2,"0")} / ${total}</span>`;
+  setProgress(state.idx / total, false);
+
+  stage.className = "stage fade";
+  stage.style.justifyContent = "center";
+
+  const opts = `<div class="opts" role="radiogroup">` + q.options.map((o,i)=>{
+    const sel = state.answers[state.idx]===i ? " sel":"";
+    const key = i < 9 ? (i+1) : "·";
+    return `<button class="opt${sel}" role="radio" aria-checked="${state.answers[state.idx]===i}" data-key="${key}" data-i="${i}">${esc(o.label)}</button>`;
+  }).join("") + `</div>`;
+
+  stage.innerHTML = `
+    <p class="q-num">Question ${n}</p>
+    <h1 class="q-text">${esc(q.text)}</h1>
+    ${opts}
+    <div class="actions">
+      ${n>1?`<button class="link" id="back">&larr; Back</button>`:""}
+      <span class="spacer"></span>
+    </div>`;
+
+  const back = document.getElementById("back");
+  if(back) back.addEventListener("click", ()=>{ state.idx--; render(); });
+
+  stage.querySelectorAll(".opt").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      state.answers[state.idx] = +btn.dataset.i;
+      stage.querySelectorAll(".opt").forEach(b=>{ b.classList.remove("sel"); b.setAttribute("aria-checked","false"); });
+      btn.classList.add("sel"); btn.setAttribute("aria-checked","true");
+      setTimeout(()=>{ state.idx++; render(); }, 260);
+    });
+  });
+}
+
+function compute(){
+  const score = {}; ARCH.forEach(a=> score[a]=0);
+  QUESTIONS.forEach((q,qi)=>{
+    const i = state.answers[qi];
+    if(i==null) return;
+    const w = q.options[i].w || {};
+    for(const k in w) score[k] += w[k];
+  });
+  // tie-break nudge: the "spend your week" answer (Q2) is the strongest single signal
+  const q2 = state.answers[1];
+  if(q2!=null){ const w = QUESTIONS[1].options[q2].w||{}; for(const k in w) score[k] += 0.1; }
+  const sorted = ARCH.slice().sort((a,b)=> score[b]-score[a]);
+  return { primary:sorted[0], secondary:sorted[1], sorted, score };
+}
+
+function renderResult(){
+  const r = compute();
+  meta.innerHTML = `<span class="sec">You reached the door</span><span class="count">Result</span>`;
+  setProgress(1, true);
+
+  const name = ARCH_NAMES[r.primary];
+  const the = name.replace(/^The\s+/i,"");
+  const secName = ARCH_NAMES[r.secondary];
+
+  stage.className = "stage fade";
+  stage.style.justifyContent = "center";
+  stage.innerHTML = `
+    <p class="result-kicker">Your freedom archetype</p>
+
+    <div class="card-result" id="card">
+      <div class="brand"><span>Exit Path · Freedom Archetype</span><span class="you">You</span></div>
+      <h1 class="archetype"><span class="the">You are</span>${esc(name)}</h1>
+      <p class="archetype-blurb">${esc(ARCH_BLURB[r.primary])}</p>
+      <p class="secondary-note">With a strong streak of <b>${esc(secName)}</b> — that mix is part of why your route won't look like anyone else's.</p>
+    </div>
+
+    <p class="bridge">
+      That's <span class="em">how</span> you create value. The real question is <span class="em">what</span>
+      to build with it — and that's what your full Exit Path answers: the business model that actually
+      fits you (most likely ${esc(ARCH_BIZ[r.primary])}), and the step-by-step route from a monthly pay cheque to owning your own time.
+    </p>
+
+    <div class="actions">
+      <a class="btn" href="${OFFER_URL}">Build my Exit Path <span aria-hidden="true">&rarr;</span></a>
+      <button class="btn ghost" id="share">Share my archetype</button>
+      <span class="copied" id="copied">Copied</span>
+      <span class="spacer"></span>
+      <button class="link" id="restart">&#8635; Start again</button>
+    </div>`;
+
+  document.getElementById("restart").addEventListener("click", ()=>{
+    state.idx = -1; state.answers = {};
+    window.scrollTo({top:0,behavior:"smooth"}); render();
+  });
+
+  document.getElementById("share").addEventListener("click", async ()=>{
+    const text = `I'm ${name} on the Exit Path freedom archetype quiz. What are you?`;
+    const url = window.location.href;
+    try{
+      if(navigator.share){
+        await navigator.share({ title:"Exit Path — Freedom Archetype", text, url });
+        return;
+      }
+    }catch(_){ /* user cancelled share — fall through to copy */ }
+    try{
+      await navigator.clipboard.writeText(`${text} ${url}`);
+      const c = document.getElementById("copied"); c.classList.add("show");
+      setTimeout(()=> c.classList.remove("show"), 1800);
+    }catch(_){ /* clipboard blocked — nothing to do */ }
+  });
+}
+
+/* keyboard: number keys pick options, Enter advances from intro */
+document.addEventListener("keydown", e=>{
+  if(state.idx<0){ if(e.key==="Enter"){ const b=document.getElementById("begin"); if(b) b.click(); } return; }
+  if(state.idx>=QUESTIONS.length) return;
+  if(/^[1-9]$/.test(e.key)){
+    const btn = stage.querySelector(`.opt[data-i="${+e.key-1}"]`);
+    if(btn) btn.click();
+  }
+});
+
+window.addEventListener("resize", ()=>{
+  if(state.idx<0) setProgress(0,false);
+  else if(state.idx>=QUESTIONS.length) setProgress(1,true);
+  else setProgress(state.idx/QUESTIONS.length,false);
+});
+
+render();
+</script>
+</body>
+</html>

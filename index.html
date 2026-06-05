@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Exit Path — there has to be another way. Find your freedom archetype and your freedom number, both free, then build the path from a pay cheque to owning your time.">
+<title>Exit Path</title>
+
+<style>
+/* =========================================================
+   DESIGN TOKENS  (shared with the rest of the site)
+   ========================================================= */
+:root{
+    --ink:#000;
+    --paper:#fff;
+    --accent:#6366f1;
+    --accent-ink:#4338ca;           /* darker indigo for small text (AA contrast) */
+    --soft:#666;
+    --trail:#bdbdbd;                /* dotted line */
+    --trail-mark:#8a8a8a;           /* waymarker rings + door */
+    --dest-gap:clamp(34px, 7vh, 80px); /* door's distance from the bottom */
+    --dest-h:52px;                  /* approx rendered door height (32px-wide door) */
+
+    --gutter:clamp(40px, 9vw, 96px);/* left lane reserved for the trail */
+    --content:min(880px, 90vw);
+    --type-display:Georgia, "Times New Roman", serif;
+}
+
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--type-display);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    line-height:1.5;
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+
+button,input{ font-family:inherit; }
+button{ cursor:pointer; }
+
+.container{
+    position:relative;
+    z-index:1;
+    min-height:100vh;
+    min-height:100svh;
+    width:var(--content);
+    margin-inline:auto;
+    padding-left:calc(var(--gutter) + env(safe-area-inset-left, 0px));
+    padding-right:max(0px, env(safe-area-inset-right, 0px));
+}
+
+/* =========================================================
+   PATH WATERMARK  (faint trail down the left margin)
+   Decorative only — sits behind the content, ignores clicks.
+   ========================================================= */
+.trail{
+    position:absolute;
+    top:0; bottom:0;
+    left:calc(var(--gutter) / 2);
+    width:3px;
+    z-index:-1;
+    pointer-events:none;
+}
+
+.trail-line{
+    position:absolute;
+    top:0; left:0; right:0;
+    bottom:calc(var(--dest-gap) + var(--dest-h) + 8px);
+    background:repeating-linear-gradient(
+        to bottom,
+        var(--trail) 0, var(--trail) 16px,
+        transparent 16px, transparent 30px
+    );
+}
+
+.dest{
+    position:absolute;
+    left:50%;
+    bottom:var(--dest-gap);
+    transform:translateX(-50%);
+    display:block;
+    width:32px; height:auto;
+    fill:none;
+    stroke:var(--trail-mark);
+    stroke-width:4;
+}
+.dest .handle{ fill:var(--accent); stroke:none; }
+
+.logo{
+    font-size:clamp(1rem, 2.6vw, 1.25rem);
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    padding-top:clamp(24px, 6vw, 40px);
+    padding-bottom:6px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{
+    padding:clamp(48px, 10vw, 90px) 0 clamp(72px, 13vw, 120px);
+}
+
+/* Lead-in — the thought in the meeting */
+.lead{
+    font-size:clamp(1.1rem, 2.4vw, 1.35rem);
+    color:var(--soft);
+    max-width:46ch;
+    line-height:1.6;
+    margin-bottom:clamp(40px, 8vw, 72px);
+}
+.lead .thought{
+    display:block;
+    color:var(--ink);
+    font-style:italic;
+    margin:.55em 0;
+}
+
+/* The offer — now the page's heading */
+.offer{
+    font-size:clamp(1.35rem, 3.4vw, 2rem);
+    line-height:1.2;
+    font-weight:400;
+    letter-spacing:-0.02em;
+    max-width:18ch;
+    text-wrap:balance;
+    margin-bottom:clamp(28px, 5vw, 40px);
+}
+
+/* =========================================================
+   EMAIL SIGN-UP
+   ========================================================= */
+.signup label{
+    display:block;
+    font-size:.75rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--accent-ink);
+    margin-bottom:18px;
+}
+
+.signup .row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px 24px;
+    align-items:flex-end;
+}
+
+.signup input[type="email"]{
+    flex:1 1 260px;
+    border:none;
+    border-bottom:2px solid var(--ink);
+    background:transparent;
+    font-size:clamp(1.1rem, 2.4vw, 1.3rem);
+    line-height:1.4;
+    color:var(--ink);
+    padding:10px 0 12px;
+    outline:none;
+}
+.signup input::placeholder{ color:#bbb; }
+.signup input:focus{ border-bottom-color:var(--accent); }
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.7em;
+    background:var(--accent);
+    color:var(--paper);
+    border:2px solid var(--accent);
+    font-size:.85rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    padding:17px 30px;
+    white-space:nowrap;
+    text-decoration:none;
+    transition:transform .25s ease, background .2s ease, color .2s ease;
+}
+@media (hover:hover) and (pointer:fine){
+    .btn:hover{ transform:translateX(8px); }
+}
+/* secondary action — outlined, lower visual weight than the primary CTA */
+.btn.ghost{ background:transparent; color:var(--ink); border-color:var(--ink); }
+@media (hover:hover) and (pointer:fine){
+    .btn.ghost:hover{ background:var(--ink); color:var(--paper); transform:translateX(8px); }
+}
+
+/* visible keyboard focus for interactive elements */
+.btn:focus-visible,
+.to-offer a:focus-visible,
+.signup input:focus-visible{
+    outline:2px solid var(--accent-ink);
+    outline-offset:3px;
+}
+
+/* Spam honeypot — hidden from people, catches bots */
+.honey{ position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden; }
+
+/* =========================================================
+   PRIMARY CTA  (the two free tools) → OFFER → email fallback
+   ========================================================= */
+.start-intro{
+    font-size:1.02rem;
+    color:var(--soft);
+    max-width:44ch;
+    line-height:1.55;
+    margin-bottom:22px;
+}
+.cta-primary{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:16px 20px;
+    margin-bottom:16px;
+}
+.cta-facts{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 22px;
+    font-size:.72rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--soft);
+    margin-bottom:clamp(30px, 6vw, 46px);
+}
+.cta-facts span{ display:inline-flex; align-items:center; gap:.55em; }
+.cta-facts span::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--accent); }
+
+/* quiet route to the paid plan, for visitors who already know they want it */
+.to-offer{
+    font-size:.98rem;
+    color:var(--soft);
+    line-height:1.5;
+    margin-bottom:clamp(34px, 6vw, 52px);
+}
+.to-offer a{
+    color:var(--accent-ink);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    padding-bottom:1px;
+    transition:border-color .18s ease;
+}
+@media (hover:hover) and (pointer:fine){
+    .to-offer a:hover{ border-color:var(--accent-ink); }
+}
+
+.signup--secondary{
+    border-top:1px solid var(--trail);
+    padding-top:clamp(28px, 5vw, 38px);
+}
+
+/* =========================================================
+   MOBILE  (narrow the trail lane, stack full-width buttons,
+   give the heading more presence)
+   ========================================================= */
+@media (max-width:600px){
+    :root{ --gutter:34px; --dest-gap:40px; --dest-h:46px; }
+
+    .hero{ padding:clamp(36px, 9vw, 56px) 0 clamp(116px, 30vw, 136px); }
+
+    .offer{ font-size:1.55rem; }
+
+    .dest{ width:28px; }
+
+    .cta-primary{ gap:14px; }
+    .cta-primary .btn{
+        width:100%;
+        justify-content:center;
+        padding:18px 30px;
+    }
+
+    .signup .row{ gap:16px; }
+    .signup .btn{
+        width:100%;
+        justify-content:center;
+        padding:20px 30px;
+    }
+}
+
+@media (prefers-reduced-motion:reduce){
+    *{ animation:none!important; transition:none!important; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="trail" aria-hidden="true">
+        <span class="trail-line"></span>
+        <svg class="dest" viewBox="0 0 40 64">
+            <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+            <circle class="handle" cx="30" cy="33" r="2.6"/>
+        </svg>
+    </div>
+
+    <p class="logo">Exit Path</p>
+
+    <header class="hero">
+
+        <p class="lead">
+            Exit Path is for anyone who&rsquo;s sat in a Monday-morning meeting and thought:
+            <span class="thought">there has to be another way.</span>
+            Your job isn&rsquo;t the problem. It&rsquo;s that your time, your income and your future
+            all sit in someone else&rsquo;s hands &mdash; and you&rsquo;d quietly like them back. You know
+            you want something of your own. You just can&rsquo;t yet see what it is, or how you&rsquo;d
+            get there from here.
+        </p>
+
+        <h1 class="offer">Discover your exit and build the path.</h1>
+
+        <!-- PRIMARY: the two free tools. Each shows an instant result and funnels
+             on to the offer page. Neither captures email — that's deliberate;
+             the one capture point is Stripe at the offer page. -->
+        <p class="start-intro">Two free places to start. Each takes about a minute, and you get your answer on the spot.</p>
+
+        <div class="cta-primary">
+            <a class="btn" href="exit-path-archetype-quiz.html">Find your archetype <span aria-hidden="true">&rarr;</span></a>
+            <a class="btn ghost" href="exit-path-freedom-calculator.html">Find your number <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="cta-facts">
+            <span>Free</span><span>no sign-up</span><span>your result on the spot</span>
+        </div>
+
+        <!-- The paid destination. Most people arrive here from a free tool,
+             but warm visitors can go straight to it. -->
+        <p class="to-offer">Already know you want the full plan? <a href="exit-path-offer.html">Get your Exit Path &rarr;</a></p>
+
+        <!--
+          ============================================================
+          FALLBACK — the bare email list, for people who aren't ready
+          to start a tool yet.
+          SIGN-UPS ARE EMAILED TO: ben.android.bot@gmail.com via FormSubmit.
+          NOTE: the Exit Path Quiz page uses Formspree, not FormSubmit — the
+          two still use different services. Pick one before launch.
+          Turn _captcha on before going public.
+          ============================================================
+        -->
+        <form class="signup signup--secondary" action="https://formsubmit.co/ben.android.bot@gmail.com" method="POST">
+
+            <input type="hidden" name="_subject" value="New Exit Path sign-up">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <!-- Optional branded thank-you page after submit:
+            <input type="hidden" name="_next" value="https://your-domain.com/thank-you.html"> -->
+            <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <label for="email">Not ready? Just stay in touch</label>
+            <div class="row">
+                <input id="email" type="email" name="email" placeholder="you@email.com" required>
+                <button class="btn ghost" type="submit">Sign up <span aria-hidden="true">&rarr;</span></button>
+            </div>
+
+        </form>
+
+    </header>
+
+</div>
+
+</body>
+</html>
