@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="Exit Path — the complete quiz plus your personalised written plan: the offer hiding in your own expertise (consulting, a course, a book or coaching) and the route to packaging it and selling it to an audience, from anywhere.">
-<title>Exit Path — find the product in you</title>
+<meta name="description" content="Exit Path — the newsletter for people done with the 9-5. The honest route out, built around what you already know and the life you actually want. Free. No fluff.">
+<title>Exit Path — your way out of the 9-5</title>
 
 <style>
 /* =========================================================
@@ -18,12 +18,11 @@
     --accent-ink:#4338ca;
     --soft:#666;
     --hair:#e6e6e6;
-    --hair-strong:#d0d0d0;
     --trail:#bdbdbd;
     --trail-mark:#8a8a8a;
 
     --gutter:clamp(28px, 6vw, 56px);
-    --content:min(880px, 90vw);
+    --content:min(820px, 90vw);
     --type-display:Georgia, "Times New Roman", serif;
 }
 
@@ -51,24 +50,25 @@ button{ cursor:pointer; background:none; border:none; }
     margin-inline:auto;
     padding-left:max(var(--gutter), env(safe-area-inset-left, 0px));
     padding-right:max(var(--gutter), env(safe-area-inset-right, 0px));
+    display:flex; flex-direction:column;
 }
 
 /* =========================================================
-   HEADER + FOOTER CHROME
+   HEADER + FOOTER CHROME  (the door / the trail = the way out)
    ========================================================= */
 .site-head{
     display:flex; align-items:center; gap:18px;
     padding:clamp(22px,5vw,34px) 0 clamp(18px,4vw,26px);
 }
 .logo{
-    display:inline-flex; align-items:center; gap:9px;
+    display:inline-flex; align-items:center; gap:11px;
     font-size:clamp(1rem,2.6vw,1.25rem);
     letter-spacing:.3em; text-transform:uppercase;
     color:var(--ink); text-decoration:none; white-space:nowrap;
 }
 .logo-door{
-    display:none;
-    height:1.15em; width:auto; flex:none;
+    display:inline-block;
+    height:1.25em; width:auto; flex:none;
     transform:translateY(.04em);
     fill:none; stroke:var(--trail-mark); stroke-width:4;
 }
@@ -78,6 +78,92 @@ button{ cursor:pointer; background:none; border:none; }
     background:repeating-linear-gradient(to right,
         var(--trail) 0, var(--trail) 16px, transparent 16px, transparent 30px);
 }
+
+/* =========================================================
+   HERO  — the whole pitch, one screen
+   ========================================================= */
+.intro{ padding:clamp(48px,10vw,96px) 0 clamp(30px,6vw,46px); }
+.kicker{
+    font-size:.78rem; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--accent-ink); margin-bottom:18px;
+}
+.headline{
+    font-size:clamp(2.1rem, 6vw, 3.4rem);
+    line-height:1.1; font-weight:400; letter-spacing:-0.02em;
+    max-width:20ch; text-wrap:balance; margin-bottom:clamp(24px,4vw,34px);
+}
+.headline .em{ font-style:italic; color:var(--accent-ink); }
+.lead{
+    font-size:clamp(1.1rem, 2.3vw, 1.34rem);
+    color:var(--soft); max-width:54ch; line-height:1.62;
+}
+.lead .em{ color:var(--ink); font-style:italic; }
+.lead + .lead{ margin-top:18px; }
+
+/* =========================================================
+   WHAT LANDS IN YOUR INBOX  (kept deliberately short)
+   ========================================================= */
+.inbox{ border-top:1px solid var(--hair); padding:clamp(32px,6vw,50px) 0; }
+.inbox-h{ display:flex; align-items:baseline; gap:14px; margin-bottom:28px; }
+.inbox-h .n{ font-size:.78rem; letter-spacing:.2em; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
+.inbox-h h2{ font-size:clamp(1.2rem,2.8vw,1.6rem); font-weight:400; letter-spacing:-0.01em; }
+
+.lines{ display:flex; flex-direction:column; gap:0; max-width:620px; }
+.line{ display:grid; grid-template-columns:30px 1fr; gap:18px; padding:20px 0; border-bottom:1px solid var(--hair); }
+.line:last-child{ border-bottom:none; }
+.line .mark{ color:var(--accent); font-size:1.1rem; line-height:1.5; }
+.line p{ font-size:1.08rem; line-height:1.55; max-width:50ch; }
+.line p .em{ color:var(--accent-ink); }
+
+.soon{
+    margin-top:26px; font-size:1rem; color:var(--soft); font-style:italic;
+    max-width:52ch; line-height:1.58;
+}
+
+/* =========================================================
+   SIGN UP  — the one and only thing to do on this page
+   ========================================================= */
+.signup{ border-top:2px solid var(--ink); padding:clamp(38px,7vw,60px) 0; }
+.signup h2{
+    font-size:clamp(1.5rem,4vw,2.1rem); font-weight:400;
+    letter-spacing:-0.02em; line-height:1.15; max-width:18ch;
+    margin-bottom:14px;
+}
+.signup .blurb{ color:var(--soft); font-size:1.06rem; line-height:1.58; max-width:48ch; margin-bottom:clamp(26px,4vw,34px); }
+
+.capForm{ max-width:480px; }
+.cap-label{
+    display:block; font-size:.74rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent-ink); margin-bottom:16px;
+}
+.cap-field{ border-bottom:2px solid var(--ink); margin-bottom:22px; }
+.cap-field:focus-within{ border-bottom-color:var(--accent); }
+.cap-field input{ width:100%; border:none; background:transparent; outline:none; font-size:1.1rem; line-height:1.4; padding:10px 0 12px; }
+.cap-field input::placeholder{ color:#bbb; }
+
+.btn{
+    display:inline-flex; align-items:center; gap:.7em;
+    background:var(--accent); color:var(--paper);
+    border:2px solid var(--accent);
+    font-size:.9rem; letter-spacing:.2em; text-transform:uppercase;
+    padding:18px 34px; white-space:nowrap; text-decoration:none;
+    transition:transform .25s ease, background .2s ease, color .2s ease;
+}
+@media (hover:hover) and (pointer:fine){ .btn:hover{ transform:translateX(8px); } }
+.btn:focus-visible{ outline:2px solid var(--accent-ink); outline-offset:3px; }
+
+.reassure{ margin-top:20px; font-size:.95rem; color:var(--soft); max-width:46ch; line-height:1.55; }
+.cap-sent{ font-size:1.12rem; color:var(--accent-ink); line-height:1.55; max-width:46ch; }
+.err{ color:#b91c1c; font-size:.92rem; margin-top:14px; }
+
+/* spam honeypot — hidden from people, catches bots */
+.honey{ position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden; }
+
+/* =========================================================
+   FOOT
+   ========================================================= */
+.foot{ border-top:1px solid var(--hair); padding:clamp(34px,6vw,52px) 0 clamp(56px,12vw,88px); margin-top:auto; }
+.footnote{ font-size:.82rem; color:var(--soft); max-width:58ch; line-height:1.58; }
 .foot-motif{ display:flex; align-items:center; gap:18px; margin-top:clamp(26px,5vw,38px); }
 .foot-path{
     flex:1 1 auto; height:3px; min-width:0;
@@ -91,138 +177,19 @@ button{ cursor:pointer; background:none; border:none; }
 .foot-door .handle{ fill:var(--accent); stroke:none; }
 
 /* =========================================================
-   CHROME
+   ONE ORCHESTRATED PAGE LOAD  (subtle, refined)
    ========================================================= */
-.intro{ padding:clamp(40px,8vw,76px) 0 clamp(28px,5vw,44px); }
-.kicker{ font-size:.76rem; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:16px; }
-.headline{
-    font-size:clamp(1.9rem, 5.2vw, 3rem);
-    line-height:1.12; font-weight:400; letter-spacing:-0.02em;
-    max-width:18ch; text-wrap:balance; margin-bottom:clamp(22px,4vw,32px);
-}
-.lead{
-    font-size:clamp(1.08rem, 2.3vw, 1.32rem);
-    color:var(--soft); max-width:52ch; line-height:1.62;
-}
-.lead .em{ color:var(--ink); font-style:italic; }
-
-/* =========================================================
-   WHAT YOU GET
-   ========================================================= */
-.panel{ border-top:1px solid var(--hair); padding:clamp(32px,6vw,52px) 0; }
-.panel-h{ display:flex; align-items:baseline; gap:14px; margin-bottom:30px; }
-.panel-h .n{ font-size:.78rem; letter-spacing:.2em; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
-.panel-h h2{ font-size:clamp(1.2rem,2.8vw,1.6rem); font-weight:400; letter-spacing:-0.01em; }
-
-.gets{ display:flex; flex-direction:column; gap:0; max-width:620px; }
-.get{ display:grid; grid-template-columns:30px 1fr; gap:18px; padding:22px 0; border-bottom:1px solid var(--hair); }
-.get:last-child{ border-bottom:none; }
-.get .mark{ color:var(--accent); font-size:1.1rem; line-height:1.5; }
-.get h3{ font-size:1.18rem; font-weight:400; margin-bottom:5px; letter-spacing:-0.01em; }
-.get p{ color:var(--soft); font-size:1rem; line-height:1.55; max-width:48ch; }
-
-/* =========================================================
-   PRICE + BUY
-   ========================================================= */
-.buy{ border-top:2px solid var(--ink); padding:clamp(36px,7vw,60px) 0; }
-.price{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; flex-wrap:wrap; }
-.price .amount{ font-size:clamp(2.6rem,8vw,4rem); line-height:1; letter-spacing:-0.03em; }
-.price .terms{ font-size:.92rem; letter-spacing:.14em; text-transform:uppercase; color:var(--soft); }
-.price-note{ color:var(--soft); font-size:1rem; margin-bottom:clamp(28px,5vw,40px); max-width:42ch; }
-
-.btn{
-    display:inline-flex; align-items:center; gap:.7em;
-    background:var(--accent); color:var(--paper);
-    border:2px solid var(--accent);
-    font-size:.9rem; letter-spacing:.2em; text-transform:uppercase;
-    padding:20px 38px; white-space:nowrap; text-decoration:none;
-    transition:transform .25s ease, background .2s ease, color .2s ease;
-}
-@media (hover:hover) and (pointer:fine){ .btn:hover{ transform:translateX(8px); } }
-.btn.ghost{ background:transparent; color:var(--ink); border-color:var(--ink); padding:17px 30px; font-size:.85rem; }
-@media (hover:hover) and (pointer:fine){ .btn.ghost:hover{ background:var(--ink); color:var(--paper); transform:translateX(8px);} }
-
-/* visible keyboard focus */
-.btn:focus-visible,
-.foot .back:focus-visible{
-    outline:2px solid var(--accent-ink);
-    outline-offset:3px;
-}
-
-.secure{ display:flex; align-items:center; gap:8px; margin-top:18px; font-size:.82rem; letter-spacing:.06em; color:var(--soft); }
-.secure svg{ width:14px; height:14px; flex:none; }
-.reassure{ margin-top:20px; font-size:1rem; color:var(--soft); max-width:46ch; line-height:1.55; }
-
-/* satisfaction guarantee — removes the last barrier before buying */
-.guarantee{ margin-top:26px; padding:22px 24px; border-left:3px solid var(--accent); background:rgba(99,102,241,.045); max-width:52ch; }
-.guarantee h3{ font-size:1.14rem; font-weight:400; letter-spacing:-0.01em; margin-bottom:8px; }
-.guarantee p{ color:var(--soft); font-size:1rem; line-height:1.58; }
-
-/* quiet seed line under the steps, to carry momentum onward */
-.steps-note{ margin-top:26px; font-size:1rem; color:var(--soft); font-style:italic; max-width:46ch; line-height:1.55; }
-
-/* =========================================================
-   NOT READY YET — soft email/phone capture + book a call,
-   sits directly under the buy button for warm-but-undecided visitors
-   ========================================================= */
-.notyet{ margin-top:clamp(30px,5vw,46px); padding-top:clamp(28px,5vw,38px); border-top:1px solid var(--hair); }
-.notyet h3{ font-size:clamp(1.2rem,2.6vw,1.45rem); font-weight:400; letter-spacing:-0.01em; margin-bottom:8px; }
-.notyet-intro{ color:var(--soft); font-size:1rem; line-height:1.55; max-width:52ch; margin-bottom:26px; }
-.notyet-grid{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1px;
-    background:var(--hair); border:1px solid var(--hair); max-width:640px;
-}
-.notyet-grid > *{ background:var(--paper); padding:clamp(22px,3.5vw,28px) clamp(20px,3vw,26px); display:flex; flex-direction:column; }
-.capture-form label,
-.capture-call .call-h{
-    display:block; font-size:.74rem; letter-spacing:.18em; text-transform:uppercase;
-    color:var(--accent-ink); margin-bottom:16px;
-}
-.cap-field{ border-bottom:2px solid var(--ink); margin-bottom:16px; }
-.cap-field:focus-within{ border-bottom-color:var(--accent); }
-.cap-field input{ width:100%; border:none; background:transparent; outline:none; font-size:1.05rem; line-height:1.4; padding:8px 0 10px; }
-.cap-field input::placeholder{ color:#bbb; }
-.capture-form .btn,
-.capture-call .btn{ align-self:flex-start; margin-top:6px; }
-.capture-call .call-p{ color:var(--soft); font-size:1rem; line-height:1.55; margin-bottom:auto; padding-bottom:20px; }
-.cap-sent{ font-size:1rem; color:var(--accent-ink); line-height:1.5; }
-.notyet .err{ color:#b91c1c; font-size:.9rem; margin-top:12px; }
-/* spam honeypot — hidden from people, catches bots */
-.honey{ position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden; }
-
-/* =========================================================
-   HOW IT WORKS
-   ========================================================= */
-.steps{ display:flex; flex-direction:column; gap:0; max-width:620px; counter-reset:step; }
-.step{ display:grid; grid-template-columns:40px 1fr; gap:20px; padding:20px 0; position:relative; }
-.step::before{
-    counter-increment:step; content:counter(step);
-    width:32px; height:32px; border:1.5px solid var(--accent); border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:.9rem; color:var(--accent-ink); font-variant-numeric:tabular-nums;
-}
-.step p{ align-self:center; font-size:1.06rem; line-height:1.5; }
-.step p b{ font-weight:400; color:var(--accent-ink); }
-
-/* =========================================================
-   FOOT
-   ========================================================= */
-.foot{ border-top:1px solid var(--hair); padding:clamp(34px,6vw,52px) 0 clamp(56px,12vw,88px); }
-.foot .back{
-    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--soft);
-    border-bottom:1px solid transparent; padding-bottom:2px; text-decoration:none;
-    transition:color .18s, border-color .18s;
-}
-@media (hover:hover) and (pointer:fine){ .foot .back:hover{ color:var(--ink); border-color:var(--ink);} }
-.footnote{ font-size:.8rem; color:var(--soft); margin-top:26px; max-width:56ch; line-height:1.55; }
+.reveal{ opacity:0; transform:translateY(14px); animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+.d1{ animation-delay:.05s; } .d2{ animation-delay:.16s; } .d3{ animation-delay:.27s; } .d4{ animation-delay:.38s; }
+@keyframes rise{ to{ opacity:1; transform:none; } }
 
 @media (max-width:600px){
     :root{ --gutter:24px; --content:93vw; }
     .btn{ width:100%; justify-content:center; }
-    .notyet-grid{ grid-template-columns:1fr; }
 }
 @media (prefers-reduced-motion:reduce){
     *{ animation:none!important; transition:none!important; }
+    .reveal{ opacity:1; transform:none; }
 }
 </style>
 </head>
@@ -241,153 +208,79 @@ button{ cursor:pointer; background:none; border:none; }
         <span class="head-path" aria-hidden="true"></span>
     </header>
 
+    <!-- ============ HERO ============ -->
     <section class="intro">
-        <h1 class="headline">Find the product in you. Then build the path out.</h1>
-        <p class="lead">
-            You already know things people would pay for. Exit Path turns it into a real offer &mdash; and the
-            shortest honest route to selling it from anywhere. A plan written for you, with a first move you can
-            make this week.
+        <p class="kicker reveal d1">Escape the 9-5 &middot; Build a life by design</p>
+        <h1 class="headline reveal d2">You weren&rsquo;t built to spend your one life building <span class="em">someone else&rsquo;s</span>.</h1>
+        <p class="lead reveal d3">
+            Most people never question the 9-5. They clock in, clock out, call it security &mdash; and hand the
+            best years they&rsquo;ll ever have to someone else&rsquo;s dream. Then they wonder why they feel stuck.
+        </p>
+        <p class="lead reveal d4">
+            <span class="em">Exit Path is for the ones who&rsquo;ve had enough.</span> The honest route out &mdash; no
+            get-rich-quick, no fluff &mdash; built around what you already know and the life you actually want.
+            It starts in your inbox.
         </p>
     </section>
 
-    <!-- ============ WHAT YOU GET ============ -->
-    <section class="panel">
-        <div class="panel-h"><span class="n">01</span><h2>What you get</h2></div>
-        <div class="gets">
-            <div class="get">
+    <!-- ============ WHAT LANDS IN YOUR INBOX ============ -->
+    <section class="inbox">
+        <div class="inbox-h"><span class="n">01</span><h2>What lands in your inbox</h2></div>
+        <div class="lines">
+            <div class="line">
                 <span class="mark" aria-hidden="true">&#9679;</span>
-                <div>
-                    <h3>The Exit Path Quiz</h3>
-                    <p>All 34 questions, weighed up properly.</p>
-                </div>
+                <p>The truth about <span class="em">why most people stay stuck</span> &mdash; and the mindset shift that gets you moving.</p>
             </div>
-            <div class="get">
+            <div class="line">
                 <span class="mark" aria-hidden="true">&#9679;</span>
-                <div>
-                    <h3>Your personalised Exit Path</h3>
-                    <p>A written plan made only for you: the offer hiding in your expertise, and the staged route to it — built around your numbers.</p>
-                </div>
+                <p>The skills, knowledge and experience <span class="em">you already have</span> that people will quietly pay for.</p>
             </div>
-            <!-- EDIT OR REMOVE: only keep this if you actually offer a session. -->
-            <div class="get">
+            <div class="line">
                 <span class="mark" aria-hidden="true">&#9679;</span>
-                <div>
-                    <h3>A working session</h3>
-                    <p>A call to pin down your first move and pressure-test the plan against your real life.</p>
-                </div>
+                <p>The real moves to build income <span class="em">from anywhere, on your terms</span> &mdash; no permission required.</p>
             </div>
         </div>
+        <p class="soon">
+            Coming for subscribers first: the in-depth knowledge &amp; life-design quiz that maps your
+            personal Exit Path, step by step. Get on the list and you&rsquo;ll be first through the door.
+        </p>
     </section>
 
-    <!-- ============ PRICE + BUY ============ -->
-    <section class="buy">
-        <!-- SET YOUR PRICE: edit the amount and terms below to match your Stripe price. -->
-        <div class="price">
-            <span class="amount">£49</span>
-            <span class="terms">one payment · no subscription</span>
-        </div>
-        <p class="price-note">Read and written by me personally — not generated, not outsourced.</p>
+    <!-- ============ SIGN UP ============
+         The newsletter sign-up is the ONLY action on this page.
 
-        <!--
-          ============================================================
-          STRIPE PAYMENT LINK
-          1. In your Stripe dashboard, create a Payment Link for this
-             product (Products → Payment links). Keep "collect customer
-             email" on — that's how you'll know who to send the link to.
-          2. Optionally set its confirmation page / redirect URL.
-          3. Paste the link (looks like https://buy.stripe.com/XXXXXXXX)
-             into the href below, replacing the placeholder.
-          ------------------------------------------------------------
-          ALTERNATIVE — embedded Stripe Buy Button (in-page checkout):
-          remove the <a> below and use instead:
-            <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-            <stripe-buy-button buy-button-id="buy_btn_XXXX" publishable-key="pk_live_XXXX"></stripe-buy-button>
-          ============================================================
-        -->
-        <a class="btn" id="buy" href="https://buy.stripe.com/REPLACE_WITH_YOUR_PAYMENT_LINK">
-            Get my Exit Path <span aria-hidden="true">&rarr;</span>
-        </a>
+         RIGHT NOW this posts to FormSubmit (drops each sign-up into the inbox
+         in the action URL below), submitted by AJAX so people stay on the page.
+           · The first-ever submission triggers a one-time FormSubmit activation
+             email — click it once and you're live.
+           · IMPORTANT: FormSubmit only collects addresses; it does NOT send a
+             newsletter. When you're ready to actually email the list, point this
+             form at your email platform instead (Kit / MailerLite / Beehiiv /
+             ConvertKit). Tell me which one and I'll wire the form straight to it.
+         ============================================================ -->
+    <section class="signup">
+        <h2 class="reveal d1">Get the Exit Path newsletter.</h2>
+        <p class="blurb reveal d2">One email at a time, I&rsquo;ll show you how to stop building someone else&rsquo;s dream and start building your own.</p>
 
-        <div class="secure" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-            <span>Secure checkout handled by Stripe</span>
-        </div>
+        <form class="capForm reveal d3" id="capForm" action="https://formsubmit.co/ajax/ben.android.bot@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Exit Path — new newsletter sign-up">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-        <!-- ============================================================
-             SATISFACTION GUARANTEE
-             Only keep this if you will actually honour it. A refund promise
-             you don't mean does more harm than no promise at all. Adjust the
-             window (14 days) and wording to whatever you can genuinely stand behind.
-             ============================================================ -->
-        <div class="guarantee">
-            <h3>If it doesn't earn its place, you don't pay.</h3>
-            <p>If your Exit Path doesn't show you a real offer and a first move worth making, email me within 14 days for a full refund.</p>
-        </div>
-
-        <!-- ============================================================
-             NOT READY YET — soft email capture for warm-but-undecided visitors.
-             This feeds the 7-day email sequence that does the selling for socials traffic.
-
-             EMAIL / PHONE → currently FormSubmit (emails to the address in the action URL).
-               · First-ever submission triggers a one-time FormSubmit activation email — click it once.
-               · IMPORTANT: FormSubmit only drops the address into an inbox — it does NOT run a
-                 sequence. To fire the 7-day series automatically, point this form at your email
-                 platform (ConvertKit / MailerLite / Beehiiv / Kit / etc.) instead, or export the
-                 inbox into it. Tell me which platform and I'll wire the form straight to it.
-               · The AJAX submit (script at the foot) keeps people on this page.
-               · NOTE: the quiz page uses Formspree, not FormSubmit. Pick ONE service before launch.
-
-             BOOK A CALL → commented out for now (selling via the email sequence instead).
-               To bring it back, uncomment the .capture-call block below AND its guard in the
-               foot script, then paste your Calendly / Cal.com link in place of the placeholder.
-             ============================================================ -->
-        <div class="notyet">
-            <h3>Not ready to decide today?</h3>
-            <p class="notyet-intro">Leave your email and I'll send you a short series on finding the offer hiding in your work. No spam, leave any time.</p>
-
-            <div class="notyet-grid">
-
-                <form class="capture-form" id="capForm" action="https://formsubmit.co/ajax/ben.android.bot@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="Exit Path — new email-series sign-up">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-                    <label for="cap-email">Get the email series</label>
-                    <div class="cap-field"><input id="cap-email" type="email" name="email" placeholder="you@email.com" autocomplete="email" required></div>
-                    <div class="cap-field"><input id="cap-phone" type="tel" name="phone" placeholder="Phone (optional)" autocomplete="tel"></div>
-                    <button class="btn ghost" type="submit">Send it to me <span aria-hidden="true">&rarr;</span></button>
-                    <div id="capStatus"></div>
-                </form>
-
-                <!-- BOOK A CALL — disabled for now. Uncomment this block (and the #bookcall guard
-                     in the foot script) to re-enable, and set the Calendly / Cal.com link.
-                <div class="capture-call">
-                    <p class="call-h">Rather talk first?</p>
-                    <p class="call-p">A short call, no pitch — I'll tell you honestly whether this is for you before you spend a penny.</p>
-                    <a class="btn ghost" id="bookcall" href="https://calendly.com/REPLACE_WITH_YOUR_BOOKING_LINK">Book a call <span aria-hidden="true">&rarr;</span></a>
-                </div>
-                -->
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ HOW IT WORKS ============ -->
-    <section class="panel">
-        <div class="panel-h"><span class="n">02</span><h2>How it works</h2></div>
-        <div class="steps">
-            <div class="step"><p>Pay once through Stripe. No subscription, nothing to cancel.</p></div>
-            <div class="step"><p>I send your <b>private quiz link</b>, usually within a day.</p></div>
-            <div class="step"><p>You fill it in; I read every answer and send back your <b>written Exit Path</b>.</p></div>
-        </div>
+            <label class="cap-label" for="cap-email">Join the newsletter</label>
+            <div class="cap-field"><input id="cap-email" type="email" name="email" placeholder="you@email.com" autocomplete="email" required></div>
+            <button class="btn" type="submit">Send me the way out <span aria-hidden="true">&rarr;</span></button>
+            <p class="reassure">Free. No spam, ever. Unsubscribe in one click whenever you want &mdash; though I don&rsquo;t think you will.</p>
+            <div id="capStatus" role="status" aria-live="polite"></div>
+        </form>
     </section>
 
     <!-- ============ FOOT ============ -->
     <section class="foot">
         <p class="footnote">
-            Practical guidance built from your answers — not financial, tax, legal or investment advice,
-            and no income is promised or guaranteed.
+            Built from real experience, not promises. Nothing here is financial, tax, legal or investment
+            advice, and no income is guaranteed &mdash; the opportunity is real, but what you do with it is on you.
         </p>
         <div class="foot-motif">
             <span class="foot-path" aria-hidden="true"></span>
@@ -400,29 +293,9 @@ button{ cursor:pointer; background:none; border:none; }
 
 </div>
 
-<!-- tiny guards (warn during setup if a link hasn't been pasted in) + soft-capture submit. Safe to delete. -->
+<!-- newsletter sign-up: submit by AJAX so the visitor stays on the page. Safe to delete the guard comments. -->
 <script>
 "use strict";
-
-// guard: warn if the Stripe link hasn't been set yet
-const buyBtn = document.getElementById("buy");
-if(buyBtn) buyBtn.addEventListener("click", function(e){
-  if(this.getAttribute("href").indexOf("REPLACE_WITH_YOUR_PAYMENT_LINK") !== -1){
-    e.preventDefault();
-    alert("Set your Stripe payment link first: paste it into the href of the Buy button in this page's source.");
-  }
-});
-
-// guard: same for the Book-a-call link (only present when that block is uncommented)
-const bookBtn = document.getElementById("bookcall");
-if(bookBtn) bookBtn.addEventListener("click", function(e){
-  if(this.getAttribute("href").indexOf("REPLACE_WITH_YOUR_BOOKING_LINK") !== -1){
-    e.preventDefault();
-    alert("Set your booking link first: paste your Calendly / Cal.com link into the href of the Book a call button in this page's source.");
-  }
-});
-
-// soft capture: submit by AJAX so the visitor stays on the page
 (function(){
   const form = document.getElementById("capForm");
   if(!form) return;
@@ -434,7 +307,7 @@ if(bookBtn) bookBtn.addEventListener("click", function(e){
     status.innerHTML = "";
     const email = (emailEl.value||"").trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
-      status.innerHTML = `<p class="err">That doesn't look like an email — mind checking it?</p>`;
+      status.innerHTML = `<p class="err">That doesn&rsquo;t look like an email &mdash; mind checking it?</p>`;
       emailEl.focus(); return;
     }
     const btn = form.querySelector("button[type=submit]");
@@ -447,10 +320,10 @@ if(bookBtn) bookBtn.addEventListener("click", function(e){
         body: JSON.stringify(Object.fromEntries(new FormData(form)))
       });
       if(!res.ok) throw new Error("HTTP " + res.status);
-      form.innerHTML = `<p class="cap-sent">Thanks — you're on the list. I'll be in touch, and no spam.</p>`;
+      form.innerHTML = `<p class="cap-sent">You&rsquo;re in. Watch your inbox &mdash; your way out of the 9-5 starts now.</p>`;
     }catch(err){
       btn.disabled = false; btn.innerHTML = label;
-      status.innerHTML = `<p class="err">Couldn't send just now — mind trying again?</p>`;
+      status.innerHTML = `<p class="err">Couldn&rsquo;t send just now &mdash; mind trying again?</p>`;
     }
   });
 })();
