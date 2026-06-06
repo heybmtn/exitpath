@@ -21,10 +21,8 @@
     --hair-strong:#d0d0d0;
     --trail:#bdbdbd;
     --trail-mark:#8a8a8a;
-    --dest-gap:clamp(34px, 7vh, 80px);
-    --dest-h:52px;
 
-    --gutter:clamp(40px, 9vw, 96px);
+    --gutter:clamp(28px, 6vw, 56px);
     --content:min(880px, 90vw);
     --type-display:Georgia, "Times New Roman", serif;
 }
@@ -51,48 +49,50 @@ button{ cursor:pointer; background:none; border:none; }
     min-height:100vh; min-height:100svh;
     width:var(--content);
     margin-inline:auto;
-    padding-left:calc(var(--gutter) + env(safe-area-inset-left, 0px));
-    padding-right:max(0px, env(safe-area-inset-right, 0px));
+    padding-left:max(var(--gutter), env(safe-area-inset-left, 0px));
+    padding-right:max(var(--gutter), env(safe-area-inset-right, 0px));
 }
 
 /* =========================================================
-   PATH WATERMARK  (decorative trail down the left margin)
+   HEADER + FOOTER CHROME
    ========================================================= */
-.trail{
-    position:fixed;
-    top:0; bottom:0;
-    left:max(0px, calc((100vw - var(--content)) / 2));
-    margin-left:calc(var(--gutter) / 2);
-    width:3px;
-    z-index:-1;
-    pointer-events:none;
+.site-head{
+    display:flex; align-items:center; gap:18px;
+    padding:clamp(22px,5vw,34px) 0 clamp(18px,4vw,26px);
 }
-.trail-line{
-    position:absolute;
-    top:clamp(76px, 15vh, 150px); left:0; right:0;
-    bottom:calc(var(--dest-gap) + var(--dest-h) + 10px);
-    background:repeating-linear-gradient(
-        to bottom,
-        var(--trail) 0, var(--trail) 16px,
-        transparent 16px, transparent 30px);
+.logo{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:clamp(1rem,2.6vw,1.25rem);
+    letter-spacing:.3em; text-transform:uppercase;
+    color:var(--ink); text-decoration:none; white-space:nowrap;
 }
-.dest{
-    position:absolute;
-    left:50%; bottom:var(--dest-gap);
-    transform:translateX(-50%);
-    width:32px; height:auto;
+.logo-door{
+    display:none;
+    height:1.15em; width:auto; flex:none;
+    transform:translateY(.04em);
     fill:none; stroke:var(--trail-mark); stroke-width:4;
 }
-.dest .handle{ fill:var(--accent); stroke:none; }
+.logo-door .handle{ fill:var(--accent); stroke:none; }
+.head-path{
+    flex:1 1 auto; height:3px; min-width:0;
+    background:repeating-linear-gradient(to right,
+        var(--trail) 0, var(--trail) 16px, transparent 16px, transparent 30px);
+}
+.foot-motif{ display:flex; align-items:center; gap:18px; margin-top:clamp(26px,5vw,38px); }
+.foot-path{
+    flex:1 1 auto; height:3px; min-width:0;
+    background:repeating-linear-gradient(to right,
+        var(--trail) 0, var(--trail) 16px, transparent 16px, transparent 30px);
+}
+.foot-door{
+    height:46px; width:auto; flex:none;
+    fill:none; stroke:var(--trail-mark); stroke-width:4;
+}
+.foot-door .handle{ fill:var(--accent); stroke:none; }
 
 /* =========================================================
    CHROME
    ========================================================= */
-.logo{
-    font-size:clamp(1rem, 2.6vw, 1.25rem);
-    letter-spacing:.3em; text-transform:uppercase;
-    padding-top:clamp(24px, 6vw, 40px);
-}
 .intro{ padding:clamp(40px,8vw,76px) 0 clamp(28px,5vw,44px); }
 .kicker{ font-size:.76rem; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:16px; }
 .headline{
@@ -188,9 +188,10 @@ button{ cursor:pointer; background:none; border:none; }
 .footnote{ font-size:.8rem; color:var(--soft); margin-top:26px; max-width:56ch; line-height:1.55; }
 
 @media (max-width:600px){
-    :root{ --gutter:30px; --content:93vw; --dest-gap:40px; --dest-h:46px; }
-    .container{ padding-right:max(16px, env(safe-area-inset-right, 0px)); }
-    .dest{ width:26px; }
+    :root{ --gutter:24px; --content:93vw; }
+    .logo-door{ display:inline-block; }
+    .head-path{ display:none; }
+    .foot-door{ display:none; }
     .btn{ width:100%; justify-content:center; }
 }
 @media (prefers-reduced-motion:reduce){
@@ -202,15 +203,16 @@ button{ cursor:pointer; background:none; border:none; }
 
 <div class="container">
 
-    <div class="trail" aria-hidden="true">
-        <span class="trail-line"></span>
-        <svg class="dest" viewBox="0 0 40 64">
-            <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
-            <circle class="handle" cx="30" cy="33" r="2.6"/>
-        </svg>
-    </div>
-
-    <p class="logo">Exit Path</p>
+    <header class="site-head">
+        <a class="logo" href="index.html">
+            <svg class="logo-door" viewBox="0 0 40 64" aria-hidden="true">
+                <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+                <circle class="handle" cx="30" cy="33" r="2.6"/>
+            </svg>
+            <span>Exit Path</span>
+        </a>
+        <span class="head-path" aria-hidden="true"></span>
+    </header>
 
     <section class="intro">
         <p class="kicker">The full Exit Path</p>
@@ -319,6 +321,13 @@ button{ cursor:pointer; background:none; border:none; }
             This is practical guidance built from your answers — not financial, tax, legal or investment advice,
             and no income is promised or guaranteed. Questions before you buy? Email me and I'll answer honestly.
         </p>
+        <div class="foot-motif">
+            <span class="foot-path" aria-hidden="true"></span>
+            <svg class="foot-door" viewBox="0 0 40 64" aria-hidden="true">
+                <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+                <circle class="handle" cx="30" cy="33" r="2.6"/>
+            </svg>
+        </div>
     </section>
 
 </div>

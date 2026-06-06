@@ -22,7 +22,7 @@
     --trail:#bdbdbd;
     --trail-mark:#8a8a8a;
 
-    --gutter:clamp(40px, 9vw, 96px);
+    --gutter:clamp(28px, 6vw, 56px);
     --content:min(880px, 90vw);
     --type-display:Georgia, "Times New Roman", serif;
 }
@@ -49,71 +49,57 @@ button{ cursor:pointer; background:none; border:none; }
     min-height:100vh; min-height:100svh;
     width:var(--content);
     margin-inline:auto;
-    padding-left:calc(var(--gutter) + env(safe-area-inset-left, 0px));
-    padding-right:max(0px, env(safe-area-inset-right, 0px));
+    padding-left:max(var(--gutter), env(safe-area-inset-left, 0px));
+    padding-right:max(var(--gutter), env(safe-area-inset-right, 0px));
     display:flex;
     flex-direction:column;
 }
 
 /* =========================================================
-   PATH PROGRESS  (the trail down the left margin)
+   HEADER PROGRESS  (the path runs across the header to the door)
    ========================================================= */
-.trail{
-    position:fixed;
-    top:0; bottom:0;
-    left:max(0px, calc((100vw - var(--content)) / 2));
-    margin-left:calc(var(--gutter) / 2);
-    width:3px;
-    z-index:0;
-    pointer-events:none;
+.site-head{
+    display:flex; align-items:center; gap:16px;
+    padding:clamp(22px,5vw,34px) 0 clamp(16px,3vw,22px);
 }
-.trail-line{
-    position:absolute;
-    top:clamp(70px,12vh,120px); left:0; right:0;
-    bottom:clamp(86px,14vh,128px);
-    background:repeating-linear-gradient(
-        to bottom,
-        var(--trail) 0, var(--trail) 16px,
-        transparent 16px, transparent 30px);
+.logo{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:clamp(1rem,2.6vw,1.25rem);
+    letter-spacing:.3em; text-transform:uppercase;
+    color:var(--ink); text-decoration:none; white-space:nowrap;
+}
+.logo-door{
+    display:none;
+    height:1.15em; width:auto; flex:none;
+    transform:translateY(.04em);
+    fill:none; stroke:var(--trail-mark); stroke-width:4;
+}
+.logo-door .handle{ fill:var(--accent); stroke:none; }
+.head-path{ position:relative; flex:1 1 auto; min-width:0; height:14px; }
+.trail-track{
+    position:absolute; left:0; right:0; top:50%; height:3px; transform:translateY(-50%);
+    background:repeating-linear-gradient(to right,
+        var(--trail) 0, var(--trail) 16px, transparent 16px, transparent 30px);
 }
 .trail-fill{
-    position:absolute;
-    top:clamp(70px,12vh,120px); left:-0.5px; right:-0.5px;
-    height:0;
-    background:var(--accent);
-    transition:height .55s cubic-bezier(.22,1,.36,1);
+    position:absolute; left:0; top:50%; height:3px; width:0; transform:translateY(-50%);
+    background:var(--accent); transition:width .55s cubic-bezier(.22,1,.36,1);
 }
 .walker{
-    position:absolute;
-    left:50%; top:clamp(70px,12vh,120px);
-    width:12px; height:12px; margin-left:-6px; margin-top:-6px;
-    border-radius:50%;
-    background:var(--accent);
-    box-shadow:0 0 0 5px rgba(99,102,241,.16);
-    transition:top .55s cubic-bezier(.22,1,.36,1);
+    position:absolute; left:0; top:50%;
+    width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 0 5px rgba(99,102,241,.16);
+    transition:left .55s cubic-bezier(.22,1,.36,1);
 }
 .dest{
-    position:absolute;
-    left:50%; bottom:clamp(34px,7vh,80px);
-    transform:translateX(-50%);
-    width:32px; height:auto;
+    flex:none; width:auto; height:30px;
     fill:none; stroke:var(--trail-mark); stroke-width:4;
     transition:stroke .5s ease;
 }
 .dest .handle{ fill:var(--accent); stroke:none; }
-.trail.arrived .dest{ stroke:var(--accent); }
-.trail.arrived .walker{
+.site-head.arrived .dest{ stroke:var(--accent); }
+.site-head.arrived .walker{
     box-shadow:0 0 0 7px rgba(99,102,241,.22), 0 0 22px 4px rgba(99,102,241,.4);
-}
-
-/* =========================================================
-   CHROME
-   ========================================================= */
-.logo{
-    font-size:clamp(1rem, 2.6vw, 1.25rem);
-    letter-spacing:.3em; text-transform:uppercase;
-    padding-top:clamp(24px, 6vw, 40px);
-    padding-bottom:6px;
 }
 .meta{
     display:flex; align-items:baseline; gap:14px;
@@ -267,9 +253,9 @@ button{ cursor:pointer; background:none; border:none; }
 .copied.show{ opacity:1; }
 
 @media (max-width:600px){
-    :root{ --gutter:30px; --content:93vw; }
-    .container{ padding-right:max(16px, env(safe-area-inset-right, 0px)); }
-    .dest{ width:26px; }
+    :root{ --gutter:24px; --content:93vw; }
+    .logo-door{ display:inline-block; }   /* door becomes the logo mark */
+    .dest{ display:none; }                /* progress bar + the NN/NN count carry the rest */
     .opt{ padding:16px 16px 16px 48px; }
     .opt::before{ left:13px; width:22px; height:22px; }
     .actions .btn{ flex:1 1 100%; justify-content:center; padding:18px 30px; }
@@ -282,18 +268,25 @@ button{ cursor:pointer; background:none; border:none; }
 </head>
 <body>
 
-<div class="trail" id="trail" aria-hidden="true">
-    <span class="trail-line"></span>
-    <span class="trail-fill" id="trailFill"></span>
-    <span class="walker" id="walker"></span>
-    <svg class="dest" viewBox="0 0 40 64">
-        <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
-        <circle class="handle" cx="30" cy="33" r="2.6"/>
-    </svg>
-</div>
-
 <div class="container">
-    <p class="logo">Exit Path</p>
+    <header class="site-head" id="siteHead">
+        <a class="logo" href="index.html">
+            <svg class="logo-door" viewBox="0 0 40 64" aria-hidden="true">
+                <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+                <circle class="handle" cx="30" cy="33" r="2.6"/>
+            </svg>
+            <span>Exit Path</span>
+        </a>
+        <span class="head-path" id="trail" aria-hidden="true">
+            <span class="trail-track"></span>
+            <span class="trail-fill" id="trailFill"></span>
+            <span class="walker" id="walker"></span>
+        </span>
+        <svg class="dest" viewBox="0 0 40 64" aria-hidden="true">
+            <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+            <circle class="handle" cx="30" cy="33" r="2.6"/>
+        </svg>
+    </header>
     <div class="meta" id="meta"></div>
     <main class="stage" id="stage"></main>
 </div>
@@ -397,17 +390,16 @@ const meta  = document.getElementById("meta");
 const trail = document.getElementById("trail");
 const trailFill = document.getElementById("trailFill");
 const walker = document.getElementById("walker");
+const siteHead = document.getElementById("siteHead");
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
 
 function setProgress(frac, arrived){
-  const lineEl = document.querySelector(".trail-line");
-  const lineTop = parseFloat(getComputedStyle(lineEl).top);
-  const lineBottom = trail.clientHeight - parseFloat(getComputedStyle(lineEl).bottom);
-  const travel = (lineBottom - lineTop) * frac;
-  trailFill.style.height = travel + "px";
-  walker.style.top = (lineTop + travel) + "px";
-  trail.classList.toggle("arrived", !!arrived);
+  // horizontal track: fill grows rightward, walker rides it toward the door
+  const travel = (trail.clientWidth || 0) * frac;
+  trailFill.style.width = travel + "px";
+  walker.style.left = travel + "px";
+  siteHead.classList.toggle("arrived", !!arrived);
 }
 
 function render(){

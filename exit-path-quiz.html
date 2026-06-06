@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The Exit Path Quiz — discover your archetype, the offer hiding in your own expertise, and the shortest path to packaging it and selling it to an audience, from anywhere.">
+<title>The Exit Path Quiz</title>
+
+<style>
+/* =========================================================
+   DESIGN TOKENS  (shared with the Exit Path landing page)
+   ========================================================= */
+:root{
+    --ink:#000;
+    --paper:#fff;
+    --accent:#6366f1;
+    --accent-ink:#4338ca;
+    --soft:#666;
+    --hair:#e6e6e6;
+    --hair-strong:#d0d0d0;
+    --trail:#bdbdbd;
+    --trail-mark:#8a8a8a;
+
+    --gutter:clamp(28px, 6vw, 56px);
+    --content:min(880px, 90vw);
+    --type-display:Georgia, "Times New Roman", serif;
+}
+
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--type-display);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    line-height:1.5;
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+button,input,textarea{ font-family:inherit; color:inherit; }
+button{ cursor:pointer; background:none; border:none; }
+
+.container{
+    position:relative;
+    z-index:1;
+    min-height:100vh; min-height:100svh;
+    width:var(--content);
+    margin-inline:auto;
+    padding-left:max(var(--gutter), env(safe-area-inset-left, 0px));
+    padding-right:max(var(--gutter), env(safe-area-inset-right, 0px));
+    display:flex;
+    flex-direction:column;
+}
+
+/* =========================================================
+   PATH PROGRESS  (the trail down the left margin — now alive)
+   ========================================================= */
+/* =========================================================
+   HEADER PROGRESS  (the path runs across the header to the door)
+   ========================================================= */
+.site-head{
+    display:flex; align-items:center; gap:16px;
+    padding:clamp(22px,5vw,34px) 0 clamp(16px,3vw,22px);
+}
+.logo{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:clamp(1rem,2.6vw,1.25rem);
+    letter-spacing:.3em; text-transform:uppercase;
+    color:var(--ink); text-decoration:none; white-space:nowrap;
+}
+.logo-door{
+    display:none;
+    height:1.15em; width:auto; flex:none;
+    transform:translateY(.04em);
+    fill:none; stroke:var(--trail-mark); stroke-width:4;
+}
+.logo-door .handle{ fill:var(--accent); stroke:none; }
+.head-path{ position:relative; flex:1 1 auto; min-width:0; height:14px; }
+.trail-track{
+    position:absolute; left:0; right:0; top:50%; height:3px; transform:translateY(-50%);
+    background:repeating-linear-gradient(to right,
+        var(--trail) 0, var(--trail) 16px, transparent 16px, transparent 30px);
+}
+.trail-fill{
+    position:absolute; left:0; top:50%; height:3px; width:0; transform:translateY(-50%);
+    background:var(--accent); transition:width .55s cubic-bezier(.22,1,.36,1);
+}
+.walker{
+    position:absolute; left:0; top:50%;
+    width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 0 5px rgba(99,102,241,.16);
+    transition:left .55s cubic-bezier(.22,1,.36,1);
+}
+.dest{
+    flex:none; width:auto; height:30px;
+    fill:none; stroke:var(--trail-mark); stroke-width:4;
+    transition:stroke .5s ease;
+}
+.dest .handle{ fill:var(--accent); stroke:none; }
+.site-head.arrived .dest{ stroke:var(--accent); }
+.site-head.arrived .walker{
+    box-shadow:0 0 0 7px rgba(99,102,241,.22), 0 0 22px 4px rgba(99,102,241,.4);
+}
+.meta{
+    display:flex; align-items:baseline; gap:14px;
+    font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--soft);
+    min-height:1.2em;
+    margin-top:2px;
+}
+.meta .sec{ color:var(--accent-ink); }
+.meta .count{ margin-left:auto; font-variant-numeric:tabular-nums; }
+
+.stage{
+    flex:1 1 auto;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:clamp(26px,5vw,46px) 0 clamp(30px,7vw,64px);
+}
+
+/* fade between questions */
+.fade{ animation:fade .42s cubic-bezier(.22,1,.36,1) both; }
+@keyframes fade{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:none;} }
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+.lead{
+    font-size:clamp(1.1rem, 2.4vw, 1.4rem);
+    color:var(--soft); max-width:48ch; line-height:1.6;
+    margin-bottom:clamp(28px,5vw,40px);
+}
+.lead .thought{ display:block; color:var(--ink); font-style:italic; margin:.55em 0; }
+.headline{
+    font-size:clamp(1.7rem, 5vw, 3rem);
+    line-height:1.12; font-weight:400; letter-spacing:-0.02em;
+    max-width:16ch; text-wrap:balance; margin-bottom:clamp(30px,6vw,48px);
+}
+.facts{
+    display:flex; flex-wrap:wrap; gap:8px 30px;
+    font-size:.78rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--soft); margin-bottom:clamp(32px,6vw,48px);
+}
+.facts span{ display:inline-flex; align-items:center; gap:.6em; }
+.facts span::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--accent); }
+
+/* =========================================================
+   QUESTION
+   ========================================================= */
+.q-num{
+    font-size:.74rem; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--accent-ink); margin-bottom:16px;
+}
+.q-text{
+    font-size:clamp(1.4rem, 3.6vw, 2.15rem);
+    line-height:1.18; font-weight:400; letter-spacing:-0.015em;
+    max-width:22ch; text-wrap:balance; margin-bottom:clamp(26px,5vw,40px);
+}
+.q-hint{
+    display:block; font-size:.95rem; color:var(--soft);
+    font-style:italic; letter-spacing:0; margin-top:.5em; max-width:34ch;
+}
+
+/* option rows */
+.opts{ display:flex; flex-direction:column; gap:10px; max-width:560px; }
+.opt{
+    position:relative; text-align:left; width:100%;
+    border:1.5px solid var(--hair-strong);
+    padding:17px 18px 17px 52px;
+    font-size:clamp(1.02rem,2.1vw,1.12rem); line-height:1.35;
+    transition:border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.opt::before{   /* the marker / key cap */
+    content:attr(data-key);
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:24px; height:24px; border:1.5px solid var(--hair-strong); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.72rem; letter-spacing:0; color:var(--soft);
+    transition:all .18s ease;
+}
+@media (hover:hover) and (pointer:fine){
+    .opt:hover{ border-color:var(--ink); transform:translateX(4px); }
+    .opt:hover::before{ border-color:var(--ink); color:var(--ink); }
+}
+.opt.sel{ border-color:var(--accent); background:rgba(99,102,241,.05); }
+.opt.sel::before{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+/* text input */
+.q-textarea{
+    width:100%; max-width:600px;
+    border:none; border-bottom:2px solid var(--ink);
+    background:transparent; resize:none;
+    font-size:clamp(1.15rem,2.6vw,1.45rem); line-height:1.5;
+    padding:6px 0 12px; outline:none; min-height:2.4em;
+}
+.q-textarea:focus{ border-bottom-color:var(--accent); }
+.q-textarea::placeholder{ color:#bbb; }
+
+/* skill sliders (Q6) */
+.skills{ display:grid; grid-template-columns:1fr; gap:15px; max-width:580px; }
+.skill{ display:grid; grid-template-columns:1fr; gap:7px; }
+.skill .row{ display:flex; align-items:baseline; justify-content:space-between; }
+.skill .name{ font-size:1.02rem; }
+.skill .val{ font-size:.82rem; letter-spacing:.1em; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
+.skill input[type=range]{
+    -webkit-appearance:none; appearance:none; width:100%; height:2px;
+    background:var(--hair-strong); outline:none; cursor:pointer;
+}
+.skill input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:20px; height:20px;
+    border-radius:50%; background:var(--paper); border:2px solid var(--accent);
+    box-shadow:0 1px 4px rgba(0,0,0,.18); transition:transform .12s ease;
+}
+.skill input[type=range]::-webkit-slider-thumb:active{ transform:scale(1.18); }
+.skill input[type=range]::-moz-range-thumb{
+    width:20px; height:20px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--accent); box-shadow:0 1px 4px rgba(0,0,0,.18);
+}
+
+/* =========================================================
+   BUTTONS / NAV
+   ========================================================= */
+.actions{ display:flex; align-items:center; gap:18px 26px; flex-wrap:wrap; margin-top:clamp(30px,6vw,46px); }
+.btn{
+    display:inline-flex; align-items:center; gap:.7em;
+    background:var(--accent); color:var(--paper);
+    border:2px solid var(--accent);
+    font-size:.85rem; letter-spacing:.2em; text-transform:uppercase;
+    padding:17px 30px; white-space:nowrap;
+    transition:transform .25s ease, opacity .2s ease;
+}
+@media (hover:hover) and (pointer:fine){ .btn:hover{ transform:translateX(8px); } }
+.btn[disabled]{ opacity:.32; cursor:not-allowed; transform:none; }
+.btn.ghost{ background:transparent; color:var(--ink); border-color:var(--ink); }
+@media (hover:hover) and (pointer:fine){ .btn.ghost:hover{ background:var(--ink); color:var(--paper); transform:translateX(8px);} }
+
+/* visible keyboard focus for interactive elements */
+.opt:focus-visible,
+.btn:focus-visible,
+.link:focus-visible,
+.q-textarea:focus-visible,
+.signup input:focus-visible,
+.skill input[type=range]:focus-visible{
+    outline:2px solid var(--accent-ink);
+    outline-offset:3px;
+}
+
+.link{
+    font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--soft);
+    border-bottom:1px solid transparent; padding-bottom:2px; transition:color .18s, border-color .18s;
+}
+@media (hover:hover) and (pointer:fine){ .link:hover{ color:var(--ink); border-color:var(--ink);} }
+.spacer{ flex:1 1 auto; }
+
+/* =========================================================
+   RESULTS
+   ========================================================= */
+.result-kicker{ font-size:.76rem; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:14px; }
+.archetype{
+    font-size:clamp(2.4rem,8vw,4.4rem); line-height:1; font-weight:400;
+    letter-spacing:-0.03em; margin-bottom:18px; text-wrap:balance;
+}
+.archetype .the{ display:block; font-size:.3em; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); margin-bottom:.4em; }
+.archetype-blurb{ font-size:clamp(1.05rem,2.3vw,1.25rem); color:var(--soft); max-width:50ch; line-height:1.55; margin-bottom:clamp(40px,8vw,64px); }
+
+.block{ border-top:1px solid var(--hair); padding:clamp(34px,6vw,52px) 0; }
+.block-h{ display:flex; align-items:baseline; gap:14px; margin-bottom:26px; }
+.block-h .n{ font-size:.78rem; letter-spacing:.2em; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
+.block-h h2{ font-size:clamp(1.3rem,3vw,1.7rem); font-weight:400; letter-spacing:-0.01em; }
+
+/* business fit bars */
+.fit{ display:flex; flex-direction:column; gap:16px; max-width:600px; }
+.fit-row{ display:grid; grid-template-columns:1fr; gap:7px; }
+.fit-row .top{ display:flex; justify-content:space-between; align-items:baseline; }
+.fit-row .label{ font-size:1.08rem; }
+.fit-row.lead .label{ color:var(--accent-ink); }
+.fit-row .score{ font-size:.85rem; letter-spacing:.08em; color:var(--soft); font-variant-numeric:tabular-nums; }
+.fit-track{ height:7px; background:var(--hair); position:relative; overflow:hidden; }
+.fit-bar{ position:absolute; inset:0 auto 0 0; width:0; background:var(--hair-strong); transition:width 1s cubic-bezier(.22,1,.36,1); }
+.fit-row.lead .fit-bar{ background:var(--accent); }
+
+/* path timeline */
+.path{ display:flex; flex-direction:column; max-width:640px; }
+.path-step{ display:grid; grid-template-columns:96px 1fr; gap:22px; padding-bottom:30px; position:relative; }
+.path-step:last-child{ padding-bottom:0; }
+.path-step::before{ content:""; position:absolute; left:7px; top:18px; bottom:-4px; width:2px; background:var(--hair); }
+.path-step:last-child::before{ display:none; }
+.path-step .dot{ position:absolute; left:0; top:7px; width:16px; height:16px; border-radius:50%; background:var(--paper); border:2px solid var(--hair-strong); z-index:1; }
+.path-step:first-child .dot{ border-color:var(--accent); background:var(--accent); }
+.path-step .when{ font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--soft); padding-top:5px; }
+.path-step .what{ font-size:1.08rem; line-height:1.4; }
+.path-step .what b{ font-weight:400; color:var(--ink); display:block; margin-bottom:3px; }
+.path-step .what span{ color:var(--soft); font-size:.96rem; }
+.path-note{ font-size:.95rem; color:var(--soft); font-style:italic; margin-top:24px; max-width:46ch; }
+
+/* constraint + brain cards */
+.cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1px; background:var(--hair); border:1px solid var(--hair); }
+.card{ background:var(--paper); padding:24px 22px; }
+.card .k{ font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--soft); margin-bottom:9px; }
+.card .v{ font-size:1.22rem; line-height:1.25; }
+.card .v.accent{ color:var(--accent-ink); }
+.prescription{
+    margin-top:26px; padding:22px 24px;
+    border-left:3px solid var(--accent); background:rgba(99,102,241,.045);
+    font-size:1.08rem; line-height:1.55; max-width:56ch;
+}
+.prescription b{ font-weight:400; color:var(--accent-ink); }
+
+.recommend{ font-size:clamp(1.15rem,2.5vw,1.4rem); line-height:1.5; max-width:54ch; }
+.recommend .em{ color:var(--accent-ink); font-style:italic; }
+
+.inwords{ display:flex; flex-direction:column; gap:18px; max-width:600px; }
+.inwords blockquote{ border-left:2px solid var(--hair-strong); padding:2px 0 2px 18px; }
+.inwords .q{ font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+.inwords .a{ font-size:1.1rem; font-style:italic; line-height:1.45; }
+
+/* email capture */
+.capture{ border-top:2px solid var(--ink); padding:clamp(40px,8vw,64px) 0 clamp(60px,12vw,90px); }
+.capture h2{ font-size:clamp(1.5rem,3.6vw,2.1rem); font-weight:400; letter-spacing:-0.02em; max-width:18ch; line-height:1.18; margin-bottom:16px; }
+.capture p{ color:var(--soft); max-width:46ch; margin-bottom:30px; line-height:1.6; }
+.signup label{ display:block; font-size:.74rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:16px; }
+.signup .formrow{ display:flex; flex-wrap:wrap; gap:18px 22px; align-items:flex-end; }
+.signup input[type=email],
+.signup input[type=text]{
+    flex:1 1 260px; border:none; border-bottom:2px solid var(--ink); background:transparent;
+    font-size:clamp(1.1rem,2.4vw,1.3rem); line-height:1.4; padding:10px 0 12px; outline:none;
+}
+.signup input::placeholder{ color:#bbb; }
+.signup input:focus{ border-bottom-color:var(--accent); }
+.honey{ position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden; }
+.formnote{ font-size:.82rem; color:var(--soft); margin-top:18px; }
+.sent{ font-size:1.2rem; line-height:1.5; max-width:42ch; }
+.sent .tick{ display:inline-block; width:34px; height:34px; border-radius:50%; background:var(--accent); color:#fff; text-align:center; line-height:34px; margin-bottom:16px; }
+.err{ color:#b91c1c; font-size:.92rem; margin-top:14px; }
+.err a{ color:var(--accent-ink); }
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+@media (max-width:600px){
+    :root{ --gutter:24px; }
+    .logo-door{ display:inline-block; }   /* door becomes the logo mark */
+    .dest{ display:none; }                /* progress bar + the NN/NN count carry the rest */
+    .opt{ padding:16px 16px 16px 48px; }
+    .opt::before{ left:13px; width:22px; height:22px; }
+    .actions .btn{ flex:1 1 100%; justify-content:center; padding:18px 30px; }
+    .actions .spacer{ display:none; }
+    .path-step{ grid-template-columns:1fr; gap:4px; }
+    .path-step{ padding-left:32px; }
+    .path-step::before{ left:7px; }
+    .path-step .dot{ left:0; }
+    .path-step .when{ padding-top:0; }
+}
+@media (prefers-reduced-motion:reduce){
+    *{ animation:none!important; transition:none!important; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header class="site-head" id="siteHead">
+        <a class="logo" href="index.html">
+            <svg class="logo-door" viewBox="0 0 40 64" aria-hidden="true">
+                <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+                <circle class="handle" cx="30" cy="33" r="2.6"/>
+            </svg>
+            <span>Exit Path</span>
+        </a>
+        <span class="head-path" id="trail" aria-hidden="true">
+            <span class="trail-track"></span>
+            <span class="trail-fill" id="trailFill"></span>
+            <span class="walker" id="walker"></span>
+        </span>
+        <svg class="dest" viewBox="0 0 40 64" aria-hidden="true">
+            <rect x="2.5" y="2.5" width="35" height="59" rx="3"/>
+            <circle class="handle" cx="30" cy="33" r="2.6"/>
+        </svg>
+    </header>
+    <div class="meta" id="meta"></div>
+    <main class="stage" id="stage"></main>
+</div>
+
+<!-- ============================================================
+     LEADS GO TO YOU VIA FORMSPREE.
+     Each completed quiz sends the person's name, email and full
+     diagnostic to the inbox on your Formspree form.
+     SET-UP (one time): create a form at https://formspree.io,
+     then paste its endpoint into FORMSPREE_ENDPOINT in the script
+     below (it looks like https://formspree.io/f/abcdwxyz).
+     Until you do, submissions fall back to a direct email link.
+     ============================================================ -->
+
+<script>
+"use strict";
+
+/* =====================================================================
+   QUESTION SET  — 34 questions across 7 sections
+   type: single | multi | text | scale10
+   weights map answers to archetypes / signals used by the scoring engine
+   ===================================================================== */
+const ARCH = ["builder","teacher","creator","operator","seller","connector","analyst"];
+
+const QUESTIONS = [
+  // ---- Section 1 — Self-Awareness ----
+  { id:"q1", section:"Self-Awareness", type:"single",
+    text:"Which statement sounds most like you?",
+    options:[
+      { label:"I love creating things.",        w:{creator:2,builder:1} },
+      { label:"I love helping people.",         w:{teacher:2,connector:1} },
+      { label:"I love solving problems.",       w:{analyst:2,builder:1} },
+      { label:"I love selling ideas.",          w:{seller:2,connector:1} },
+      { label:"I love organising chaos.",       w:{operator:2} },
+    ] },
+  { id:"q2", section:"Self-Awareness", type:"single",
+    text:"When people come to you for help, what do they ask about?",
+    options:[
+      { label:"Business",      w:{operator:1,analyst:1}, ind:"business" },
+      { label:"Technology",    w:{builder:1,analyst:1}, ind:"software" },
+      { label:"Health",        w:{teacher:1}, ind:"health" },
+      { label:"Career",        w:{teacher:1,connector:1}, ind:"education" },
+      { label:"Relationships", w:{connector:1,teacher:1} },
+      { label:"Creativity",    w:{creator:2} },
+      { label:"Money",         w:{analyst:1,seller:1}, ind:"finance" },
+      { label:"Leadership",    w:{operator:1,connector:1} },
+      { label:"Productivity",  w:{operator:1,analyst:1}, ind:"productivity" },
+    ] },
+  { id:"q3", section:"Self-Awareness", type:"text", optional:true,
+    text:"Which activity can you do for four hours without noticing time?",
+    placeholder:"Type freely…", echo:"For hours on end, you can" },
+  { id:"q4", section:"Self-Awareness", type:"single",
+    text:"What drains your energy fastest?",
+    options:[
+      { label:"Meetings",          w:{operator:-1} },
+      { label:"Repetition",        w:{operator:-1,builder:-1} },
+      { label:"Sales",             w:{seller:-2} },
+      { label:"Content creation",  w:{creator:-2} },
+      { label:"Customer support",  w:{teacher:-1,connector:-1} },
+      { label:"Managing people",   w:{operator:-2,connector:-1} },
+      { label:"Administration",    w:{operator:-1} },
+    ] },
+  { id:"q5", section:"Self-Awareness", type:"text", optional:true,
+    text:"What feels easy to you that other people find hard?",
+    hint:"The thing you almost dismiss because it's obvious to you — that's usually the gold.",
+    placeholder:"Type freely…", echo:"Something that comes easily to you, but is hard for others, is" },
+
+  // ---- Section 2 — Skill Inventory ----
+  { id:"q6", section:"Skill Inventory", type:"scale10",
+    text:"Rate yourself, honestly, on each.",
+    hint:"Drag each line. 1 = not my thing, 10 = this is a strength.",
+    skills:[
+      { key:"writing",    label:"Writing",    arch:["creator","teacher"] },
+      { key:"speaking",   label:"Speaking",   arch:["teacher","seller"] },
+      { key:"sales",      label:"Sales",      arch:["seller"] },
+      { key:"design",     label:"Design",     arch:["creator"] },
+      { key:"technology", label:"Technology", arch:["builder","analyst"] },
+      { key:"leadership", label:"Leadership", arch:["operator","connector"] },
+      { key:"teaching",   label:"Teaching",   arch:["teacher"] },
+      { key:"research",   label:"Research",   arch:["analyst"] },
+      { key:"networking", label:"Networking", arch:["connector"] },
+      { key:"operations", label:"Operations", arch:["operator"] },
+    ] },
+  { id:"q7", section:"Skill Inventory", type:"text", optional:true,
+    text:"What one skill have you spent the most time developing?",
+    placeholder:"Type freely…" },
+  { id:"q8", section:"Skill Inventory", type:"single",
+    text:"How many years of professional experience do you have?",
+    options:[
+      { label:"0–2 years",   exp:0 },
+      { label:"3–5 years",   exp:1 },
+      { label:"6–10 years",  exp:2 },
+      { label:"11–20 years", exp:3 },
+      { label:"20+ years",   exp:4 },
+    ] },
+  { id:"q9", section:"Skill Inventory", type:"single",
+    text:"Which describes your strongest asset?",
+    options:[
+      { label:"Expertise",        w:{teacher:1,analyst:1}, asset:"expertise" },
+      { label:"Audience",         w:{creator:1,connector:1}, asset:"audience" },
+      { label:"Network",          w:{connector:2}, asset:"network" },
+      { label:"Capital",          w:{operator:1}, asset:"capital" },
+      { label:"Time",             w:{}, asset:"time" },
+      { label:"Technical ability",w:{builder:2}, asset:"technical" },
+      { label:"Credentials",      w:{analyst:1,teacher:1}, asset:"credentials" },
+    ] },
+
+  // ---- Section 3 — Opportunity Discovery ----
+  { id:"q10", section:"Opportunity", type:"text", optional:true,
+    text:"List three topics you could talk about for an hour with no prep.",
+    placeholder:"e.g. pricing, hiring, distance running…", echo:"You could riff for an hour on" },
+  { id:"q11", section:"Opportunity", type:"text", optional:true,
+    text:"List three problems you run into again and again.",
+    placeholder:"Type freely…" },
+  { id:"q12", section:"Opportunity", type:"single",
+    text:"Which industry genuinely fascinates you?",
+    options:[
+      { label:"AI",             ind:"ai" },
+      { label:"Finance",        ind:"finance" },
+      { label:"Health",         ind:"health" },
+      { label:"Education",      ind:"education" },
+      { label:"Marketing",      ind:"marketing" },
+      { label:"Real estate",    ind:"realestate" },
+      { label:"Software",       ind:"software" },
+      { label:"Productivity",   ind:"productivity" },
+      { label:"Lifestyle",      ind:"lifestyle" },
+      { label:"Sustainability", ind:"sustainability" },
+    ] },
+  { id:"q13", section:"Opportunity", type:"text", optional:true,
+    text:"If you had to start a channel tomorrow, what would it be about?",
+    placeholder:"Type freely…", echo:"Given a channel tomorrow, you'd make it about" },
+  { id:"q14", section:"Opportunity", type:"text", optional:true,
+    text:"What have you Googled most often in the last year?",
+    placeholder:"Type freely…" },
+
+  // ---- Section 4 — Freedom Goals ----
+  { id:"q15", section:"Freedom Goals", type:"single",
+    text:"Why do you want freedom, really?",
+    options:[
+      { label:"More money",   why:"money" },
+      { label:"More time",    why:"time" },
+      { label:"Family",       why:"family" },
+      { label:"Travel",       why:"travel" },
+      { label:"Creativity",   why:"creativity" },
+      { label:"Independence", why:"independence" },
+      { label:"Security",     why:"security" },
+      { label:"Impact",       why:"impact" },
+    ] },
+  { id:"qfloor", section:"Freedom Goals", type:"single",
+    text:"What monthly income would just let you breathe?",
+    hint:"Your floor: take-home that replaces what you earn now, or lets you quit the thing you most want to quit. You'll hit this long before \u201cfree\u201d.",
+    options:[
+      { label:"£2k / month",  floor:2 },
+      { label:"£3k / month",  floor:3 },
+      { label:"£4k / month",  floor:4 },
+      { label:"£6k / month",  floor:6 },
+      { label:"£8k+ / month", floor:8 },
+    ] },
+  { id:"q16", section:"Freedom Goals", type:"single",
+    text:"And what monthly income would make you feel genuinely free?",
+    options:[
+      { label:"£3k / month",   inc:3 },
+      { label:"£5k / month",   inc:5 },
+      { label:"£10k / month",  inc:10 },
+      { label:"£25k / month",  inc:25 },
+      { label:"£50k+ / month", inc:50 },
+    ] },
+  { id:"q17", section:"Freedom Goals", type:"single",
+    text:"How many hours a week would you ideally work?",
+    options:[
+      { label:"10 hours", hrs:10 },
+      { label:"20 hours", hrs:20 },
+      { label:"30 hours", hrs:30 },
+      { label:"40 hours", hrs:40 },
+      { label:"50+ hours",hrs:50 },
+    ] },
+  { id:"q18", section:"Freedom Goals", type:"text", optional:true,
+    text:"What would you do if income were guaranteed?",
+    placeholder:"Type freely…", echo:"With income guaranteed, you'd" },
+  { id:"q19", section:"Freedom Goals", type:"single",
+    text:"Which matters more to you?",
+    options:[
+      { label:"Flexibility", val:"flexibility" },
+      { label:"Status",      val:"status" },
+      { label:"Wealth",      val:"wealth" },
+      { label:"Impact",      val:"impact" },
+      { label:"Creativity",  val:"creativity" },
+    ] },
+
+  // ---- Section 5 — Validation Personality ----
+  { id:"q20", section:"Validation", type:"multi",
+    text:"What would you rather steer clear of?",
+    hint:"Pick any that apply. Ruling things out is as useful as ruling them in — leave blank if none.",
+    options:[
+      { label:"Selling & cold outreach", w:{seller:-1,connector:-1}, fear:"selling",
+        filt:{consulting:-2.5,agency:-2,local:-2,coaching:-1.5,content:1,newsletter:1,ecommerce:0.5} },
+      { label:"Being on camera / video", w:{creator:-1}, fear:"video",
+        filt:{content:-2,coaching:-0.8,newsletter:0.5} },
+      { label:"Public speaking", w:{teacher:-0.5,seller:-0.5}, fear:"speaking",
+        filt:{coaching:-1.5,consulting:-1,content:-0.5} },
+      { label:"Managing people", w:{operator:-1,connector:-0.5}, fear:"managing",
+        filt:{agency:-2.5,local:-2,ecommerce:-1,acquisition:-1,newsletter:1,consulting:1,productized:0.5,saas:0.5} },
+      { label:"Admin & paperwork", w:{operator:-0.5}, fear:"admin",
+        filt:{agency:-1.5,local:-1.5,acquisition:-1.5,ecommerce:-1} },
+      { label:"Unpredictable income", fear:"uncertainty",
+        filt:{ecommerce:-2,marketplace:-1.5,saas:-1.5,acquisition:-1.5,agency:-0.5,coaching:1.5,consulting:1,productized:1.5,newsletter:1} },
+      { label:"A slow build / delayed payoff", fear:"slow",
+        filt:{saas:-2.5,marketplace:-2,content:-2,newsletter:-1.5,acquisition:-1.5,consulting:1.5,coaching:1.5,local:1,productized:1,agency:1} },
+    ] },
+  { id:"q21", section:"Validation", type:"single",
+    text:"Have you ever sold anything?",
+    options:[
+      { label:"Never",        sell:0 },
+      { label:"Once",         sell:0.5 },
+      { label:"Occasionally", sell:1 },
+      { label:"Frequently",   sell:2 },
+      { label:"Professionally",sell:3 },
+    ] },
+  { id:"q22", section:"Validation", type:"single",
+    text:"Would you rather…",
+    options:[
+      { label:"Build something",   w:{builder:3} },
+      { label:"Sell something",    w:{seller:3} },
+      { label:"Teach something",   w:{teacher:3} },
+      { label:"Organise something",w:{operator:3} },
+      { label:"Promote something", w:{connector:2,creator:1} },
+    ] },
+  { id:"q23", section:"Validation", type:"single",
+    text:"How quickly do you act on ideas?",
+    options:[
+      { label:"Immediately",     act:4 },
+      { label:"Within days",     act:3 },
+      { label:"Within weeks",    act:2 },
+      { label:"Within months",   act:1 },
+      { label:"Rarely",          act:0 },
+    ] },
+
+  // ---- Section 6 — Constraints ----
+  { id:"q24", section:"Constraints", type:"single",
+    text:"What's your biggest obstacle right now?",
+    options:[
+      { label:"Time",               obstacle:"time" },
+      { label:"Money",              obstacle:"money" },
+      { label:"Confidence",         obstacle:"confidence" },
+      { label:"Skills",             obstacle:"skills" },
+      { label:"Network",            obstacle:"network" },
+      { label:"Clarity",            obstacle:"clarity" },
+      { label:"Family commitments", obstacle:"family" },
+    ] },
+  { id:"q25", section:"Constraints", type:"single",
+    text:"How much risk can you tolerate?",
+    options:[
+      { label:"Very low", risk:0 },
+      { label:"Low",      risk:1 },
+      { label:"Medium",   risk:2 },
+      { label:"High",     risk:3 },
+      { label:"Extreme",  risk:4 },
+    ] },
+  { id:"q26", section:"Constraints", type:"single",
+    text:"How much money could you invest to start?",
+    options:[
+      { label:"£0",       cap:0 },
+      { label:"£100",     cap:1 },
+      { label:"£1,000",   cap:2 },
+      { label:"£10,000",  cap:3 },
+      { label:"£50,000+", cap:4 },
+    ] },
+  { id:"qreach", section:"Constraints", type:"single",
+    text:"If you made a first move this week, how many people could you message personally and expect a reply?",
+    hint:"A warm handful who'll actually answer beats a big list who won't. Be realistic.",
+    options:[
+      { label:"No one yet",                reach:0 },
+      { label:"A handful (1–5)",           reach:1 },
+      { label:"A small group (5–20)",      reach:2 },
+      { label:"A decent number (20–100)",  reach:3 },
+      { label:"A large audience (100+)",   reach:4 },
+    ] },
+  { id:"qrunway", section:"Constraints", type:"single",
+    text:"If this earned nothing at first, how long could you keep going?",
+    hint:"Savings, a partner's income, your current job — roughly how long the lights stay on.",
+    options:[
+      { label:"No real runway",        run:0 },
+      { label:"Under 3 months",        run:1 },
+      { label:"3–6 months",            run:2 },
+      { label:"6–12 months",           run:3 },
+      { label:"Over a year / I'm covered", run:4 },
+    ] },
+  { id:"qurg", section:"Constraints", type:"single",
+    text:"How soon do you need this to bring in money?",
+    hint:"This is about pressure, not ambition — the two are often very different.",
+    options:[
+      { label:"As soon as possible",   urg:4 },
+      { label:"Within 3 months",       urg:3 },
+      { label:"Within 6 months",       urg:2 },
+      { label:"Within a year",         urg:1 },
+      { label:"No rush — I can build slowly", urg:0 },
+    ] },
+
+  // ---- Section 7 — Company-Brain Mapping ----
+  { id:"q27", section:"Company Brain", type:"single",
+    text:"What sounds most satisfying?",
+    options:[
+      { label:"Building systems",      w:{builder:2,operator:1} },
+      { label:"Teaching people",       w:{teacher:3} },
+      { label:"Creating content",      w:{creator:3} },
+      { label:"Closing deals",         w:{seller:3} },
+      { label:"Solving hard problems", w:{analyst:3} },
+      { label:"Leading teams",         w:{operator:2,connector:1} },
+    ] },
+  { id:"q28", section:"Company Brain", type:"text", optional:true,
+    text:"What would someone hire you for tomorrow?",
+    placeholder:"Type freely…", echo:"Someone could hire you tomorrow to" },
+  { id:"q29", section:"Company Brain", type:"text", optional:true,
+    text:"What result have you produced, repeatedly?",
+    placeholder:"Type freely…" },
+  { id:"q30", section:"Company Brain", type:"text", optional:true,
+    text:"Given £100,000 and twelve months, what would you build?",
+    placeholder:"Type freely…", echo:"With £100k and a year, you'd build" },
+];
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const state = { idx:-1, answers:{} };   // idx -1 = intro, QUESTIONS.length = results
+const stage = document.getElementById("stage");
+const meta  = document.getElementById("meta");
+const trail = document.getElementById("trail");
+const trailFill = document.getElementById("trailFill");
+const walker = document.getElementById("walker");
+const siteHead = document.getElementById("siteHead");
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+function render(){
+  if(state.idx < 0){ renderIntro(); return; }
+  if(state.idx >= QUESTIONS.length){ renderResults(); return; }
+  renderQuestion(QUESTIONS[state.idx]);
+}
+
+function setProgress(frac, arrived){
+  // horizontal track: fill grows rightward, walker rides it toward the door
+  const travel = (trail.clientWidth || 0) * frac;
+  trailFill.style.width = travel + "px";
+  walker.style.left = travel + "px";
+  siteHead.classList.toggle("arrived", !!arrived);
+}
+
+function renderIntro(){
+  meta.innerHTML = "";
+  setProgress(0, false);
+  stage.className = "stage fade";
+  stage.innerHTML = `
+    <p class="lead">
+      You've sat in the Monday meeting and thought:
+      <span class="thought">there has to be another way.</span>
+      This is how you find it.
+    </p>
+    <h1 class="headline">The Exit Path Quiz.</h1>
+    <div class="facts">
+      <span>34 questions</span><span>~7 minutes</span><span>5 results</span>
+    </div>
+    <p class="lead" style="margin-bottom:0;max-width:44ch">
+      We'll map your freedom archetype, the offer already hiding in your own expertise,
+      and the shortest path to packaging it and selling it to an audience — from anywhere.
+    </p>
+    <div class="actions">
+      <button class="btn" id="begin">Begin the walk <span aria-hidden="true">&rarr;</span></button>
+    </div>`;
+  document.getElementById("begin").addEventListener("click", ()=>{ state.idx = 0; render(); });
+}
+
+function renderQuestion(q){
+  const total = QUESTIONS.length;
+  const n = state.idx + 1;
+  meta.innerHTML = `<span class="sec">${esc(q.section)}</span><span class="count">${String(n).padStart(2,"0")} / ${total}</span>`;
+  setProgress(state.idx / total, false);
+
+  stage.className = "stage fade";
+  let body = "";
+
+  if(q.type === "single"){
+    body = `<div class="opts" role="radiogroup">` + q.options.map((o,i)=>{
+      const sel = state.answers[q.id]===i ? " sel":"";
+      const key = i < 9 ? (i+1) : "·";
+      return `<button class="opt${sel}" role="radio" aria-checked="${state.answers[q.id]===i}" data-key="${key}" data-i="${i}">${esc(o.label)}</button>`;
+    }).join("") + `</div>`;
+  }
+  else if(q.type === "multi"){
+    const cur = state.answers[q.id] || [];
+    body = `<div class="opts">` + q.options.map((o,i)=>{
+      const sel = cur.includes(i) ? " sel":"";
+      return `<button class="opt${sel}" aria-pressed="${cur.includes(i)}" data-key="✓" data-i="${i}">${esc(o.label)}</button>`;
+    }).join("") + `</div>`;
+  }
+  else if(q.type === "text"){
+    const v = state.answers[q.id] || "";
+    body = `<textarea class="q-textarea" id="ta" rows="2" placeholder="${esc(q.placeholder||"")}">${esc(v)}</textarea>`;
+  }
+  else if(q.type === "scale10"){
+    const cur = state.answers[q.id] || {};
+    body = `<div class="skills">` + q.skills.map(s=>{
+      const v = cur[s.key]!=null ? cur[s.key] : 5;
+      return `<div class="skill">
+        <div class="row"><span class="name">${esc(s.label)}</span><span class="val" id="v_${s.key}">${v}</span></div>
+        <input type="range" min="1" max="10" step="1" value="${v}" data-key="${s.key}" aria-label="${esc(s.label)}">
+      </div>`;
+    }).join("") + `</div>`;
+  }
+
+  const continues = (q.type==="single") ? "" :
+    `<button class="btn" id="next">Continue <span aria-hidden="true">&rarr;</span></button>`;
+  const skip = q.optional ? `<button class="link" id="skip">Skip</button>` : "";
+
+  stage.innerHTML = `
+    <p class="q-num">Question ${n}</p>
+    <h1 class="q-text">${esc(q.text)}${q.hint?`<span class="q-hint">${esc(q.hint)}</span>`:""}</h1>
+    ${body}
+    <div class="actions">
+      ${n>1?`<button class="link" id="back">&larr; Back</button>`:""}
+      <span class="spacer"></span>
+      ${skip}
+      ${continues}
+    </div>`;
+
+  wireQuestion(q);
+}
+
+function wireQuestion(q){
+  const back = document.getElementById("back");
+  if(back) back.addEventListener("click", ()=>{ state.idx--; render(); });
+  const skip = document.getElementById("skip");
+  if(skip) skip.addEventListener("click", advance);
+
+  if(q.type === "single"){
+    stage.querySelectorAll(".opt").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const i = +btn.dataset.i;
+        state.answers[q.id] = i;
+        stage.querySelectorAll(".opt").forEach(b=>{ b.classList.remove("sel"); b.setAttribute("aria-checked","false"); });
+        btn.classList.add("sel"); btn.setAttribute("aria-checked","true");
+        setTimeout(advance, 260);
+      });
+    });
+  }
+  else if(q.type === "multi"){
+    if(!state.answers[q.id]) state.answers[q.id] = [];
+    stage.querySelectorAll(".opt").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const i = +btn.dataset.i;
+        const arr = state.answers[q.id];
+        const at = arr.indexOf(i);
+        if(at>=0) arr.splice(at,1); else arr.push(i);
+        btn.classList.toggle("sel"); btn.setAttribute("aria-pressed", arr.includes(i));
+      });
+    });
+    document.getElementById("next").addEventListener("click", advance);
+  }
+  else if(q.type === "text"){
+    const ta = document.getElementById("ta");
+    const save = ()=>{ state.answers[q.id] = ta.value.trim(); };
+    ta.addEventListener("input", save);
+    document.getElementById("next").addEventListener("click", ()=>{ save(); advance(); });
+    ta.focus();
+  }
+  else if(q.type === "scale10"){
+    if(!state.answers[q.id]){ state.answers[q.id] = {}; q.skills.forEach(s=> state.answers[q.id][s.key]=5); }
+    stage.querySelectorAll("input[type=range]").forEach(r=>{
+      r.addEventListener("input", ()=>{
+        const k = r.dataset.key;
+        state.answers[q.id][k] = +r.value;
+        document.getElementById("v_"+k).textContent = r.value;
+      });
+    });
+    document.getElementById("next").addEventListener("click", advance);
+  }
+}
+
+function advance(){ state.idx++; render(); }
+
+/* keyboard: number keys pick single-select options, Enter continues */
+document.addEventListener("keydown", e=>{
+  if(state.idx < 0 || state.idx >= QUESTIONS.length) return;
+  const q = QUESTIONS[state.idx];
+  const tag = (e.target.tagName||"").toLowerCase();
+  if(tag==="textarea" || tag==="input") {
+    if(e.key==="Enter" && (tag==="input" || (tag==="textarea" && e.metaKey))){ e.preventDefault(); const nx=document.getElementById("next"); if(nx) nx.click(); }
+    return;
+  }
+  if(q.type==="single" && /^[1-9]$/.test(e.key)){
+    const i = +e.key - 1;
+    const btn = stage.querySelector(`.opt[data-i="${i}"]`);
+    if(btn) btn.click();
+  }
+  if(e.key==="Enter"){ const nx=document.getElementById("next"); if(nx) nx.click(); }
+});
+
+/* =====================================================================
+   SCORING ENGINE
+   ===================================================================== */
+const A = state.answers;
+function opt(qid){ const q = QUESTIONS.find(x=>x.id===qid); const i = A[qid]; return (i==null||!q.options)?null:q.options[i]; }
+function field(qid,key,dflt){ const o = opt(qid); return (o && o[key]!=null) ? o[key] : dflt; }
+// q20 is multi-select: return the selected option objects (its "avoid" list)
+function getAvoids(){
+  const q = QUESTIONS.find(x=>x.id==="q20");
+  const idxs = Array.isArray(A.q20) ? A.q20 : [];
+  return idxs.map(i=> q.options[i]).filter(Boolean);
+}
+function avoidFears(){ return new Set(getAvoids().map(o=>o.fear).filter(Boolean)); }
+
+const ARCH_NAMES = {
+  builder:"The Builder", teacher:"The Teacher", creator:"The Creator",
+  operator:"The Operator", seller:"The Closer", connector:"The Connector", analyst:"The Analyst"
+};
+const ARCH_BLURB = {
+  builder:"You'd rather make the thing than talk about it. Give you a problem and tools and you'll quietly assemble something that works — your freedom comes from owning what you build.",
+  teacher:"You turn what you know into clarity for other people, and you get a real charge from someone going \"oh, now I get it.\" Your knowledge is the asset; packaging it is the unlock.",
+  creator:"You think by making — words, designs, videos, ideas. You're at your best generating, and your leverage is an audience that compounds while you sleep.",
+  operator:"You see the messy system and you fix it. Process, delegation, throughput — you make things run, which means you can build something that runs without you in every seat.",
+  seller:"You're comfortable in the part most people avoid: the ask. You can create demand and close it, which is the rarest and most directly monetisable skill there is.",
+  connector:"You collect people and make introductions that pay off. Your network is your moat — the businesses that fit you are built on relationships and trust.",
+  analyst:"You go deep, find the signal, and trust the evidence. You're the one who actually reads the docs. Your edge is judgement that other people will gladly pay for.",
+};
+
+const BIZ = {
+  coaching:    { name:"Coaching",                  aff:{teacher:3,connector:2,seller:1}, cap:0, risk:1, scale:3, speed:3, keySkill:"speaking" },
+  consulting:  { name:"Consulting",                aff:{analyst:3,teacher:2,operator:1,seller:1}, cap:0, risk:1, scale:2, speed:3, keySkill:"sales" },
+  agency:      { name:"Agency",                    aff:{operator:3,seller:2,connector:1,builder:1}, cap:1, risk:2, scale:4, speed:2, keySkill:"sales" },
+  content:     { name:"Content business",          aff:{creator:3,teacher:2,connector:1}, cap:0, risk:2, scale:4, speed:1, keySkill:"writing" },
+  newsletter:  { name:"Newsletter",                aff:{creator:2,teacher:2,analyst:1}, cap:0, risk:1, scale:3, speed:1, keySkill:"writing" },
+  productized: { name:"Productised service",       aff:{builder:2,operator:2,seller:1}, cap:1, risk:2, scale:3, speed:3, keySkill:"operations" },
+  saas:        { name:"SaaS",                       aff:{builder:3,analyst:2}, cap:2, risk:4, scale:5, speed:1, keySkill:"technology" },
+  ecommerce:   { name:"E-commerce",                aff:{seller:2,operator:2,creator:1}, cap:3, risk:3, scale:4, speed:2, keySkill:"operations" },
+  marketplace: { name:"Marketplace",               aff:{operator:2,connector:2,builder:1,analyst:1}, cap:3, risk:4, scale:5, speed:1, keySkill:"networking" },
+  local:       { name:"Local service business",    aff:{operator:2,seller:2}, cap:2, risk:2, scale:2, speed:3, keySkill:"sales" },
+  acquisition: { name:"Acquisition entrepreneurship", aff:{analyst:2,operator:2,seller:1}, cap:4, risk:3, scale:4, speed:1, keySkill:"operations" },
+};
+// Exit Path only helps people package and sell their own expertise to an audience,
+// from anywhere — so only these models can be recommended. The rest stay in BIZ for
+// scoring context but are never surfaced as a fit or a path. Widen or narrow the
+// quiz's recommendations by editing this one list.
+const CANDIDATES = ["coaching","consulting","content","newsletter","productized"];
+const IND_BIZ = {
+  ai:["saas","consulting"], software:["saas","agency"], productivity:["saas","newsletter","content"],
+  finance:["consulting","acquisition","newsletter"], realestate:["acquisition","local"],
+  health:["coaching","content","ecommerce"], education:["coaching","content","newsletter"],
+  marketing:["agency","content","consulting"], lifestyle:["content","ecommerce","coaching"],
+  sustainability:["content","ecommerce","consulting"],
+};
+
+function computeArchetypes(){
+  const score = {}; ARCH.forEach(a=> score[a]=0);
+  // single-select weighted answers
+  ["q1","q2","q4","q9","q22","q27"].forEach(qid=>{
+    const o = opt(qid); if(o && o.w) for(const k in o.w) score[k]+=o.w[k];
+  });
+  // q20 is the multi-select "avoid" list — apply each selected item's weights
+  getAvoids().forEach(o=>{ if(o.w) for(const k in o.w) score[k]+=o.w[k]; });
+  // skills feed archetypes
+  const sk = A.q6 || {};
+  QUESTIONS.find(q=>q.id==="q6").skills.forEach(s=>{
+    const v = (sk[s.key]!=null?sk[s.key]:5);
+    s.arch.forEach(a=> score[a] += (v-5)*0.35 );
+  });
+  // selling experience
+  const sell = field("q21","sell",0); score.seller += sell;
+  const sorted = ARCH.slice().sort((a,b)=> score[b]-score[a]);
+  return { score, primary:sorted[0], secondary:sorted[1], sorted };
+}
+
+function computeBusinessFit(arch){
+  const cap = field("q26","cap",1);
+  const risk = field("q25","risk",2);
+  const inc = field("q16","inc",10);
+  const hrs = field("q17","hrs",30);
+  const sk = A.q6 || {};
+  const asset = field("q9","asset",null);
+  const reach = field("qreach","reach",1);
+  const urg = field("qurg","urg",1);
+  const run = field("qrunway","run",3);
+  const pressure = urg + (4 - run);          // 0 (relaxed) … 8 (cash-now, no runway)
+  const ind = (function(){
+    const i1 = field("q12","ind",null); const i2 = field("q2","ind",null);
+    return [i1,i2].filter(Boolean);
+  })();
+  // aggregate the multi-select avoid filters into per-business deltas
+  const avoidFilt = {};
+  getAvoids().forEach(o=>{ if(o.filt) for(const k in o.filt) avoidFilt[k] = (avoidFilt[k]||0) + o.filt[k]; });
+
+  const raw = {};
+  for(const key in BIZ){
+    const b = BIZ[key];
+    let s = 0;
+    for(const a in b.aff) s += b.aff[a] * Math.max(0, arch.score[a]);
+    // capital fit: penalise when the business needs much more than you have
+    s -= Math.max(0, b.cap - cap) * 2.4;
+    s += (cap >= b.cap ? 1.2 : 0);
+    // risk fit
+    s -= Math.abs(b.risk - risk) * 0.8;
+    // income ambition vs scalability
+    if(inc >= 25) s += (b.scale - 3) * 1.6; else if(inc <= 5) s += (3 - b.scale) * 0.7;
+    // time: low-hours people favour leverage/scalable, asset-light
+    if(hrs <= 20) s += (b.scale >= 4 ? 1.4 : 0) - (key==="local"||key==="agency" ? 1.2 : 0);
+    // asset boosts
+    if(asset==="audience" && ["content","newsletter","coaching"].includes(key)) s += 3;
+    if(asset==="technical" && ["saas","marketplace","productized"].includes(key)) s += 3;
+    if(asset==="capital" && ["acquisition","ecommerce","saas"].includes(key)) s += 2.5;
+    if(asset==="network" && ["agency","consulting","marketplace","local"].includes(key)) s += 2.2;
+    if(asset==="expertise" && ["consulting","coaching","newsletter"].includes(key)) s += 2.4;
+    if(asset==="credentials" && ["consulting","coaching"].includes(key)) s += 2;
+    // industry pull
+    ind.forEach(i=>{ if(IND_BIZ[i] && IND_BIZ[i].includes(key)) s += 2.2; });
+    // key-skill readiness
+    const ks = sk[b.keySkill]!=null?sk[b.keySkill]:5; s += (ks-5)*0.25;
+    // avoid-list hard filters (selling, camera, managing people, slow build, unpredictable income…)
+    if(avoidFilt[key]) s += avoidFilt[key];
+    // pressure: cash-now / short-runway rewards fast-to-revenue models, penalises slow builds
+    s += (b.speed - 2) * (pressure - 4) * 0.45;
+    // warm reach: people you can sell to this week make service/relationship models viable now
+    if(["consulting","coaching","agency","local","productized"].includes(key)) s += reach * 0.4;
+    if(reach <= 0 && ["consulting","agency","local","coaching"].includes(key)) s -= 0.9;
+    // a sizeable audience can be monetised directly
+    if(reach >= 3 && ["content","newsletter","coaching"].includes(key)) s += (reach-2) * 0.8;
+    raw[key] = s;
+  }
+  // restrict to the package-your-expertise models; normalise scores across just those
+  const candidateKeys = Object.keys(raw).filter(key => CANDIDATES.includes(key));
+  const cvals = candidateKeys.map(key => raw[key]);
+  const max = Math.max(...cvals), min = Math.min(...cvals);
+  const out = candidateKeys.map(key=>{
+    const frac = (max===min) ? 0.7 : (raw[key]-min)/(max-min);
+    return { key, name:BIZ[key].name, score: Math.round(34 + frac*62) };
+  }).sort((a,b)=> b.score-a.score);
+  return out;
+}
+
+function computePath(arch, fit){
+  const top = fit[0].key;
+  const inc = field("q16","inc",10);
+  const floor = field("qfloor","floor",4);
+  const act = field("q23","act",2);
+  const reach = field("qreach","reach",1);
+  const urg = field("qurg","urg",1);
+  const run = field("qrunway","run",3);
+  const pressure = urg + (4 - run);
+
+  const TPL = {
+    coaching:    [["Today","Your know-how, trapped inside a job."],["90 days","Take on 2–3 paid 1:1 clients at a real price."],["12 months","A repeatable coaching offer with a waitlist."],["24 months","A group programme — same value, many people at once."],["36 months","Courses + community + a small media presence around your name."]],
+    consulting:  [["Today","Skills you currently rent out to one employer."],["90 days","Land your first independent client with a clear scope."],["12 months","A productised consulting offer at a fixed price."],["24 months","Retainers and a small bench of associates."],["36 months","Advisory work plus your own IP — frameworks, courses, a book."]],
+    agency:      [["Today","One pair of hands inside someone else's machine."],["90 days","Freelance the service you already deliver, but for yourself."],["12 months","Productise it; standardise scope, price and delivery."],["24 months","Hire 1–2 people; you sell and direct, they deliver."],["36 months","A scaled agency on recurring retainers — plus owned assets."]],
+    content:     [["Today","Ideas with no distribution."],["90 days","Publish consistently on one channel; find your angle."],["12 months","Monetise — sponsorship, affiliate, a first digital product."],["24 months","A flagship product or membership for your audience."],["36 months","A media brand with several revenue lines that compound."]],
+    newsletter:  [["Today","A point of view nobody's subscribed to yet."],["90 days","Launch a free newsletter; grow to a real, engaged list."],["12 months","Segment and add a paid premium tier."],["24 months","Sponsorships plus a product built for your readers."],["36 months","A media + community business around the list."]],
+    productized: [["Today","A skill you trade for hours."],["90 days","Package it into one fixed-scope, fixed-price offer."],["12 months","Add team or automation so delivery isn't all you."],["24 months","Move clients onto a recurring subscription model."],["36 months","A productised business plus assets that earn while you don't."]],
+    saas:        [["Today","A problem you keep seeing but not owning."],["90 days","Validate it — no-code or scrappy MVP, first users."],["12 months","First paying customers and real pricing."],["24 months","Product-market fit; a repeatable acquisition channel."],["36 months","A recurring-revenue asset with a small team."]],
+    ecommerce:   [["Today","A product instinct with no shelf."],["90 days","Validate demand and make your first sales."],["12 months","A store with repeat customers and clean unit economics."],["24 months","Scale paid channels; build a real brand."],["36 months","A brand asset — sellable, or a launchpad for the next line."]],
+    marketplace: [["Today","You see two sides that should meet but don't."],["90 days","Match supply and demand by hand, manually."],["12 months","Build the thin platform that does the matching."],["24 months","Network effects and a take-rate that grows itself."],["36 months","A defensible marketplace — the rare asset that compounds."]],
+    local:       [["Today","A trade or service you do for a wage."],["90 days","Win your first direct clients; prove the offer."],["12 months","Systematise delivery so quality isn't only you."],["24 months","Hire and delegate; you run it, you don't do it all."],["36 months","Multi-crew or multi-site — an owner's cash-flowing asset."]],
+    acquisition: [["Today","Capital, judgement, and no vehicle yet."],["90 days","Build your thesis and start sourcing small deals."],["12 months","Acquire your first cash-flowing small business."],["24 months","Improve and systemise it; lift the margin."],["36 months","A small portfolio or holding company you steer."]],
+  };
+  const steps = TPL[top].map((s,i)=> ({ when:s[0], what:s[1] }));
+  // pace from how fast they act
+  let pace;
+  if(act>=3) pace = "You act fast — compress these. Your first paid result should land in weeks, not quarters.";
+  else if(act<=1) pace = "You tend to deliberate, so pick one tiny public commitment this week — momentum is the thing most likely to stall.";
+  else pace = "Steady wins here. Protect the 90-day milestone; it's the proof everything later is built on.";
+
+  // pressure: cash-now vs runway changes the shape of the early stages
+  let money;
+  if(pressure >= 6)
+    money = ` You need income soon and runway is tight, so stage one isn't a build — it's a paid offer within weeks. Get to your floor (about £${floor}k/month) first; the scalable stages wait until it's covered.`;
+  else if(pressure <= 2)
+    money = ` You've got runway, so you can choose a model that compounds even if it's slow to pay at first — your floor is about £${floor}k/month and freedom around £${inc}k.`;
+  else
+    money = ` Your floor — about £${floor}k/month — is the near-term target you can breathe at; £${inc}k/month is what the later stages are built to reach.`;
+
+  // warm reach shapes the very first move
+  let reachLine = "";
+  if(reach >= 3) reachLine = " And you already have people you can reach — start there this week, not from a cold audience.";
+  else if(reach <= 0) reachLine = " Your first job is to manufacture reach: borrow other people's audiences, partner up, or go where your future customers already gather.";
+
+  return { steps, note: pace + money + reachLine, bizName: BIZ[top].name };
+}
+
+function computeConstraint(){
+  const obstacle = field("q24","obstacle","clarity");
+  const reach = field("qreach","reach",1);
+
+  const MAP = {
+    time:       { label:"Time", rx:"Reclaim five focused hours this week and ring-fence one 90-minute block a day for the path — before the job eats it." },
+    money:      { label:"Money", rx:"Choose a £0-to-start model — consulting, a service, content — and earn your first pound before you spend one." },
+    confidence: { label:"Confidence", rx:"Sell one small offer within 7 days. Proof beats belief; one paying \"yes\" rewires everything." },
+    skills:     { label:"Skills", rx:"Stop learning in private. Sell the skill you already have, deliver it for real, and improve on live clients." },
+    network:    { label:"Network", rx:"Message 10 people this week who look like your future customer. Start conversations, not pitches." },
+    clarity:    { label:"Clarity", rx:"Run the smallest possible test of your top model this week. Real signal beats more thinking." },
+    family:     { label:"Family commitments", rx:"Design the lowest-time-footprint model you can, and agree explicit work windows with your household so it's sustainable." },
+  };
+  const m = MAP[obstacle];
+
+  // surface the strongest avoidance as the quiet friction to watch
+  const fears = avoidFears();
+  const phrase = { selling:"selling and outreach", video:"being on camera", speaking:"speaking in public",
+                   managing:"managing people", admin:"admin and paperwork", uncertainty:"unpredictable income", slow:"a slow, delayed payoff" };
+  const priority = ["selling","slow","uncertainty","managing","video","speaking","admin"];
+  let secondary = "";
+  for(const f of priority){ if(fears.has(f)){ secondary = ` Watch your aversion to ${phrase[f]} — it's the friction most likely to quietly stall you, so pick a model that sidesteps it.`; break; } }
+
+  let reachLine = "";
+  if(reach <= 0 && obstacle !== "network") reachLine = " And you've no warm audience yet — building or borrowing reach is the move that unlocks everything else.";
+
+  return { label:m.label, rx:m.rx + secondary + reachLine };
+}
+
+function computeBrain(arch, fit){
+  const sk = A.q6 || {};
+  const fears = avoidFears();
+  const risk = field("q25","risk",2);
+  const top = fit[0];
+
+  // growth edge: the key skill for the best-fit business, if it's underdeveloped
+  const ks = BIZ[top.key].keySkill;
+  const ksVal = sk[ks]!=null?sk[ks]:5;
+  let edge;
+  const skillLabel = { writing:"Writing", speaking:"Speaking", sales:"Sales", design:"Design", technology:"Technology", leadership:"Leadership", teaching:"Teaching", research:"Research", networking:"Networking", operations:"Operations" };
+  if(ksVal < 6) edge = skillLabel[ks];
+  else {
+    // lowest-rated of all skills
+    let lowK="sales", lowV=99;
+    for(const k in skillLabel){ const v = sk[k]!=null?sk[k]:5; if(v<lowV){ lowV=v; lowK=k; } }
+    edge = skillLabel[lowK];
+  }
+  if(fears.has("selling") && (sk.sales||5) < 7) edge = "Sales";
+
+  // blind spot
+  const blindMap = { selling:"Selling", slow:"Patience / the long game", uncertainty:"Tolerating uncertainty",
+                     managing:"Delegation", video:"Being on camera", speaking:"Public speaking", admin:"The operational grind" };
+  const priority = ["selling","slow","uncertainty","managing","video","speaking","admin"];
+  let blind;
+  if(risk<=1) blind = "Risk-taking";
+  else { blind = "Letting go of control"; for(const f of priority){ if(fears.has(f)){ blind = blindMap[f]; break; } } }
+
+  // recommended business sentence — validation-first (Noah Kagan)
+  const valMethod = ["coaching","consulting","agency","local","productized"].includes(top.key) ? "selling one real offer to one real person" :
+                    ["content","newsletter"].includes(top.key) ? "publishing consistently and watching what resonates" :
+                    "manually serving a handful of users before you build anything";
+  const reco = `Build a <b>${BIZ[top.key].name.toLowerCase()}</b> around your strength as ${ARCH_NAMES[arch.primary].toLowerCase().replace("the ","a ")}, and validate it by <b>${valMethod}</b> — before you invest a penny in building or scaling. Your fastest unlock is <b>${edge.toLowerCase()}</b>.`;
+
+  return {
+    primary: ARCH_NAMES[arch.primary], secondary: ARCH_NAMES[arch.secondary],
+    edge, blind, reco
+  };
+}
+
+/* =====================================================================
+   RESULTS VIEW
+   ===================================================================== */
+let RESULT = null;
+function renderResults(){
+  // Compute the full diagnostic silently. It is sent to you — never shown here.
+  const arch = computeArchetypes();
+  const fit = computeBusinessFit(arch);
+  const path = computePath(arch, fit);
+  const constraint = computeConstraint();
+  const brain = computeBrain(arch, fit);
+  RESULT = { arch, fit, path, constraint, brain };
+
+  meta.innerHTML = `<span class="sec">You made it to the door</span><span class="count">Last step</span>`;
+  setProgress(1, true);
+
+  stage.className = "stage fade";
+  stage.style.justifyContent = "center";
+  stage.innerHTML = `
+    <p class="q-num">You've reached the door</p>
+    <h1 class="q-text">That's everything I need.</h1>
+    <p class="lead" style="margin-bottom:clamp(30px,6vw,44px)">
+      Your answers map a clear way out — the work you're built for, the offer hiding in what
+      you already know, and the first move to make. Leave your name and email and I'll be in
+      touch with your full Exit Path, and we'll take it from there.
+    </p>
+    <div class="signup" id="capture">
+      <label for="name">Where should I send it?</label>
+      <div class="formrow" style="margin-bottom:22px">
+        <input id="name" type="text" placeholder="Your name" autocomplete="name" required>
+      </div>
+      <div class="formrow">
+        <input id="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+        <button class="btn" id="send">Send <span aria-hidden="true">&rarr;</span></button>
+      </div>
+      <p class="formnote">Your answers come straight to me. I'll read them and get back to you personally — no spam, ever.</p>
+      <div id="formstatus"></div>
+    </div>
+    <div class="actions" id="endactions" style="margin-top:36px">
+      <button class="link" id="restart">↺ Start again</button>
+    </div>`;
+
+  document.getElementById("restart").addEventListener("click", ()=>{
+    state.idx = -1; for(const k in state.answers) delete state.answers[k];
+    stage.style.justifyContent=""; window.scrollTo({top:0,behavior:"smooth"}); render();
+  });
+  document.getElementById("send").addEventListener("click", submitLead);
+  ["name","email"].forEach(id=> document.getElementById(id).addEventListener("keydown", e=>{
+    if(e.key==="Enter"){ e.preventDefault(); submitLead(); }
+  }));
+  document.getElementById("name").focus();
+}
+
+/* =====================================================================
+   LEAD SUBMIT  → Formspree (AJAX).
+   The person's name, email and full diagnostic are sent to your inbox.
+   No result is shown on screen — only a thank-you.
+   Paste your Formspree endpoint below (https://formspree.io/f/XXXXXXXX).
+   ===================================================================== */
+const FORMSPREE_ENDPOINT  = "https://formspree.io/f/YOUR_FORMSPREE_ID";
+const LEAD_FALLBACK_EMAIL = "ben.android.bot@gmail.com";
+
+async function submitLead(){
+  const nameEl  = document.getElementById("name");
+  const emailEl = document.getElementById("email");
+  const status  = document.getElementById("formstatus");
+  const btn     = document.getElementById("send");
+  const name  = (nameEl.value||"").trim();
+  const email = (emailEl.value||"").trim();
+  status.innerHTML = "";
+  if(!name){ status.innerHTML = `<p class="err">Mind adding your name?</p>`; nameEl.focus(); return; }
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+    status.innerHTML = `<p class="err">That doesn't look like an email — mind checking it?</p>`;
+    emailEl.focus(); return;
+  }
+
+  const r = RESULT;
+  const lbl = (qid)=> (A[qid]!=null && QUESTIONS.find(q=>q.id===qid).options) ? QUESTIONS.find(q=>q.id===qid).options[A[qid]].label : "";
+  const avoidList = getAvoids().map(o=>o.label).join(", ");
+  const payload = {
+    _subject: `New Exit Path diagnostic — ${name} (${r.brain.primary})`,
+    _gotcha: "",                       // Formspree honeypot — leave empty
+    name,
+    email,
+    "Freedom archetype": `${r.brain.primary} (secondary: ${r.brain.secondary})`,
+    "Top business fits": r.fit.slice(0,3).map(f=>`${f.name} ${f.score}`).join(" · "),
+    "Recommended path": r.path.bizName,
+    "Path note": r.path.note,
+    "Bottleneck": r.constraint.label,
+    "Do this first": r.constraint.rx,
+    "Growth edge": r.brain.edge,
+    "Blind spot": r.brain.blind,
+    "Floor / Freedom number": [lbl("qfloor"), lbl("q16")].filter(Boolean).join("  →  "),
+    "Runway": lbl("qrunway"),
+    "Needs income": lbl("qurg"),
+    "Warm reach": lbl("qreach"),
+    "Wants to avoid": avoidList,
+    "Easy for them / hard for others (Q5)": A.q5||"",
+    "Could talk about (Q10)": A.q10||"",
+    "Channel idea (Q13)": A.q13||"",
+    "If money guaranteed (Q18)": A.q18||"",
+    "Hire them for (Q28)": A.q28||"",
+    "£100k / 12mo (Q30)": A.q30||"",
+  };
+
+  btn.disabled = true; btn.innerHTML = "Sending…";
+  try{
+    if(FORMSPREE_ENDPOINT.includes("YOUR_FORMSPREE_ID")) throw new Error("endpoint-not-set");
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+      body: JSON.stringify(payload),
+    });
+    if(!res.ok){
+      let msg=""; try{ const j = await res.json(); if(j && j.errors) msg = j.errors.map(e=>e.message).join(", "); }catch(_){}
+      throw new Error(msg || ("HTTP "+res.status));
+    }
+    const first = name.split(/\s+/)[0];
+    const ea = document.getElementById("endactions"); if(ea) ea.style.display = "none";
+    document.getElementById("capture").innerHTML = `
+      <div class="sent">
+        <span class="tick" aria-hidden="true">✓</span>
+        <p>Got it${first?`, ${esc(first)}`:""}. Your answers are with me — I'll read through them and be in touch about your Exit Path. See you on the other side of the door.</p>
+      </div>`;
+  }catch(err){
+    const subject = encodeURIComponent(`Exit Path diagnostic — ${name}`);
+    const bodyTxt = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\n`+
+      `Archetype: ${r.brain.primary} (secondary ${r.brain.secondary})\n`+
+      `Top fits: ${r.fit.slice(0,3).map(f=>f.name+" "+f.score).join(", ")}\n`+
+      `Recommended path: ${r.path.bizName}\nBottleneck: ${r.constraint.label}\n`+
+      `Growth edge: ${r.brain.edge} · Blind spot: ${r.brain.blind}`);
+    btn.disabled = false; btn.innerHTML = `Try again <span aria-hidden="true">&rarr;</span>`;
+    status.innerHTML = `<p class="err">Couldn't send just now. You can <a href="mailto:${LEAD_FALLBACK_EMAIL}?subject=${subject}&body=${bodyTxt}">send it through directly</a>, or try again.</p>`;
+  }
+}
+
+/* boot */
+window.addEventListener("resize", ()=>{
+  if(state.idx<0) setProgress(0,false);
+  else if(state.idx>=QUESTIONS.length) setProgress(1,true);
+  else setProgress(state.idx/QUESTIONS.length,false);
+});
+render();
+</script>
+</body>
+</html>
